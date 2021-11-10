@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "361750847252",
+    "firebase_url": "https://sportloveproject-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "sportloveproject",
+    "storage_bucket": "sportloveproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:361750847252:android:c351d57d8e2edb162dec01",
+        "android_client_info": {
+          "package_name": "com.app.sportlove"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "361750847252-lpst492qqtt9hofo2epm0bmvsulerffs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.sportlove",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "361750847252-8mbknmt9d8nl0v8snd8nt4vu88f0bqci.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-CtayWRe11wuhH-chyvVOdhBNbpURK0I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "361750847252-8mbknmt9d8nl0v8snd8nt4vu88f0bqci.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "361750847252-omqj75tkk2el0agr6ehoqr5js9u5ksgm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.app.sportlove"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

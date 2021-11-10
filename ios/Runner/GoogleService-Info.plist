@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>361750847252-omqj75tkk2el0agr6ehoqr5js9u5ksgm.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.361750847252-omqj75tkk2el0agr6ehoqr5js9u5ksgm</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>361750847252-lpst492qqtt9hofo2epm0bmvsulerffs.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC1wumY3f8Zuggmj7DeLYLpHKMhCoqF8Zk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>361750847252</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.app.sportlove</string>
+	<key>PROJECT_ID</key>
+	<string>sportloveproject</string>
+	<key>STORAGE_BUCKET</key>
+	<string>sportloveproject.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:361750847252:ios:4a4004fb2562461b2dec01</string>
+	<key>DATABASE_URL</key>
+	<string>https://sportloveproject-default-rtdb.europe-west1.firebasedatabase.app</string>
+</dict>
+</plist>
