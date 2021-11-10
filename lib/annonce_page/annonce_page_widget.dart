@@ -148,13 +148,27 @@ class _AnnoncePageWidgetState extends State<AnnoncePageWidget> {
                     color: FlutterFlowTheme.primaryColor,
                   ),
                 ),
-                subtitle: Text(
-                  annoncePageAnnoncesRecord.description
-                      .maybeHandleOverflow(maxChars: 25),
-                  style: FlutterFlowTheme.subtitle2,
-                ),
                 tileColor: Color(0xFFE7F0FC),
                 dense: false,
+              ),
+              Container(
+                width: double.infinity,
+                height: 300,
+                decoration: BoxDecoration(
+                  color: FlutterFlowTheme.tertiaryColor,
+                ),
+                child: Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(20, 30, 20, 20),
+                  child: Text(
+                    annoncePageAnnoncesRecord.description
+                        .maybeHandleOverflow(maxChars: 70),
+                    style: FlutterFlowTheme.bodyText1.override(
+                      fontFamily: 'Poppins',
+                      color: FlutterFlowTheme.black,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
               )
             ],
           ),

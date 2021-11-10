@@ -173,10 +173,10 @@ class _InputProfileWidgetState extends State<InputProfileWidget>
                             options: FFButtonOptions(
                               width: 150,
                               height: 30,
-                              color: FlutterFlowTheme.primaryColor,
+                              color: FlutterFlowTheme.tertiaryColor,
                               textStyle: FlutterFlowTheme.bodyText1.override(
                                 fontFamily: 'Poppins',
-                                color: FlutterFlowTheme.tertiaryColor,
+                                color: FlutterFlowTheme.primaryColor,
                               ),
                               elevation: 3,
                               borderSide: BorderSide(

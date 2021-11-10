@@ -9,6 +9,7 @@ import 'schema/chats_record.dart';
 import 'schema/chat_messages_record.dart';
 import 'schema/annonces_record.dart';
 import 'schema/user_record.dart';
+import 'schema/posts_record.dart';
 import 'schema/serializers.dart';
 
 export 'package:cloud_firestore/cloud_firestore.dart';
@@ -20,6 +21,7 @@ export 'schema/chats_record.dart';
 export 'schema/chat_messages_record.dart';
 export 'schema/annonces_record.dart';
 export 'schema/user_record.dart';
+export 'schema/posts_record.dart';
 
 Stream<List<UsersRecord>> queryUsersRecord(
         {Query Function(Query) queryBuilder,
@@ -55,6 +57,13 @@ Stream<List<UserRecord>> queryUserRecord(
         int limit = -1,
         bool singleRecord = false}) =>
     queryCollection(UserRecord.collection, UserRecord.serializer,
+        queryBuilder: queryBuilder, limit: limit, singleRecord: singleRecord);
+
+Stream<List<PostsRecord>> queryPostsRecord(
+        {Query Function(Query) queryBuilder,
+        int limit = -1,
+        bool singleRecord = false}) =>
+    queryCollection(PostsRecord.collection, PostsRecord.serializer,
         queryBuilder: queryBuilder, limit: limit, singleRecord: singleRecord);
 
 Stream<List<T>> queryCollection<T>(

@@ -1,18 +1,15 @@
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../backend/firebase_storage/storage.dart';
-import '../flutter_flow/flutter_flow_drop_down.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
-import '../flutter_flow/flutter_flow_place_picker.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
-import '../flutter_flow/place.dart';
 import '../flutter_flow/upload_media.dart';
-import 'dart:io';
+import '../main.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class NewPostWidget extends StatefulWidget {
@@ -23,31 +20,21 @@ class NewPostWidget extends StatefulWidget {
 }
 
 class _NewPostWidgetState extends State<NewPostWidget> {
-  DateTime datePicked1;
-  String sportTypeValue;
   String uploadedFileUrl = '';
-  bool _loadingButton1 = false;
-  TextEditingController titleController;
-  TextEditingController descriptionController;
-  var locationValue = FFPlace();
-  DateTime datePicked2;
-  String hoursValue;
-  TextEditingController nbrParticipantsController;
-  bool _loadingButton2 = false;
+  TextEditingController textController;
+  bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    descriptionController = TextEditingController();
-    titleController = TextEditingController();
-    nbrParticipantsController = TextEditingController();
+    textController = TextEditingController();
   }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<AnnoncesRecord>>(
-      stream: queryAnnoncesRecord(
+    return StreamBuilder<List<PostsRecord>>(
+      stream: queryPostsRecord(
         singleRecord: true,
       ),
       builder: (context, snapshot) {
@@ -63,526 +50,233 @@ class _NewPostWidgetState extends State<NewPostWidget> {
             ),
           );
         }
-        List<AnnoncesRecord> newPostAnnoncesRecordList = snapshot.data;
-        final newPostAnnoncesRecord = newPostAnnoncesRecordList.isNotEmpty
-            ? newPostAnnoncesRecordList.first
+        List<PostsRecord> newPostPostsRecordList = snapshot.data;
+        // Return an empty Container when the document does not exist.
+        if (snapshot.data.isEmpty) {
+          return Container();
+        }
+        final newPostPostsRecord = newPostPostsRecordList.isNotEmpty
+            ? newPostPostsRecordList.first
             : null;
         return Scaffold(
           key: scaffoldKey,
           appBar: AppBar(
-            backgroundColor: FlutterFlowTheme.primaryColor,
-            automaticallyImplyLeading: true,
+            backgroundColor: Colors.white,
+            automaticallyImplyLeading: false,
             title: Text(
-              'Créer une annonce',
+              newPostPostsRecord.titre.maybeHandleOverflow(maxChars: 20),
               style: FlutterFlowTheme.subtitle1.override(
                 fontFamily: 'Poppins',
-                color: FlutterFlowTheme.tertiaryColor,
+                color: FlutterFlowTheme.black,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            actions: [],
-            centerTitle: true,
-            elevation: 4,
+            actions: [
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
+                child: FlutterFlowIconButton(
+                  borderColor: Colors.transparent,
+                  borderRadius: 30,
+                  buttonSize: 48,
+                  icon: Icon(
+                    Icons.close_rounded,
+                    color: FlutterFlowTheme.primaryColor,
+                    size: 30,
+                  ),
+                  onPressed: () async {
+                    Navigator.pop(context);
+                  },
+                ),
+              )
+            ],
+            centerTitle: false,
+            elevation: 0,
           ),
-          backgroundColor: FlutterFlowTheme.tertiaryColor,
-          body: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(20, 30, 20, 30),
-            child: SingleChildScrollView(
-              child: Column(
+          backgroundColor: Colors.white,
+          body: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Row(
                 mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.network(
-                            uploadedFileUrl,
-                            width: 300,
-                            height: 200,
-                            fit: BoxFit.cover,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 30),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        FFButtonWidget(
-                          onPressed: () async {
-                            setState(() => _loadingButton1 = true);
-                            try {
-                              final selectedMedia =
-                                  await selectMediaWithSourceBottomSheet(
-                                context: context,
-                                allowPhoto: true,
-                                textColor: FlutterFlowTheme.primaryColor,
-                              );
-                              if (selectedMedia != null &&
-                                  validateFileFormat(
-                                      selectedMedia.storagePath, context)) {
-                                showUploadMessage(context, 'Uploading file...',
-                                    showLoading: true);
-                                final downloadUrl = await uploadData(
-                                    selectedMedia.storagePath,
-                                    selectedMedia.bytes);
-                                ScaffoldMessenger.of(context)
-                                    .hideCurrentSnackBar();
-                                if (downloadUrl != null) {
-                                  setState(() => uploadedFileUrl = downloadUrl);
-                                  showUploadMessage(context, 'Success!');
-                                } else {
-                                  showUploadMessage(
-                                      context, 'Failed to upload media');
-                                  return;
-                                }
-                              }
-                            } finally {
-                              setState(() => _loadingButton1 = false);
-                            }
-                          },
-                          text: 'Inserez votre photo',
-                          options: FFButtonOptions(
-                            width: 200,
-                            height: 25,
-                            color: FlutterFlowTheme.tertiaryColor,
-                            textStyle: FlutterFlowTheme.subtitle2.override(
-                              fontFamily: 'Poppins',
-                              color: FlutterFlowTheme.primaryColor,
-                            ),
-                            elevation: 5,
-                            borderSide: BorderSide(
-                              color: Colors.transparent,
-                              width: 1,
-                            ),
-                            borderRadius: 12,
-                          ),
-                          loading: _loadingButton1,
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 5),
-                    child: TextFormField(
-                      controller: titleController,
-                      obscureText: false,
-                      decoration: InputDecoration(
-                        hintText: 'Titre',
-                        hintStyle: FlutterFlowTheme.subtitle2,
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0x00000000),
-                            width: 1,
-                          ),
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(4.0),
-                            topRight: Radius.circular(4.0),
-                          ),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0x00000000),
-                            width: 1,
-                          ),
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(4.0),
-                            topRight: Radius.circular(4.0),
-                          ),
-                        ),
-                        contentPadding:
-                            EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
-                      ),
-                      style: FlutterFlowTheme.subtitle2,
-                    ),
-                  ),
-                  Divider(
-                    thickness: 1,
-                    indent: 10,
-                    color: Color(0xFFC3C2C2),
-                  ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
-                    child: TextFormField(
-                      controller: descriptionController,
-                      obscureText: false,
-                      decoration: InputDecoration(
-                        hintText: 'Description',
-                        hintStyle: FlutterFlowTheme.subtitle2,
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0x00000000),
-                            width: 1,
-                          ),
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(4.0),
-                            topRight: Radius.circular(4.0),
-                          ),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0x00000000),
-                            width: 1,
-                          ),
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(4.0),
-                            topRight: Radius.circular(4.0),
-                          ),
-                        ),
-                        contentPadding:
-                            EdgeInsetsDirectional.fromSTEB(8, 10, 0, 0),
-                      ),
-                      style: FlutterFlowTheme.subtitle2,
-                      maxLines: 3,
-                    ),
-                  ),
-                  Divider(
-                    thickness: 1,
-                    indent: 10,
-                    color: Color(0xFFC3C2C2),
-                  ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
-                          child: Text(
-                            'Type de sport',
-                            style: FlutterFlowTheme.subtitle2,
-                          ),
-                        ),
-                        FlutterFlowDropDown(
-                          options: [
-                            'Cyclisme',
-                            'Course à pied',
-                            'Tennis',
-                            'Randonné',
-                            'Golf',
-                            'Yoga',
-                            'Paddel',
-                            'Boot Camp',
-                            'Natation'
-                          ].toList(),
-                          onChanged: (val) =>
-                              setState(() => sportTypeValue = val),
-                          width: 130,
-                          height: 40,
-                          textStyle: FlutterFlowTheme.bodyText1.override(
-                            fontFamily: 'Poppins',
-                            color: Colors.black,
-                          ),
-                          fillColor: Colors.white,
-                          elevation: 2,
-                          borderColor: Colors.transparent,
-                          borderWidth: 0,
-                          borderRadius: 0,
-                          margin: EdgeInsetsDirectional.fromSTEB(8, 4, 8, 4),
-                          hidesUnderline: true,
-                        )
-                      ],
-                    ),
-                  ),
-                  Divider(
-                    thickness: 1,
-                    indent: 10,
-                    color: Color(0xFFC3C2C2),
-                  ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
-                          child: Text(
-                            'Lieu',
-                            style: FlutterFlowTheme.subtitle2,
-                          ),
-                        ),
-                        FlutterFlowPlacePicker(
-                          iOSGoogleMapsApiKey: '',
-                          androidGoogleMapsApiKey: '',
-                          webGoogleMapsApiKey: '',
-                          onSelect: (place) =>
-                              setState(() => locationValue = place),
-                          defaultText: '',
-                          icon: Icon(
-                            Icons.place,
-                            color: FlutterFlowTheme.primaryColor,
-                            size: 20,
-                          ),
-                          buttonOptions: FFButtonOptions(
-                            width: 50,
-                            height: 40,
-                            color: FlutterFlowTheme.tertiaryColor,
-                            textStyle: FlutterFlowTheme.subtitle2.override(
-                              fontFamily: 'Poppins',
-                              color: Colors.white,
-                            ),
-                            borderSide: BorderSide(
-                              color: Colors.transparent,
-                              width: 1,
-                            ),
-                            borderRadius: 12,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Divider(
-                    thickness: 1,
-                    indent: 10,
-                    color: Color(0xFFC3C2C2),
-                  ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
-                    child: InkWell(
-                      onTap: () async {
-                        await DatePicker.showDatePicker(
-                          context,
-                          showTitleActions: true,
-                          onConfirm: (date) {
-                            setState(() => datePicked1 = date);
-                          },
-                          currentTime: getCurrentTimestamp,
-                        );
-                      },
-                      child: Row(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 12),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.94,
+                      decoration: BoxDecoration(),
+                      child: Column(
                         mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
-                            child: Text(
-                              valueOrDefault<String>(
-                                dateTimeFormat(
-                                    'MMMEd', newPostAnnoncesRecord.date),
-                                'Date',
+                            padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                            child: InkWell(
+                              onTap: () async {
+                                final selectedMedia =
+                                    await selectMediaWithSourceBottomSheet(
+                                  context: context,
+                                  allowPhoto: true,
+                                  textColor: FlutterFlowTheme.primaryColor,
+                                  pickerFontFamily: 'Poppins',
+                                );
+                                if (selectedMedia != null &&
+                                    validateFileFormat(
+                                        selectedMedia.storagePath, context)) {
+                                  showUploadMessage(
+                                      context, 'Uploading file...',
+                                      showLoading: true);
+                                  final downloadUrl = await uploadData(
+                                      selectedMedia.storagePath,
+                                      selectedMedia.bytes);
+                                  ScaffoldMessenger.of(context)
+                                      .hideCurrentSnackBar();
+                                  if (downloadUrl != null) {
+                                    setState(
+                                        () => uploadedFileUrl = downloadUrl);
+                                    showUploadMessage(context, 'Success!');
+                                  } else {
+                                    showUploadMessage(
+                                        context, 'Failed to upload media');
+                                    return;
+                                  }
+                                }
+                              },
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.96,
+                                height: 350,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFF1F5F8),
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: Image.asset(
+                                      'assets/images/emptyState@2x.png',
+                                    ).image,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 6,
+                                      color: Color(0x3A000000),
+                                      offset: Offset(0, 2),
+                                    )
+                                  ],
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Stack(
+                                  children: [
+                                    CachedNetworkImage(
+                                      imageUrl: uploadedFileUrl,
+                                      width: double.infinity,
+                                      height: double.infinity,
+                                      fit: BoxFit.cover,
+                                    )
+                                  ],
+                                ),
                               ),
-                              style: FlutterFlowTheme.subtitle2,
                             ),
                           ),
-                          FlutterFlowIconButton(
-                            borderColor: Colors.transparent,
-                            borderRadius: 30,
-                            borderWidth: 1,
-                            buttonSize: 60,
-                            icon: Icon(
-                              Icons.calendar_today,
-                              color: FlutterFlowTheme.primaryColor,
-                              size: 25,
+                          Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Expanded(
+                                  child: TextFormField(
+                                    controller: textController,
+                                    obscureText: false,
+                                    decoration: InputDecoration(
+                                      hintText: 'Décrire quelques choses...',
+                                      hintStyle:
+                                          FlutterFlowTheme.bodyText2.override(
+                                        fontFamily: 'Lexend Deca',
+                                        color: Color(0xFF8B97A2),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0xFFDBE2E7),
+                                          width: 2,
+                                        ),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0xFFDBE2E7),
+                                          width: 2,
+                                        ),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      contentPadding:
+                                          EdgeInsetsDirectional.fromSTEB(
+                                              20, 32, 20, 12),
+                                    ),
+                                    style: FlutterFlowTheme.bodyText1.override(
+                                      fontFamily: 'Lexend Deca',
+                                      color: Color(0xFF090F13),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                    textAlign: TextAlign.start,
+                                    maxLines: 4,
+                                  ),
+                                )
+                              ],
                             ),
-                            onPressed: () {
-                              print('date pressed ...');
-                            },
                           )
                         ],
                       ),
                     ),
-                  ),
-                  Divider(
-                    thickness: 1,
-                    indent: 10,
-                    color: Color(0xFFC3C2C2),
-                  ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
-                          child: Text(
-                            'Heure',
-                            style: FlutterFlowTheme.subtitle2,
-                          ),
-                        ),
-                        FlutterFlowIconButton(
-                          borderColor: Colors.transparent,
-                          borderRadius: 30,
-                          borderWidth: 1,
-                          buttonSize: 60,
-                          icon: Icon(
-                            Icons.access_time_outlined,
-                            color: FlutterFlowTheme.primaryColor,
-                            size: 25,
-                          ),
-                          onPressed: () async {
-                            await DatePicker.showDatePicker(
-                              context,
-                              showTitleActions: true,
-                              onConfirm: (date) {
-                                setState(() => datePicked2 = date);
-                              },
-                              currentTime: getCurrentTimestamp,
-                            );
-                          },
-                        )
-                      ],
-                    ),
-                  ),
-                  Divider(
-                    thickness: 1,
-                    indent: 10,
-                    color: Color(0xFFC3C2C2),
-                  ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
-                          child: Text(
-                            'Durée',
-                            style: FlutterFlowTheme.subtitle2,
-                          ),
-                        ),
-                        FlutterFlowDropDown(
-                          options: [
-                            '1',
-                            '2',
-                            '3',
-                            '4',
-                            '5',
-                            '6',
-                            '7',
-                            '8',
-                            '9',
-                            '10'
-                          ].toList(),
-                          onChanged: (val) => setState(() => hoursValue = val),
-                          width: 80,
-                          height: 40,
-                          textStyle: FlutterFlowTheme.bodyText1.override(
-                            fontFamily: 'Poppins',
-                            color: Colors.black,
-                          ),
-                          fillColor: Colors.white,
-                          elevation: 2,
-                          borderColor: Colors.transparent,
-                          borderWidth: 0,
-                          borderRadius: 0,
-                          margin: EdgeInsetsDirectional.fromSTEB(8, 4, 8, 4),
-                          hidesUnderline: true,
-                        )
-                      ],
-                    ),
-                  ),
-                  Divider(
-                    thickness: 1,
-                    indent: 10,
-                    color: Color(0xFFC3C2C2),
-                  ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
-                    child: TextFormField(
-                      controller: nbrParticipantsController,
-                      obscureText: false,
-                      decoration: InputDecoration(
-                        hintText: 'Nombre des participants',
-                        hintStyle: FlutterFlowTheme.subtitle2,
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0x00000000),
-                            width: 1,
-                          ),
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(4.0),
-                            topRight: Radius.circular(4.0),
-                          ),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0x00000000),
-                            width: 1,
-                          ),
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(4.0),
-                            topRight: Radius.circular(4.0),
-                          ),
-                        ),
-                        contentPadding:
-                            EdgeInsetsDirectional.fromSTEB(8, 10, 0, 0),
-                      ),
-                      style: FlutterFlowTheme.subtitle2,
-                      maxLines: 3,
-                    ),
-                  ),
-                  Divider(
-                    thickness: 1,
-                    indent: 10,
-                    color: Color(0xFFC3C2C2),
-                  ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        FFButtonWidget(
-                          onPressed: () async {
-                            setState(() => _loadingButton2 = true);
-                            try {
-                              final annoncesCreateData =
-                                  createAnnoncesRecordData(
-                                titre: titleController.text,
-                                description: descriptionController.text,
-                                typeSport: sportTypeValue,
-                                lieu: locationValue.latLng,
-                                date: datePicked1,
-                                heure: datePicked2,
-                                duree: hoursValue,
-                                nbrParticipants: nbrParticipantsController.text,
-                                timeCreated: getCurrentTimestamp,
-                                photo: uploadedFileUrl,
-                                user: currentUserReference,
-                              );
-                              await AnnoncesRecord.collection
-                                  .doc()
-                                  .set(annoncesCreateData);
-                              Navigator.pop(context);
-                            } finally {
-                              setState(() => _loadingButton2 = false);
-                            }
-                          },
-                          text: 'Créer',
-                          options: FFButtonOptions(
-                            width: 300,
-                            height: 50,
-                            color: FlutterFlowTheme.primaryColor,
-                            textStyle: FlutterFlowTheme.subtitle2.override(
-                              fontFamily: 'Poppins',
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            borderSide: BorderSide(
-                              color: Colors.transparent,
-                              width: 1,
-                            ),
-                            borderRadius: 5,
-                          ),
-                          loading: _loadingButton2,
-                        )
-                      ],
-                    ),
                   )
                 ],
               ),
-            ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
+                child: FFButtonWidget(
+                  onPressed: () async {
+                    setState(() => _loadingButton = true);
+                    try {
+                      final postsCreateData = createPostsRecordData(
+                        user: currentUserReference,
+                        photo: uploadedFileUrl,
+                        description: textController.text,
+                      );
+                      await PostsRecord.collection.doc().set(postsCreateData);
+                      await Navigator.push(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.fade,
+                          duration: Duration(milliseconds: 0),
+                          reverseDuration: Duration(milliseconds: 0),
+                          child: NavBarPage(initialPage: 'HomePage'),
+                        ),
+                      );
+                    } finally {
+                      setState(() => _loadingButton = false);
+                    }
+                  },
+                  text: 'Créer une publication',
+                  options: FFButtonOptions(
+                    width: 270,
+                    height: 60,
+                    color: FlutterFlowTheme.primaryColor,
+                    textStyle: FlutterFlowTheme.subtitle2.override(
+                      fontFamily: 'Lexend Deca',
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    elevation: 3,
+                    borderSide: BorderSide(
+                      color: Colors.transparent,
+                      width: 1,
+                    ),
+                    borderRadius: 8,
+                  ),
+                  loading: _loadingButton,
+                ),
+              )
+            ],
           ),
         );
       },

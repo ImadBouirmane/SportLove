@@ -1,10 +1,11 @@
+import '../annonces/annonces_widget.dart';
 import '../backend/backend.dart';
+import '../components/new_pop_up_widget.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../list_amies/list_amies_widget.dart';
 import '../main.dart';
-import '../new_post/new_post_widget.dart';
 import '../search/search_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -136,14 +137,16 @@ class _HomePageWidgetState extends State<HomePageWidget> {
             size: 30,
           ),
           onPressed: () async {
-            await Navigator.push(
-              context,
-              PageTransition(
-                type: PageTransitionType.bottomToTop,
-                duration: Duration(milliseconds: 300),
-                reverseDuration: Duration(milliseconds: 300),
-                child: NewPostWidget(),
-              ),
+            await showModalBottomSheet(
+              isScrollControlled: true,
+              backgroundColor: Color(0x00FFFFFF),
+              context: context,
+              builder: (context) {
+                return Container(
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  child: NewPopUpWidget(),
+                );
+              },
             );
           },
         ),
@@ -227,6 +230,37 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     );
                   },
                 ),
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Annonces',
+                    style: FlutterFlowTheme.subtitle1.override(
+                      fontFamily: 'Poppins',
+                      color: FlutterFlowTheme.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      await Navigator.push(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.fade,
+                          duration: Duration(milliseconds: 300),
+                          reverseDuration: Duration(milliseconds: 300),
+                          child: AnnoncesWidget(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      'Voir tout',
+                      style: FlutterFlowTheme.bodyText1,
+                    ),
+                  )
+                ],
               ),
               StreamBuilder<List<AnnoncesRecord>>(
                 stream: queryAnnoncesRecord(
@@ -389,9 +423,14 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            dateTimeFormat('relative',
+                                            dateTimeFormat('d/M h:m a',
                                                 containerAnnoncesRecord.heure),
-                                            style: FlutterFlowTheme.bodyText1,
+                                            style: FlutterFlowTheme.bodyText1
+                                                .override(
+                                              fontFamily: 'Poppins',
+                                              color:
+                                                  FlutterFlowTheme.primaryColor,
+                                            ),
                                           ),
                                           Text(
                                             containerAnnoncesRecord.typeSport,
@@ -410,6 +449,73 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     }),
                   );
                 },
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Publications',
+                      style: FlutterFlowTheme.subtitle1.override(
+                        fontFamily: 'Poppins',
+                        color: FlutterFlowTheme.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(10, 30, 10, 0),
+                child: StreamBuilder<List<PostsRecord>>(
+                  stream: queryPostsRecord(
+                    queryBuilder: (postsRecord) =>
+                        postsRecord.orderBy('timeCreated'),
+                  ),
+                  builder: (context, snapshot) {
+                    // Customize what your widget looks like when it's loading.
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: SizedBox(
+                          width: 30,
+                          height: 30,
+                          child: CircularProgressIndicator(
+                            color: FlutterFlowTheme.primaryColor,
+                          ),
+                        ),
+                      );
+                    }
+                    List<PostsRecord> columnPostsRecordList = snapshot.data;
+                    return Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: List.generate(columnPostsRecordList.length,
+                          (columnIndex) {
+                        final columnPostsRecord =
+                            columnPostsRecordList[columnIndex];
+                        return Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
+                          child: Material(
+                            color: Colors.transparent,
+                            elevation: 5,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Container(
+                              width: double.infinity,
+                              height: 200,
+                              decoration: BoxDecoration(
+                                color: FlutterFlowTheme.tertiaryColor,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
+                    );
+                  },
+                ),
               )
             ],
           ),

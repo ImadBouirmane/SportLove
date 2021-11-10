@@ -254,9 +254,14 @@ class _AnnoncesWidgetState extends State<AnnoncesWidget> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            dateTimeFormat('relative',
+                                            dateTimeFormat('d/M h:m a',
                                                 containerAnnoncesRecord.heure),
-                                            style: FlutterFlowTheme.bodyText1,
+                                            style: FlutterFlowTheme.bodyText1
+                                                .override(
+                                              fontFamily: 'Poppins',
+                                              color:
+                                                  FlutterFlowTheme.primaryColor,
+                                            ),
                                           ),
                                           Text(
                                             containerAnnoncesRecord.typeSport,

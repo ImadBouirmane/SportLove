@@ -172,7 +172,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                     fontFamily: 'Poppins',
                                     color: FlutterFlowTheme.tertiaryColor,
                                   ),
-                                  keyboardType: TextInputType.number,
+                                  keyboardType: TextInputType.emailAddress,
                                 ),
                               ),
                               Padding(

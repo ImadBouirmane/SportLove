@@ -47,6 +47,12 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
   bool get notifications;
 
   @nullable
+  DocumentReference get post;
+
+  @nullable
+  BuiltList<DocumentReference> get posts;
+
+  @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference get reference;
 
@@ -59,7 +65,8 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
     ..phoneNumber = ''
     ..amies = ListBuilder()
     ..annonces = ListBuilder()
-    ..notifications = false;
+    ..notifications = false
+    ..posts = ListBuilder();
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('users');
@@ -88,6 +95,7 @@ Map<String, dynamic> createUsersRecordData({
   String phoneNumber,
   DocumentReference annonce,
   bool notifications,
+  DocumentReference post,
 }) =>
     serializers.toFirestore(
         UsersRecord.serializer,
@@ -102,4 +110,6 @@ Map<String, dynamic> createUsersRecordData({
           ..amies = null
           ..annonce = annonce
           ..annonces = null
-          ..notifications = notifications));
+          ..notifications = notifications
+          ..post = post
+          ..posts = null));
