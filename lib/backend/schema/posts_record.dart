@@ -25,13 +25,17 @@ abstract class PostsRecord implements Built<PostsRecord, PostsRecordBuilder> {
   String get titre;
 
   @nullable
+  String get typeSport;
+
+  @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference get reference;
 
   static void _initializeBuilder(PostsRecordBuilder builder) => builder
     ..photo = ''
     ..description = ''
-    ..titre = '';
+    ..titre = ''
+    ..typeSport = '';
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('posts');
@@ -56,6 +60,7 @@ Map<String, dynamic> createPostsRecordData({
   String description,
   DateTime timeCreated,
   String titre,
+  String typeSport,
 }) =>
     serializers.toFirestore(
         PostsRecord.serializer,
@@ -64,4 +69,5 @@ Map<String, dynamic> createPostsRecordData({
           ..photo = photo
           ..description = description
           ..timeCreated = timeCreated
-          ..titre = titre));
+          ..titre = titre
+          ..typeSport = typeSport));

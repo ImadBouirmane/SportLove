@@ -59,7 +59,6 @@ class _NewPopUpWidgetState extends State<NewPopUpWidget> {
                         style: FlutterFlowTheme.subtitle1.override(
                           fontFamily: 'Poppins',
                           color: FlutterFlowTheme.black,
-                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       )

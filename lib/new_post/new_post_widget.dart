@@ -1,6 +1,7 @@
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../backend/firebase_storage/storage.dart';
+import '../flutter_flow/flutter_flow_drop_down.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
@@ -20,15 +21,18 @@ class NewPostWidget extends StatefulWidget {
 }
 
 class _NewPostWidgetState extends State<NewPostWidget> {
+  String sportTypeValue;
   String uploadedFileUrl = '';
-  TextEditingController textController;
+  TextEditingController textController1;
+  TextEditingController textController2;
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    textController = TextEditingController();
+    textController1 = TextEditingController();
+    textController2 = TextEditingController();
   }
 
   @override
@@ -63,14 +67,6 @@ class _NewPostWidgetState extends State<NewPostWidget> {
           appBar: AppBar(
             backgroundColor: Colors.white,
             automaticallyImplyLeading: false,
-            title: Text(
-              newPostPostsRecord.titre.maybeHandleOverflow(maxChars: 20),
-              style: FlutterFlowTheme.subtitle1.override(
-                fontFamily: 'Poppins',
-                color: FlutterFlowTheme.black,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
             actions: [
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
@@ -108,6 +104,50 @@ class _NewPostWidgetState extends State<NewPostWidget> {
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         children: [
+                          Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(0, 0, 0, 12),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Expanded(
+                                  child: TextFormField(
+                                    controller: textController1,
+                                    obscureText: false,
+                                    decoration: InputDecoration(
+                                      hintText: 'Titre du publication',
+                                      hintStyle:
+                                          FlutterFlowTheme.bodyText1.override(
+                                        fontFamily: 'Poppins',
+                                        color: Color(0xFF090F13),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0xFFDBE2E7),
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0xFFDBE2E7),
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      contentPadding:
+                                          EdgeInsetsDirectional.fromSTEB(
+                                              20, 32, 20, 12),
+                                    ),
+                                    style: FlutterFlowTheme.bodyText1.override(
+                                      fontFamily: 'Poppins',
+                                      color: Color(0xFF090F13),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
                           Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                             child: InkWell(
@@ -182,7 +222,7 @@ class _NewPostWidgetState extends State<NewPostWidget> {
                               children: [
                                 Expanded(
                                   child: TextFormField(
-                                    controller: textController,
+                                    controller: textController2,
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       hintText: 'Décrire quelques choses...',
@@ -212,7 +252,7 @@ class _NewPostWidgetState extends State<NewPostWidget> {
                                               20, 32, 20, 12),
                                     ),
                                     style: FlutterFlowTheme.bodyText1.override(
-                                      fontFamily: 'Lexend Deca',
+                                      fontFamily: 'Poppins',
                                       color: Color(0xFF090F13),
                                       fontSize: 14,
                                       fontWeight: FontWeight.normal,
@@ -220,6 +260,54 @@ class _NewPostWidgetState extends State<NewPostWidget> {
                                     textAlign: TextAlign.start,
                                     maxLines: 4,
                                   ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      5, 0, 0, 0),
+                                  child: Text(
+                                    'Type de sport',
+                                    style: FlutterFlowTheme.bodyText1,
+                                  ),
+                                ),
+                                FlutterFlowDropDown(
+                                  options: [
+                                    'Cyclisme',
+                                    'Course à pied',
+                                    'Tennis',
+                                    'Randonné',
+                                    'Golf',
+                                    'Yoga',
+                                    'Paddel',
+                                    'Boot Camp',
+                                    'Natation'
+                                  ].toList(),
+                                  onChanged: (val) =>
+                                      setState(() => sportTypeValue = val),
+                                  width: 130,
+                                  height: 40,
+                                  textStyle:
+                                      FlutterFlowTheme.bodyText1.override(
+                                    fontFamily: 'Poppins',
+                                    color: Colors.black,
+                                  ),
+                                  fillColor: Colors.white,
+                                  elevation: 2,
+                                  borderColor: Colors.transparent,
+                                  borderWidth: 0,
+                                  borderRadius: 0,
+                                  margin: EdgeInsetsDirectional.fromSTEB(
+                                      8, 4, 8, 4),
+                                  hidesUnderline: true,
                                 )
                               ],
                             ),
@@ -239,7 +327,10 @@ class _NewPostWidgetState extends State<NewPostWidget> {
                       final postsCreateData = createPostsRecordData(
                         user: currentUserReference,
                         photo: uploadedFileUrl,
-                        description: textController.text,
+                        description: textController2.text,
+                        timeCreated: getCurrentTimestamp,
+                        titre: sportTypeValue,
+                        typeSport: sportTypeValue,
                       );
                       await PostsRecord.collection.doc().set(postsCreateData);
                       await Navigator.push(

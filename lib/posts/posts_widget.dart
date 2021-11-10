@@ -101,7 +101,6 @@ class _PostsWidgetState extends State<PostsWidget> {
                     padding: EdgeInsetsDirectional.fromSTEB(10, 20, 10, 0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           columnPostsRecord.titre,
@@ -109,14 +108,6 @@ class _PostsWidgetState extends State<PostsWidget> {
                             fontFamily: 'Poppins',
                             color: FlutterFlowTheme.black,
                             fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          dateTimeFormat(
-                              'relative', columnPostsRecord.timeCreated),
-                          style: FlutterFlowTheme.bodyText1.override(
-                            fontFamily: 'Poppins',
-                            color: FlutterFlowTheme.primaryColor,
                           ),
                         )
                       ],
@@ -133,8 +124,7 @@ class _PostsWidgetState extends State<PostsWidget> {
                       child: Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(10, 20, 10, 10),
                         child: Text(
-                          columnPostsRecord.description
-                              .maybeHandleOverflow(maxChars: 80),
+                          columnPostsRecord.description,
                           style: FlutterFlowTheme.bodyText1,
                         ),
                       ),

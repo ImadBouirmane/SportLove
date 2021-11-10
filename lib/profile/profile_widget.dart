@@ -209,7 +209,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       5, 0, 0, 0),
                                   child: Text(
-                                    profileUserRecord.address,
+                                    'Av sidi mohamed belhasan imm 14, \nN6, Sala Al Jadida 11100',
                                     style: FlutterFlowTheme.bodyText1,
                                   ),
                                 )
@@ -237,34 +237,8 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
                                           Text(
-                                            profileUserRecord.sportType1,
-                                            style: FlutterFlowTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'Poppins',
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    1, 0, 0, 0),
-                                            child: Text(
-                                              ':',
-                                              style: FlutterFlowTheme.bodyText1
-                                                  .override(
-                                                fontFamily: 'Poppins',
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    5, 0, 0, 0),
-                                            child: Text(
-                                              '',
-                                              style: FlutterFlowTheme.bodyText1,
-                                            ),
+                                            'Randonne: Amateur et pratiquant',
+                                            style: FlutterFlowTheme.bodyText1,
                                           )
                                         ],
                                       ),
@@ -272,34 +246,8 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
                                           Text(
-                                            profileUserRecord.sportType1,
-                                            style: FlutterFlowTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'Poppins',
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    1, 0, 0, 0),
-                                            child: Text(
-                                              ':',
-                                              style: FlutterFlowTheme.bodyText1
-                                                  .override(
-                                                fontFamily: 'Poppins',
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    5, 0, 0, 0),
-                                            child: Text(
-                                              '',
-                                              style: FlutterFlowTheme.bodyText1,
-                                            ),
+                                            'Golf: Amateur et pratiquant',
+                                            style: FlutterFlowTheme.bodyText1,
                                           )
                                         ],
                                       ),
@@ -307,34 +255,8 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
                                           Text(
-                                            profileUserRecord.sportType1,
-                                            style: FlutterFlowTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'Poppins',
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    1, 0, 0, 0),
-                                            child: Text(
-                                              ':',
-                                              style: FlutterFlowTheme.bodyText1
-                                                  .override(
-                                                fontFamily: 'Poppins',
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    5, 0, 0, 0),
-                                            child: Text(
-                                              '',
-                                              style: FlutterFlowTheme.bodyText1,
-                                            ),
+                                            'Yoga: Amateur et pratiquant',
+                                            style: FlutterFlowTheme.bodyText1,
                                           )
                                         ],
                                       )

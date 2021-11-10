@@ -22,10 +22,6 @@ abstract class AnnoncesRecord
   String get typeSport;
 
   @nullable
-  @BuiltValueField(wireName: 'Lieu')
-  LatLng get lieu;
-
-  @nullable
   @BuiltValueField(wireName: 'Date')
   DateTime get date;
 
@@ -50,7 +46,8 @@ abstract class AnnoncesRecord
   DateTime get timeCreated;
 
   @nullable
-  String get photo;
+  @BuiltValueField(wireName: 'Lieu')
+  String get lieu;
 
   @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
@@ -62,7 +59,7 @@ abstract class AnnoncesRecord
     ..typeSport = ''
     ..duree = ''
     ..nbrParticipants = ''
-    ..photo = '';
+    ..lieu = '';
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('annonces');
@@ -85,7 +82,6 @@ Map<String, dynamic> createAnnoncesRecordData({
   String titre,
   String description,
   String typeSport,
-  LatLng lieu,
   DateTime date,
   DateTime heure,
   String duree,
@@ -93,7 +89,7 @@ Map<String, dynamic> createAnnoncesRecordData({
   DocumentReference user,
   DocumentReference profile,
   DateTime timeCreated,
-  String photo,
+  String lieu,
 }) =>
     serializers.toFirestore(
         AnnoncesRecord.serializer,
@@ -101,7 +97,6 @@ Map<String, dynamic> createAnnoncesRecordData({
           ..titre = titre
           ..description = description
           ..typeSport = typeSport
-          ..lieu = lieu
           ..date = date
           ..heure = heure
           ..duree = duree
@@ -109,4 +104,4 @@ Map<String, dynamic> createAnnoncesRecordData({
           ..user = user
           ..profile = profile
           ..timeCreated = timeCreated
-          ..photo = photo));
+          ..lieu = lieu));

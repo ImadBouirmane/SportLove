@@ -55,12 +55,15 @@ class _MyAppState extends State<MyApp> {
       supportedLocales: const [Locale('en', '')],
       theme: ThemeData(primarySwatch: Colors.blue),
       home: initialUser == null
-          ? const Center(
-              child: SizedBox(
-                width: 30,
-                height: 30,
-                child: CircularProgressIndicator(
-                  color: FlutterFlowTheme.primaryColor,
+          ? Container(
+              color: Colors.transparent,
+              child: Center(
+                child: Builder(
+                  builder: (context) => Image.asset(
+                    'assets/images/sportlove_logo_v2.png',
+                    width: 200,
+                    fit: BoxFit.contain,
+                  ),
                 ),
               ),
             )
