@@ -8,8 +8,9 @@ import 'schema/users_record.dart';
 import 'schema/chats_record.dart';
 import 'schema/chat_messages_record.dart';
 import 'schema/annonces_record.dart';
-import 'schema/user_record.dart';
 import 'schema/posts_record.dart';
+import 'schema/user_stories_record.dart';
+import 'schema/story_comment_record.dart';
 import 'schema/serializers.dart';
 
 export 'package:cloud_firestore/cloud_firestore.dart';
@@ -20,8 +21,9 @@ export 'schema/users_record.dart';
 export 'schema/chats_record.dart';
 export 'schema/chat_messages_record.dart';
 export 'schema/annonces_record.dart';
-export 'schema/user_record.dart';
 export 'schema/posts_record.dart';
+export 'schema/user_stories_record.dart';
+export 'schema/story_comment_record.dart';
 
 Stream<List<UsersRecord>> queryUsersRecord(
         {Query Function(Query) queryBuilder,
@@ -52,18 +54,26 @@ Stream<List<AnnoncesRecord>> queryAnnoncesRecord(
     queryCollection(AnnoncesRecord.collection, AnnoncesRecord.serializer,
         queryBuilder: queryBuilder, limit: limit, singleRecord: singleRecord);
 
-Stream<List<UserRecord>> queryUserRecord(
-        {Query Function(Query) queryBuilder,
-        int limit = -1,
-        bool singleRecord = false}) =>
-    queryCollection(UserRecord.collection, UserRecord.serializer,
-        queryBuilder: queryBuilder, limit: limit, singleRecord: singleRecord);
-
 Stream<List<PostsRecord>> queryPostsRecord(
         {Query Function(Query) queryBuilder,
         int limit = -1,
         bool singleRecord = false}) =>
     queryCollection(PostsRecord.collection, PostsRecord.serializer,
+        queryBuilder: queryBuilder, limit: limit, singleRecord: singleRecord);
+
+Stream<List<UserStoriesRecord>> queryUserStoriesRecord(
+        {Query Function(Query) queryBuilder,
+        int limit = -1,
+        bool singleRecord = false}) =>
+    queryCollection(UserStoriesRecord.collection, UserStoriesRecord.serializer,
+        queryBuilder: queryBuilder, limit: limit, singleRecord: singleRecord);
+
+Stream<List<StoryCommentRecord>> queryStoryCommentRecord(
+        {Query Function(Query) queryBuilder,
+        int limit = -1,
+        bool singleRecord = false}) =>
+    queryCollection(
+        StoryCommentRecord.collection, StoryCommentRecord.serializer,
         queryBuilder: queryBuilder, limit: limit, singleRecord: singleRecord);
 
 Stream<List<T>> queryCollection<T>(

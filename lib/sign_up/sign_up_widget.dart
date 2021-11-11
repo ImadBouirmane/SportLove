@@ -373,11 +373,12 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                           fontFamily: 'Poppins',
                                           color: Colors.white,
                                         ),
+                                        elevation: 5,
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.tertiaryColor,
                                           width: 1,
                                         ),
-                                        borderRadius: 0,
+                                        borderRadius: 5,
                                       ),
                                       loading: _loadingButton,
                                     )

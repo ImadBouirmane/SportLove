@@ -2,6 +2,7 @@ import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../chat_page/chat_page_widget.dart';
 import '../flutter_flow/chat/index.dart';
+import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
@@ -19,113 +20,162 @@ class _AllChatsPageWidgetState extends State<AllChatsPageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: FlutterFlowTheme.primaryColor),
-        automaticallyImplyLeading: true,
-        title: Text(
-          'All Chats',
-          style: FlutterFlowTheme.bodyText1.override(
-            fontFamily: 'Poppins',
-            color: Colors.black,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
+    return StreamBuilder<UsersRecord>(
+      stream: UsersRecord.getDocument(currentUserReference),
+      builder: (context, snapshot) {
+        // Customize what your widget looks like when it's loading.
+        if (!snapshot.hasData) {
+          return Center(
+            child: SizedBox(
+              width: 30,
+              height: 30,
+              child: CircularProgressIndicator(
+                color: FlutterFlowTheme.primaryColor,
+              ),
+            ),
+          );
+        }
+        final allChatsPageUsersRecord = snapshot.data;
+        return Scaffold(
+          key: scaffoldKey,
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            iconTheme: IconThemeData(color: FlutterFlowTheme.primaryColor),
+            automaticallyImplyLeading: true,
+            title: Text(
+              'All Chats',
+              style: FlutterFlowTheme.bodyText1.override(
+                fontFamily: 'Poppins',
+                color: Colors.black,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            actions: [],
+            centerTitle: true,
+            elevation: 4,
           ),
-        ),
-        actions: [],
-        centerTitle: true,
-        elevation: 4,
-      ),
-      body: Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(0, 2, 0, 0),
-        child: StreamBuilder<List<ChatsRecord>>(
-          stream: queryChatsRecord(
-            queryBuilder: (chatsRecord) => chatsRecord
-                .where('users', arrayContains: currentUserReference)
-                .orderBy('last_message_time', descending: true),
-          ),
-          builder: (context, snapshot) {
-            // Customize what your widget looks like when it's loading.
-            if (!snapshot.hasData) {
-              return Center(
-                child: SizedBox(
-                  width: 30,
-                  height: 30,
-                  child: CircularProgressIndicator(
-                    color: FlutterFlowTheme.primaryColor,
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              print('FloatingActionButton pressed ...');
+            },
+            backgroundColor: FlutterFlowTheme.primaryColor,
+            elevation: 8,
+            child: FlutterFlowIconButton(
+              borderColor: Colors.transparent,
+              borderRadius: 30,
+              borderWidth: 1,
+              buttonSize: 60,
+              icon: Icon(
+                Icons.add,
+                color: FlutterFlowTheme.tertiaryColor,
+                size: 30,
+              ),
+              onPressed: () async {
+                await Navigator.push(
+                  context,
+                  PageTransition(
+                    type: PageTransitionType.fade,
+                    duration: Duration(milliseconds: 0),
+                    reverseDuration: Duration(milliseconds: 0),
+                    child: ChatPageWidget(),
                   ),
-                ),
-              );
-            }
-            List<ChatsRecord> listViewChatsRecordList = snapshot.data;
-            return ListView.builder(
-              padding: EdgeInsets.zero,
-              scrollDirection: Axis.vertical,
-              itemCount: listViewChatsRecordList.length,
-              itemBuilder: (context, listViewIndex) {
-                final listViewChatsRecord =
-                    listViewChatsRecordList[listViewIndex];
-                return FutureBuilder<UsersRecord>(
-                  future: () async {
-                    final chatUserRef = FFChatManager.instance.getChatUserRef(
-                        currentUserReference, listViewChatsRecord);
-                    return UsersRecord.getDocument(chatUserRef).first;
-                  }(),
-                  builder: (context, snapshot) {
-                    final chatUser = snapshot.data;
-                    return FFChatPreview(
-                      onTap: chatUser != null
-                          ? () => Navigator.push(
-                                context,
-                                PageTransition(
-                                  type: PageTransitionType.fade,
-                                  duration: Duration(milliseconds: 0),
-                                  reverseDuration: Duration(milliseconds: 0),
-                                  child: ChatPageWidget(
-                                    chatUser: chatUser,
-                                  ),
-                                ),
-                              )
-                          : null,
-                      lastChatText: listViewChatsRecord.lastMessage,
-                      lastChatTime: listViewChatsRecord.lastMessageTime,
-                      seen: listViewChatsRecord.lastMessageSeenBy
-                          .contains(currentUserReference),
-                      userName: chatUser?.displayName ?? '',
-                      userProfilePic: chatUser?.photoUrl ?? '',
-                      color: Color(0xFFEEF0F5),
-                      unreadColor: Colors.blue,
-                      titleTextStyle: GoogleFonts.getFont(
-                        'DM Sans',
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
+                );
+              },
+            ),
+          ),
+          body: Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(0, 2, 0, 0),
+            child: StreamBuilder<List<ChatsRecord>>(
+              stream: queryChatsRecord(
+                queryBuilder: (chatsRecord) => chatsRecord
+                    .where('users', arrayContains: currentUserReference)
+                    .orderBy('last_message_time', descending: true),
+              ),
+              builder: (context, snapshot) {
+                // Customize what your widget looks like when it's loading.
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: SizedBox(
+                      width: 30,
+                      height: 30,
+                      child: CircularProgressIndicator(
+                        color: FlutterFlowTheme.primaryColor,
                       ),
-                      dateTextStyle: GoogleFonts.getFont(
-                        'DM Sans',
-                        color: Color(0x73000000),
-                        fontWeight: FontWeight.normal,
-                        fontSize: 14,
-                      ),
-                      previewTextStyle: GoogleFonts.getFont(
-                        'DM Sans',
-                        color: Color(0x73000000),
-                        fontWeight: FontWeight.normal,
-                        fontSize: 14,
-                      ),
-                      contentPadding:
-                          EdgeInsetsDirectional.fromSTEB(3, 3, 3, 3),
-                      borderRadius: BorderRadius.circular(0),
+                    ),
+                  );
+                }
+                List<ChatsRecord> listViewChatsRecordList = snapshot.data;
+                return ListView.builder(
+                  padding: EdgeInsets.zero,
+                  scrollDirection: Axis.vertical,
+                  itemCount: listViewChatsRecordList.length,
+                  itemBuilder: (context, listViewIndex) {
+                    final listViewChatsRecord =
+                        listViewChatsRecordList[listViewIndex];
+                    return FutureBuilder<UsersRecord>(
+                      future: () async {
+                        final chatUserRef = FFChatManager.instance
+                            .getChatUserRef(
+                                currentUserReference, listViewChatsRecord);
+                        return UsersRecord.getDocument(chatUserRef).first;
+                      }(),
+                      builder: (context, snapshot) {
+                        final chatUser = snapshot.data;
+                        return FFChatPreview(
+                          onTap: chatUser != null
+                              ? () => Navigator.push(
+                                    context,
+                                    PageTransition(
+                                      type: PageTransitionType.fade,
+                                      duration: Duration(milliseconds: 0),
+                                      reverseDuration:
+                                          Duration(milliseconds: 0),
+                                      child: ChatPageWidget(
+                                        chatUser: chatUser,
+                                      ),
+                                    ),
+                                  )
+                              : null,
+                          lastChatText: listViewChatsRecord.lastMessage,
+                          lastChatTime: listViewChatsRecord.lastMessageTime,
+                          seen: listViewChatsRecord.lastMessageSeenBy
+                              .contains(currentUserReference),
+                          userName: chatUser?.displayName ?? '',
+                          userProfilePic: chatUser?.photoUrl ?? '',
+                          color: Color(0xFFEEF0F5),
+                          unreadColor: Colors.blue,
+                          titleTextStyle: GoogleFonts.getFont(
+                            'DM Sans',
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                          dateTextStyle: GoogleFonts.getFont(
+                            'DM Sans',
+                            color: Color(0x73000000),
+                            fontWeight: FontWeight.normal,
+                            fontSize: 14,
+                          ),
+                          previewTextStyle: GoogleFonts.getFont(
+                            'DM Sans',
+                            color: Color(0x73000000),
+                            fontWeight: FontWeight.normal,
+                            fontSize: 14,
+                          ),
+                          contentPadding:
+                              EdgeInsetsDirectional.fromSTEB(3, 3, 3, 3),
+                          borderRadius: BorderRadius.circular(0),
+                        );
+                      },
                     );
                   },
                 );
               },
-            );
-          },
-        ),
-      ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

@@ -40,9 +40,6 @@ abstract class AnnoncesRecord
   DocumentReference get user;
 
   @nullable
-  DocumentReference get profile;
-
-  @nullable
   DateTime get timeCreated;
 
   @nullable
@@ -87,7 +84,6 @@ Map<String, dynamic> createAnnoncesRecordData({
   String duree,
   String nbrParticipants,
   DocumentReference user,
-  DocumentReference profile,
   DateTime timeCreated,
   String lieu,
 }) =>
@@ -102,6 +98,5 @@ Map<String, dynamic> createAnnoncesRecordData({
           ..duree = duree
           ..nbrParticipants = nbrParticipants
           ..user = user
-          ..profile = profile
           ..timeCreated = timeCreated
           ..lieu = lieu));

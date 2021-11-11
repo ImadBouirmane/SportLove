@@ -16,126 +16,175 @@ class _PostsWidgetState extends State<PostsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<PostsRecord>>(
-      stream: queryPostsRecord(
-        singleRecord: true,
+    return Scaffold(
+      key: scaffoldKey,
+      appBar: AppBar(
+        backgroundColor: FlutterFlowTheme.primaryColor,
+        automaticallyImplyLeading: true,
+        title: Text(
+          'Publications',
+          style: FlutterFlowTheme.subtitle1.override(
+            fontFamily: 'Poppins',
+            color: FlutterFlowTheme.tertiaryColor,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        actions: [],
+        centerTitle: true,
+        elevation: 4,
       ),
-      builder: (context, snapshot) {
-        // Customize what your widget looks like when it's loading.
-        if (!snapshot.hasData) {
-          return Center(
-            child: SizedBox(
-              width: 30,
-              height: 30,
-              child: CircularProgressIndicator(
-                color: FlutterFlowTheme.primaryColor,
-              ),
-            ),
-          );
-        }
-        List<PostsRecord> postsPostsRecordList = snapshot.data;
-        // Return an empty Container when the document does not exist.
-        if (snapshot.data.isEmpty) {
-          return Container();
-        }
-        final postsPostsRecord =
-            postsPostsRecordList.isNotEmpty ? postsPostsRecordList.first : null;
-        return Scaffold(
-          key: scaffoldKey,
-          appBar: AppBar(
-            backgroundColor: FlutterFlowTheme.primaryColor,
-            automaticallyImplyLeading: true,
-            title: Text(
-              'Publication',
-              style: FlutterFlowTheme.subtitle1.override(
-                fontFamily: 'Poppins',
-                color: FlutterFlowTheme.tertiaryColor,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            actions: [],
-            centerTitle: true,
-            elevation: 4,
+      backgroundColor: FlutterFlowTheme.tertiaryColor,
+      body: Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(10, 20, 10, 0),
+        child: StreamBuilder<List<PostsRecord>>(
+          stream: queryPostsRecord(
+            queryBuilder: (postsRecord) => postsRecord.orderBy('timeCreated'),
           ),
-          backgroundColor: FlutterFlowTheme.tertiaryColor,
-          body: StreamBuilder<List<PostsRecord>>(
-            stream: queryPostsRecord(
-              queryBuilder: (postsRecord) => postsRecord.orderBy('timeCreated'),
-              singleRecord: true,
-            ),
-            builder: (context, snapshot) {
-              // Customize what your widget looks like when it's loading.
-              if (!snapshot.hasData) {
-                return Center(
-                  child: SizedBox(
-                    width: 30,
-                    height: 30,
-                    child: CircularProgressIndicator(
-                      color: FlutterFlowTheme.primaryColor,
-                    ),
+          builder: (context, snapshot) {
+            // Customize what your widget looks like when it's loading.
+            if (!snapshot.hasData) {
+              return Center(
+                child: SizedBox(
+                  width: 30,
+                  height: 30,
+                  child: CircularProgressIndicator(
+                    color: FlutterFlowTheme.primaryColor,
                   ),
-                );
-              }
-              List<PostsRecord> columnPostsRecordList = snapshot.data;
-              // Return an empty Container when the document does not exist.
-              if (snapshot.data.isEmpty) {
-                return Container();
-              }
-              final columnPostsRecord = columnPostsRecordList.isNotEmpty
-                  ? columnPostsRecordList.first
-                  : null;
-              return Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Container(
-                    width: double.infinity,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      color: FlutterFlowTheme.tertiaryColor,
-                      border: Border.all(
-                        color: Color(0xFFC3C2C2),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(10, 20, 10, 0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Text(
-                          columnPostsRecord.titre,
-                          style: FlutterFlowTheme.subtitle1.override(
-                            fontFamily: 'Poppins',
-                            color: FlutterFlowTheme.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 0),
-                    child: Container(
-                      width: double.infinity,
-                      height: 200,
-                      decoration: BoxDecoration(
-                        color: FlutterFlowTheme.tertiaryColor,
-                      ),
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(10, 20, 10, 10),
-                        child: Text(
-                          columnPostsRecord.description,
-                          style: FlutterFlowTheme.bodyText1,
-                        ),
-                      ),
-                    ),
-                  )
-                ],
+                ),
               );
-            },
-          ),
-        );
-      },
+            }
+            List<PostsRecord> publicationsPostsRecordList = snapshot.data;
+            return SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: List.generate(publicationsPostsRecordList.length,
+                    (publicationsIndex) {
+                  final publicationsPostsRecord =
+                      publicationsPostsRecordList[publicationsIndex];
+                  return Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
+                    child: StreamBuilder<UsersRecord>(
+                      stream:
+                          UsersRecord.getDocument(publicationsPostsRecord.user),
+                      builder: (context, snapshot) {
+                        // Customize what your widget looks like when it's loading.
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: SizedBox(
+                              width: 30,
+                              height: 30,
+                              child: CircularProgressIndicator(
+                                color: FlutterFlowTheme.primaryColor,
+                              ),
+                            ),
+                          );
+                        }
+                        final containerUsersRecord = snapshot.data;
+                        return Material(
+                          color: Colors.transparent,
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height * 0.4,
+                            decoration: BoxDecoration(
+                              color: FlutterFlowTheme.tertiaryColor,
+                              borderRadius: BorderRadius.circular(30),
+                              border: Border.all(
+                                color: Color(0xFFC3C2C2),
+                              ),
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(0),
+                                    bottomRight: Radius.circular(0),
+                                    topLeft: Radius.circular(30),
+                                    topRight: Radius.circular(30),
+                                  ),
+                                  child: Image.network(
+                                    publicationsPostsRecord.photo,
+                                    width: double.infinity,
+                                    height: 230,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      10, 10, 10, 0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Text(
+                                        publicationsPostsRecord.titre
+                                            .maybeHandleOverflow(maxChars: 20),
+                                        style:
+                                            FlutterFlowTheme.subtitle1.override(
+                                          fontFamily: 'Poppins',
+                                          color: FlutterFlowTheme.black,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      10, 0, 10, 0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Text(
+                                        publicationsPostsRecord.description
+                                            .maybeHandleOverflow(maxChars: 25),
+                                        style: FlutterFlowTheme.bodyText1,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      10, 0, 10, 0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        dateTimeFormat(
+                                            'Hm',
+                                            publicationsPostsRecord
+                                                .timeCreated),
+                                        style:
+                                            FlutterFlowTheme.bodyText1.override(
+                                          fontFamily: 'Poppins',
+                                          color: FlutterFlowTheme.primaryColor,
+                                        ),
+                                      ),
+                                      Text(
+                                        publicationsPostsRecord.typeSport,
+                                        style: FlutterFlowTheme.bodyText1,
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                }),
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }

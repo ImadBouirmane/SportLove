@@ -26,235 +26,207 @@ class _FavoriteSportsWidgetState extends State<FavoriteSportsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<UserRecord>>(
-      stream: queryUserRecord(
-        singleRecord: true,
+    return Scaffold(
+      key: scaffoldKey,
+      appBar: AppBar(
+        backgroundColor: FlutterFlowTheme.tertiaryColor,
+        iconTheme: IconThemeData(color: FlutterFlowTheme.primaryColor),
+        automaticallyImplyLeading: true,
+        actions: [],
+        centerTitle: true,
+        elevation: 0,
       ),
-      builder: (context, snapshot) {
-        // Customize what your widget looks like when it's loading.
-        if (!snapshot.hasData) {
-          return Center(
-            child: SizedBox(
-              width: 30,
-              height: 30,
-              child: CircularProgressIndicator(
-                color: FlutterFlowTheme.primaryColor,
+      backgroundColor: FlutterFlowTheme.tertiaryColor,
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FaIcon(
+                      FontAwesomeIcons.volleyballBall,
+                      color: FlutterFlowTheme.primaryColor,
+                      size: 90,
+                    )
+                  ],
+                ),
               ),
-            ),
-          );
-        }
-        List<UserRecord> favoriteSportsUserRecordList = snapshot.data;
-        final favoriteSportsUserRecord = favoriteSportsUserRecordList.isNotEmpty
-            ? favoriteSportsUserRecordList.first
-            : null;
-        return Scaffold(
-          key: scaffoldKey,
-          appBar: AppBar(
-            backgroundColor: FlutterFlowTheme.tertiaryColor,
-            iconTheme: IconThemeData(color: FlutterFlowTheme.primaryColor),
-            automaticallyImplyLeading: true,
-            actions: [],
-            centerTitle: true,
-            elevation: 0,
-          ),
-          backgroundColor: FlutterFlowTheme.tertiaryColor,
-          body: SafeArea(
-            child: Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        FaIcon(
-                          FontAwesomeIcons.volleyballBall,
-                          color: FlutterFlowTheme.primaryColor,
-                          size: 90,
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 60),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Choisir vos sports préférés',
-                          style: FlutterFlowTheme.subtitle1.override(
-                            fontFamily: 'Poppins',
-                            color: FlutterFlowTheme.black,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 20),
-                    child: FlutterFlowChoiceChips(
-                      initialOption: section1Value ??=
-                          favoriteSportsUserRecord.sportType1,
-                      options: [
-                        ChipData('Cyclisme'),
-                        ChipData('Course à pied'),
-                        ChipData('Tennis')
-                      ],
-                      onChanged: (val) => setState(() => section1Value = val),
-                      selectedChipStyle: ChipStyle(
-                        backgroundColor: FlutterFlowTheme.primaryColor,
-                        textStyle: FlutterFlowTheme.bodyText1.override(
-                          fontFamily: 'Poppins',
-                          color: Colors.white,
-                        ),
-                        iconColor: Colors.white,
-                        iconSize: 18,
-                        elevation: 4,
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 60),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Choisir vos sports préférés',
+                      style: FlutterFlowTheme.subtitle1.override(
+                        fontFamily: 'Poppins',
+                        color: FlutterFlowTheme.black,
+                        fontWeight: FontWeight.w600,
                       ),
-                      unselectedChipStyle: ChipStyle(
-                        backgroundColor: Colors.white,
-                        textStyle: FlutterFlowTheme.bodyText2.override(
-                          fontFamily: 'Poppins',
-                          color: Color(0xFF262D34),
-                        ),
-                        iconColor: Color(0xFF262D34),
-                        iconSize: 18,
-                        elevation: 4,
-                      ),
-                      chipSpacing: 20,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(40, 0, 40, 20),
-                    child: FlutterFlowChoiceChips(
-                      initialOption: section2Value ??=
-                          favoriteSportsUserRecord.sportType2,
-                      options: [
-                        ChipData('Randonné'),
-                        ChipData('Golf'),
-                        ChipData('Yoga')
-                      ],
-                      onChanged: (val) => setState(() => section2Value = val),
-                      selectedChipStyle: ChipStyle(
-                        backgroundColor: FlutterFlowTheme.primaryColor,
-                        textStyle: FlutterFlowTheme.bodyText1.override(
-                          fontFamily: 'Poppins',
-                          color: Colors.white,
-                        ),
-                        iconColor: Colors.white,
-                        iconSize: 18,
-                        elevation: 4,
-                      ),
-                      unselectedChipStyle: ChipStyle(
-                        backgroundColor: Colors.white,
-                        textStyle: FlutterFlowTheme.bodyText2.override(
-                          fontFamily: 'Poppins',
-                          color: Color(0xFF262D34),
-                        ),
-                        iconColor: Color(0xFF262D34),
-                        iconSize: 18,
-                        elevation: 4,
-                      ),
-                      chipSpacing: 20,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 20),
-                    child: FlutterFlowChoiceChips(
-                      initialOption: section3Value ??=
-                          favoriteSportsUserRecord.sportType3,
-                      options: [
-                        ChipData('Paddel'),
-                        ChipData('Boot Camp'),
-                        ChipData('Natation')
-                      ],
-                      onChanged: (val) => setState(() => section3Value = val),
-                      selectedChipStyle: ChipStyle(
-                        backgroundColor: FlutterFlowTheme.primaryColor,
-                        textStyle: FlutterFlowTheme.bodyText1.override(
-                          fontFamily: 'Poppins',
-                          color: Colors.white,
-                        ),
-                        iconColor: Colors.white,
-                        iconSize: 18,
-                        elevation: 4,
-                      ),
-                      unselectedChipStyle: ChipStyle(
-                        backgroundColor: Colors.white,
-                        textStyle: FlutterFlowTheme.bodyText2.override(
-                          fontFamily: 'Poppins',
-                          color: Color(0xFF262D34),
-                        ),
-                        iconColor: Color(0xFF262D34),
-                        iconSize: 18,
-                        elevation: 4,
-                      ),
-                      chipSpacing: 20,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        FFButtonWidget(
-                          onPressed: () async {
-                            setState(() => _loadingButton = true);
-                            try {
-                              final userCreateData = createUserRecordData(
-                                sportType1: section1Value,
-                                sportType2: section2Value,
-                                sportType3: section3Value,
-                              );
-                              await UserRecord.collection
-                                  .doc()
-                                  .set(userCreateData);
-                              await Navigator.push(
-                                context,
-                                PageTransition(
-                                  type: PageTransitionType.leftToRight,
-                                  duration: Duration(milliseconds: 300),
-                                  reverseDuration: Duration(milliseconds: 300),
-                                  child: SportLevelWidget(),
-                                ),
-                              );
-                            } finally {
-                              setState(() => _loadingButton = false);
-                            }
-                          },
-                          text: 'Continuer',
-                          options: FFButtonOptions(
-                            width: 300,
-                            height: 50,
-                            color: FlutterFlowTheme.primaryColor,
-                            textStyle: FlutterFlowTheme.subtitle2.override(
-                              fontFamily: 'Poppins',
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            borderSide: BorderSide(
-                              color: Colors.transparent,
-                              width: 1,
-                            ),
-                            borderRadius: 12,
-                          ),
-                          loading: _loadingButton,
-                        )
-                      ],
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
-            ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 20),
+                child: FlutterFlowChoiceChips(
+                  initialOption: section1Value ??= 'Cyclisme',
+                  options: [
+                    ChipData('Cyclisme'),
+                    ChipData('Course à pied'),
+                    ChipData('Tennis')
+                  ],
+                  onChanged: (val) => setState(() => section1Value = val),
+                  selectedChipStyle: ChipStyle(
+                    backgroundColor: FlutterFlowTheme.primaryColor,
+                    textStyle: FlutterFlowTheme.bodyText1.override(
+                      fontFamily: 'Poppins',
+                      color: Colors.white,
+                    ),
+                    iconColor: Colors.white,
+                    iconSize: 18,
+                    elevation: 4,
+                  ),
+                  unselectedChipStyle: ChipStyle(
+                    backgroundColor: Colors.white,
+                    textStyle: FlutterFlowTheme.bodyText2.override(
+                      fontFamily: 'Poppins',
+                      color: Color(0xFF262D34),
+                    ),
+                    iconColor: Color(0xFF262D34),
+                    iconSize: 18,
+                    elevation: 4,
+                  ),
+                  chipSpacing: 20,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(40, 0, 40, 20),
+                child: FlutterFlowChoiceChips(
+                  initialOption: section2Value ??= 'Randonné',
+                  options: [
+                    ChipData('Randonné'),
+                    ChipData('Golf'),
+                    ChipData('Yoga')
+                  ],
+                  onChanged: (val) => setState(() => section2Value = val),
+                  selectedChipStyle: ChipStyle(
+                    backgroundColor: FlutterFlowTheme.primaryColor,
+                    textStyle: FlutterFlowTheme.bodyText1.override(
+                      fontFamily: 'Poppins',
+                      color: Colors.white,
+                    ),
+                    iconColor: Colors.white,
+                    iconSize: 18,
+                    elevation: 4,
+                  ),
+                  unselectedChipStyle: ChipStyle(
+                    backgroundColor: Colors.white,
+                    textStyle: FlutterFlowTheme.bodyText2.override(
+                      fontFamily: 'Poppins',
+                      color: Color(0xFF262D34),
+                    ),
+                    iconColor: Color(0xFF262D34),
+                    iconSize: 18,
+                    elevation: 4,
+                  ),
+                  chipSpacing: 20,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 20),
+                child: FlutterFlowChoiceChips(
+                  initialOption: section3Value ??= 'Paddel',
+                  options: [
+                    ChipData('Paddel'),
+                    ChipData('Boot Camp'),
+                    ChipData('Natation')
+                  ],
+                  onChanged: (val) => setState(() => section3Value = val),
+                  selectedChipStyle: ChipStyle(
+                    backgroundColor: FlutterFlowTheme.primaryColor,
+                    textStyle: FlutterFlowTheme.bodyText1.override(
+                      fontFamily: 'Poppins',
+                      color: Colors.white,
+                    ),
+                    iconColor: Colors.white,
+                    iconSize: 18,
+                    elevation: 4,
+                  ),
+                  unselectedChipStyle: ChipStyle(
+                    backgroundColor: Colors.white,
+                    textStyle: FlutterFlowTheme.bodyText2.override(
+                      fontFamily: 'Poppins',
+                      color: Color(0xFF262D34),
+                    ),
+                    iconColor: Color(0xFF262D34),
+                    iconSize: 18,
+                    elevation: 4,
+                  ),
+                  chipSpacing: 20,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FFButtonWidget(
+                      onPressed: () async {
+                        setState(() => _loadingButton = true);
+                        try {
+                          final usersUpdateData = createUsersRecordData(
+                            sportType1: section1Value,
+                            sportType2: section2Value,
+                            sportType3: section3Value,
+                          );
+                          await currentUserReference.update(usersUpdateData);
+                          await Navigator.push(
+                            context,
+                            PageTransition(
+                              type: PageTransitionType.leftToRight,
+                              duration: Duration(milliseconds: 300),
+                              reverseDuration: Duration(milliseconds: 300),
+                              child: SportLevelWidget(),
+                            ),
+                          );
+                        } finally {
+                          setState(() => _loadingButton = false);
+                        }
+                      },
+                      text: 'Continuer',
+                      options: FFButtonOptions(
+                        width: 300,
+                        height: 50,
+                        color: FlutterFlowTheme.primaryColor,
+                        textStyle: FlutterFlowTheme.subtitle2.override(
+                          fontFamily: 'Poppins',
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        borderSide: BorderSide(
+                          color: Colors.transparent,
+                          width: 1,
+                        ),
+                        borderRadius: 12,
+                      ),
+                      loading: _loadingButton,
+                    )
+                  ],
+                ),
+              )
+            ],
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

@@ -35,22 +35,34 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
   String get phoneNumber;
 
   @nullable
-  BuiltList<DocumentReference> get amies;
-
-  @nullable
-  DocumentReference get annonce;
-
-  @nullable
-  BuiltList<DocumentReference> get annonces;
-
-  @nullable
   bool get notifications;
 
   @nullable
-  DocumentReference get post;
+  String get gender;
 
   @nullable
-  BuiltList<DocumentReference> get posts;
+  String get birthDate;
+
+  @nullable
+  String get address;
+
+  @nullable
+  String get sportType1;
+
+  @nullable
+  String get sportType2;
+
+  @nullable
+  String get sportType3;
+
+  @nullable
+  String get sportLevel1;
+
+  @nullable
+  String get sportLevel2;
+
+  @nullable
+  String get sportLevel3;
 
   @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
@@ -63,10 +75,16 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
     ..photoUrl = ''
     ..uid = ''
     ..phoneNumber = ''
-    ..amies = ListBuilder()
-    ..annonces = ListBuilder()
     ..notifications = false
-    ..posts = ListBuilder();
+    ..gender = ''
+    ..birthDate = ''
+    ..address = ''
+    ..sportType1 = ''
+    ..sportType2 = ''
+    ..sportType3 = ''
+    ..sportLevel1 = ''
+    ..sportLevel2 = ''
+    ..sportLevel3 = '';
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('users');
@@ -93,9 +111,16 @@ Map<String, dynamic> createUsersRecordData({
   String uid,
   DateTime createdTime,
   String phoneNumber,
-  DocumentReference annonce,
   bool notifications,
-  DocumentReference post,
+  String gender,
+  String birthDate,
+  String address,
+  String sportType1,
+  String sportType2,
+  String sportType3,
+  String sportLevel1,
+  String sportLevel2,
+  String sportLevel3,
 }) =>
     serializers.toFirestore(
         UsersRecord.serializer,
@@ -107,9 +132,13 @@ Map<String, dynamic> createUsersRecordData({
           ..uid = uid
           ..createdTime = createdTime
           ..phoneNumber = phoneNumber
-          ..amies = null
-          ..annonce = annonce
-          ..annonces = null
           ..notifications = notifications
-          ..post = post
-          ..posts = null));
+          ..gender = gender
+          ..birthDate = birthDate
+          ..address = address
+          ..sportType1 = sportType1
+          ..sportType2 = sportType2
+          ..sportType3 = sportType3
+          ..sportLevel1 = sportLevel1
+          ..sportLevel2 = sportLevel2
+          ..sportLevel3 = sportLevel3));

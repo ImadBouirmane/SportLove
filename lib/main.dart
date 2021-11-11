@@ -9,7 +9,7 @@ import '../flutter_flow/flutter_flow_theme.dart';
 import 'package:sport_love/login/login_widget.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
 import 'home_page/home_page_widget.dart';
-import 'all_chats_page/all_chats_page_widget.dart';
+import 'profile/profile_widget.dart';
 import 'account/account_widget.dart';
 
 void main() async {
@@ -97,7 +97,7 @@ class _NavBarPageState extends State<NavBarPage> {
   Widget build(BuildContext context) {
     final tabs = {
       'HomePage': HomePageWidget(),
-      'AllChatsPage': AllChatsPageWidget(),
+      'Profile': ProfileWidget(),
       'Account': AccountWidget(),
     };
     return Scaffold(
@@ -114,14 +114,14 @@ class _NavBarPageState extends State<NavBarPage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.chat_bubble_outline,
+              Icons.person_outlined,
               size: 24,
             ),
             activeIcon: Icon(
-              Icons.chat_bubble_rounded,
+              Icons.person,
               size: 24,
             ),
-            label: 'Chats',
+            label: 'Profile',
             tooltip: '',
           ),
           BottomNavigationBarItem(

@@ -1,9 +1,9 @@
-import '../auth/auth_util.dart';
 import '../backend/backend.dart';
+import '../edit_profile/edit_profile_widget.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
-import '../list_annonces/list_annonces_widget.dart';
+import '../new_post/new_post_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -19,8 +19,8 @@ class _ProfileWidgetState extends State<ProfileWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<UserRecord>>(
-      stream: queryUserRecord(
+    return StreamBuilder<List<UsersRecord>>(
+      stream: queryUsersRecord(
         singleRecord: true,
       ),
       builder: (context, snapshot) {
@@ -36,13 +36,13 @@ class _ProfileWidgetState extends State<ProfileWidget> {
             ),
           );
         }
-        List<UserRecord> profileUserRecordList = snapshot.data;
+        List<UsersRecord> profileUsersRecordList = snapshot.data;
         // Return an empty Container when the document does not exist.
         if (snapshot.data.isEmpty) {
           return Container();
         }
-        final profileUserRecord = profileUserRecordList.isNotEmpty
-            ? profileUserRecordList.first
+        final profileUsersRecord = profileUsersRecordList.isNotEmpty
+            ? profileUsersRecordList.first
             : null;
         return Scaffold(
           key: scaffoldKey,
@@ -68,8 +68,16 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                   color: FlutterFlowTheme.tertiaryColor,
                   size: 25,
                 ),
-                onPressed: () {
-                  print('IconButton pressed ...');
+                onPressed: () async {
+                  await Navigator.push(
+                    context,
+                    PageTransition(
+                      type: PageTransitionType.bottomToTop,
+                      duration: Duration(milliseconds: 300),
+                      reverseDuration: Duration(milliseconds: 300),
+                      child: EditProfileWidget(),
+                    ),
+                  );
                 },
               )
             ],
@@ -77,6 +85,32 @@ class _ProfileWidgetState extends State<ProfileWidget> {
             elevation: 4,
           ),
           backgroundColor: FlutterFlowTheme.tertiaryColor,
+          floatingActionButton: FloatingActionButton.extended(
+            onPressed: () async {
+              await Navigator.push(
+                context,
+                PageTransition(
+                  type: PageTransitionType.bottomToTop,
+                  duration: Duration(milliseconds: 300),
+                  reverseDuration: Duration(milliseconds: 300),
+                  child: NewPostWidget(),
+                ),
+              );
+            },
+            backgroundColor: FlutterFlowTheme.primaryColor,
+            icon: Icon(
+              Icons.post_add,
+              size: 25,
+            ),
+            elevation: 8,
+            label: Text(
+              'Nouveau Publication',
+              style: FlutterFlowTheme.bodyText1.override(
+                fontFamily: 'Poppins',
+                color: FlutterFlowTheme.tertiaryColor,
+              ),
+            ),
+          ),
           body: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(10, 20, 10, 0),
             child: SingleChildScrollView(
@@ -116,7 +150,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                     shape: BoxShape.circle,
                                   ),
                                   child: Image.network(
-                                    'https://picsum.photos/seed/762/600',
+                                    profileUsersRecord.photoUrl,
                                   ),
                                 ),
                                 Padding(
@@ -129,7 +163,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
                                           Text(
-                                            profileUserRecord.displayName,
+                                            profileUsersRecord.displayName,
                                             style: FlutterFlowTheme.subtitle1
                                                 .override(
                                               fontFamily: 'Poppins',
@@ -145,17 +179,14 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
-                                            AuthUserStreamWidget(
-                                              child: Text(
-                                                currentPhoneNumber,
-                                                style: FlutterFlowTheme
-                                                    .subtitle2
-                                                    .override(
-                                                  fontFamily: 'Poppins',
-                                                  color: FlutterFlowTheme.black,
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.normal,
-                                                ),
+                                            Text(
+                                              profileUsersRecord.phoneNumber,
+                                              style: FlutterFlowTheme.subtitle2
+                                                  .override(
+                                                fontFamily: 'Poppins',
+                                                color: FlutterFlowTheme.black,
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.normal,
                                               ),
                                             )
                                           ],
@@ -165,7 +196,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
                                           Text(
-                                            profileUserRecord.birthDate,
+                                            profileUsersRecord.birthDate,
                                             style: FlutterFlowTheme.bodyText1
                                                 .override(
                                               fontFamily: 'Poppins',
@@ -178,7 +209,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     10, 0, 0, 0),
                                             child: Text(
-                                              profileUserRecord.gender,
+                                              profileUsersRecord.gender,
                                               style: FlutterFlowTheme.bodyText1
                                                   .override(
                                                 fontFamily: 'Poppins',
@@ -209,7 +240,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       5, 0, 0, 0),
                                   child: Text(
-                                    'Av sidi mohamed belhasan imm 14, \nN6, Sala Al Jadida 11100',
+                                    profileUsersRecord.address,
                                     style: FlutterFlowTheme.bodyText1,
                                   ),
                                 )
@@ -237,8 +268,26 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
                                           Text(
-                                            'Randonne: Amateur et pratiquant',
+                                            profileUsersRecord.sportType1,
                                             style: FlutterFlowTheme.bodyText1,
+                                          ),
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    1, 0, 0, 0),
+                                            child: Text(
+                                              ':',
+                                              style: FlutterFlowTheme.bodyText1,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    3, 0, 0, 0),
+                                            child: Text(
+                                              profileUsersRecord.sportLevel1,
+                                              style: FlutterFlowTheme.bodyText1,
+                                            ),
                                           )
                                         ],
                                       ),
@@ -246,8 +295,26 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
                                           Text(
-                                            'Golf: Amateur et pratiquant',
+                                            profileUsersRecord.sportType2,
                                             style: FlutterFlowTheme.bodyText1,
+                                          ),
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    1, 0, 0, 0),
+                                            child: Text(
+                                              ':',
+                                              style: FlutterFlowTheme.bodyText1,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    3, 0, 0, 0),
+                                            child: Text(
+                                              profileUsersRecord.sportLevel2,
+                                              style: FlutterFlowTheme.bodyText1,
+                                            ),
                                           )
                                         ],
                                       ),
@@ -255,8 +322,26 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
                                           Text(
-                                            'Yoga: Amateur et pratiquant',
+                                            profileUsersRecord.sportType3,
                                             style: FlutterFlowTheme.bodyText1,
+                                          ),
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    1, 0, 0, 0),
+                                            child: Text(
+                                              ':',
+                                              style: FlutterFlowTheme.bodyText1,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    3, 0, 0, 0),
+                                            child: Text(
+                                              profileUsersRecord.sportLevel3,
+                                              style: FlutterFlowTheme.bodyText1,
+                                            ),
                                           )
                                         ],
                                       )
@@ -268,201 +353,6 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                           )
                         ],
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(5, 20, 5, 20),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Mes annonces',
-                          style: FlutterFlowTheme.subtitle1.override(
-                            fontFamily: 'Poppins',
-                            color: FlutterFlowTheme.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () async {
-                            await Navigator.push(
-                              context,
-                              PageTransition(
-                                type: PageTransitionType.fade,
-                                duration: Duration(milliseconds: 0),
-                                reverseDuration: Duration(milliseconds: 0),
-                                child: ListAnnoncesWidget(),
-                              ),
-                            );
-                          },
-                          child: Text(
-                            'Voir tout',
-                            style: FlutterFlowTheme.bodyText1,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 30),
-                    child: StreamBuilder<List<AnnoncesRecord>>(
-                      stream: queryAnnoncesRecord(
-                        singleRecord: true,
-                      ),
-                      builder: (context, snapshot) {
-                        // Customize what your widget looks like when it's loading.
-                        if (!snapshot.hasData) {
-                          return Center(
-                            child: SizedBox(
-                              width: 30,
-                              height: 30,
-                              child: CircularProgressIndicator(
-                                color: FlutterFlowTheme.primaryColor,
-                              ),
-                            ),
-                          );
-                        }
-                        List<AnnoncesRecord> containerAnnoncesRecordList =
-                            snapshot.data;
-                        // Return an empty Container when the document does not exist.
-                        if (snapshot.data.isEmpty) {
-                          return Container();
-                        }
-                        final containerAnnoncesRecord =
-                            containerAnnoncesRecordList.isNotEmpty
-                                ? containerAnnoncesRecordList.first
-                                : null;
-                        return Material(
-                          color: Colors.transparent,
-                          elevation: 5,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height * 0.4,
-                            decoration: BoxDecoration(
-                              color: FlutterFlowTheme.tertiaryColor,
-                              borderRadius: BorderRadius.circular(30),
-                              border: Border.all(
-                                color: Color(0xFFC3C2C2),
-                              ),
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                StreamBuilder<UsersRecord>(
-                                  stream: UsersRecord.getDocument(
-                                      containerAnnoncesRecord.user),
-                                  builder: (context, snapshot) {
-                                    // Customize what your widget looks like when it's loading.
-                                    if (!snapshot.hasData) {
-                                      return Center(
-                                        child: SizedBox(
-                                          width: 30,
-                                          height: 30,
-                                          child: CircularProgressIndicator(
-                                            color:
-                                                FlutterFlowTheme.primaryColor,
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                    final imageUsersRecord = snapshot.data;
-                                    return ClipRRect(
-                                      borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(0),
-                                        bottomRight: Radius.circular(0),
-                                        topLeft: Radius.circular(30),
-                                        topRight: Radius.circular(30),
-                                      ),
-                                      child: Image.network(
-                                        imageUsersRecord.photoUrl,
-                                        width: double.infinity,
-                                        height: 230,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    );
-                                  },
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      10, 10, 10, 0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      StreamBuilder<UsersRecord>(
-                                        stream: UsersRecord.getDocument(
-                                            containerAnnoncesRecord.user),
-                                        builder: (context, snapshot) {
-                                          // Customize what your widget looks like when it's loading.
-                                          if (!snapshot.hasData) {
-                                            return Center(
-                                              child: SizedBox(
-                                                width: 30,
-                                                height: 30,
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  color: FlutterFlowTheme
-                                                      .primaryColor,
-                                                ),
-                                              ),
-                                            );
-                                          }
-                                          final textUsersRecord = snapshot.data;
-                                          return Text(
-                                            containerAnnoncesRecord.titre,
-                                            style: FlutterFlowTheme.subtitle1
-                                                .override(
-                                              fontFamily: 'Poppins',
-                                              color: FlutterFlowTheme.black,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          );
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      10, 0, 10, 0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Text(
-                                        containerAnnoncesRecord.description,
-                                        style: FlutterFlowTheme.bodyText1,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      10, 0, 10, 0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        dateTimeFormat('relative',
-                                            containerAnnoncesRecord.heure),
-                                        style: FlutterFlowTheme.bodyText1,
-                                      ),
-                                      Text(
-                                        containerAnnoncesRecord.typeSport,
-                                        style: FlutterFlowTheme.bodyText1,
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                      },
                     ),
                   )
                 ],

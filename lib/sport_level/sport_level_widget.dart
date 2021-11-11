@@ -26,8 +26,8 @@ class _SportLevelWidgetState extends State<SportLevelWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<UserRecord>>(
-      stream: queryUserRecord(
+    return StreamBuilder<List<UsersRecord>>(
+      stream: queryUsersRecord(
         singleRecord: true,
       ),
       builder: (context, snapshot) {
@@ -43,13 +43,13 @@ class _SportLevelWidgetState extends State<SportLevelWidget> {
             ),
           );
         }
-        List<UserRecord> sportLevelUserRecordList = snapshot.data;
+        List<UsersRecord> sportLevelUsersRecordList = snapshot.data;
         // Return an empty Container when the document does not exist.
         if (snapshot.data.isEmpty) {
           return Container();
         }
-        final sportLevelUserRecord = sportLevelUserRecordList.isNotEmpty
-            ? sportLevelUserRecordList.first
+        final sportLevelUsersRecord = sportLevelUsersRecordList.isNotEmpty
+            ? sportLevelUsersRecordList.first
             : null;
         return Scaffold(
           key: scaffoldKey,
@@ -92,7 +92,7 @@ class _SportLevelWidgetState extends State<SportLevelWidget> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Text(
-                      sportLevelUserRecord.sportType1,
+                      sportLevelUsersRecord.sportType1,
                       style: FlutterFlowTheme.title3.override(
                         fontFamily: 'Poppins',
                         color: Color(0xFF2E2C2C),
@@ -139,7 +139,7 @@ class _SportLevelWidgetState extends State<SportLevelWidget> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Text(
-                      sportLevelUserRecord.sportType2,
+                      sportLevelUsersRecord.sportType2,
                       style: FlutterFlowTheme.title3.override(
                         fontFamily: 'Poppins',
                         color: Color(0xFF2E2C2C),
@@ -186,7 +186,7 @@ class _SportLevelWidgetState extends State<SportLevelWidget> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Text(
-                      sportLevelUserRecord.sportType3,
+                      sportLevelUsersRecord.sportType3,
                       style: FlutterFlowTheme.title3.override(
                         fontFamily: 'Poppins',
                         color: Color(0xFF2E2C2C),
@@ -239,14 +239,12 @@ class _SportLevelWidgetState extends State<SportLevelWidget> {
                         onPressed: () async {
                           setState(() => _loadingButton = true);
                           try {
-                            final userCreateData = createUserRecordData(
+                            final usersUpdateData = createUsersRecordData(
                               sportLevel1: sportLevel1Value,
                               sportLevel2: sportLevel2Value,
                               sportLevel3: sportLevel3Value,
                             );
-                            await UserRecord.collection
-                                .doc()
-                                .set(userCreateData);
+                            await currentUserReference.update(usersUpdateData);
                             await Navigator.push(
                               context,
                               PageTransition(
