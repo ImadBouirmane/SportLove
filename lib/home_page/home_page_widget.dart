@@ -7,7 +7,7 @@ import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../main.dart';
 import '../nouveau_annonce/nouveau_annonce_widget.dart';
-import '../post_page/post_page_widget.dart';
+import '../posts/posts_widget.dart';
 import '../search/search_widget.dart';
 import '../stories/stories_widget.dart';
 import '../story_create/story_create_widget.dart';
@@ -299,8 +299,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                               shape: BoxShape.circle,
                                             ),
                                             child: Image.network(
-                                              amiesStoriesUserStoriesRecord
-                                                  .storyPhoto,
+                                              columnUsersRecord.photoUrl,
                                             ),
                                           ),
                                         ),
@@ -718,7 +717,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 type: PageTransitionType.fade,
                                 duration: Duration(milliseconds: 300),
                                 reverseDuration: Duration(milliseconds: 300),
-                                child: PostPageWidget(),
+                                child: PostsWidget(),
                               ),
                             );
                           },
