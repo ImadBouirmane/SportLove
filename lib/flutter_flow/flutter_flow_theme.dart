@@ -8,6 +8,7 @@ class FlutterFlowTheme {
   static const Color tertiaryColor = Color(0xFFFFFFFF);
 
   static const Color black = Color(0xFF000000);
+  static const Color transparent = Color(0x00000000);
 
   String primaryFontFamily = 'Poppins';
   String secondaryFontFamily = 'Roboto';

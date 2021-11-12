@@ -20,104 +20,105 @@ class _AllChatsPageWidgetState extends State<AllChatsPageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<UsersRecord>(
-      stream: UsersRecord.getDocument(currentUserReference),
-      builder: (context, snapshot) {
-        // Customize what your widget looks like when it's loading.
-        if (!snapshot.hasData) {
-          return Center(
-            child: SizedBox(
-              width: 30,
-              height: 30,
-              child: CircularProgressIndicator(
-                color: FlutterFlowTheme.primaryColor,
-              ),
-            ),
-          );
-        }
-        final allChatsPageUsersRecord = snapshot.data;
-        return Scaffold(
-          key: scaffoldKey,
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            iconTheme: IconThemeData(color: FlutterFlowTheme.primaryColor),
-            automaticallyImplyLeading: true,
-            title: Text(
-              'All Chats',
-              style: FlutterFlowTheme.bodyText1.override(
-                fontFamily: 'Poppins',
-                color: Colors.black,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            actions: [],
-            centerTitle: true,
-            elevation: 4,
+    return Scaffold(
+      key: scaffoldKey,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(color: FlutterFlowTheme.primaryColor),
+        automaticallyImplyLeading: true,
+        title: Text(
+          'All Chats',
+          style: FlutterFlowTheme.bodyText1.override(
+            fontFamily: 'Poppins',
+            color: Colors.black,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              print('FloatingActionButton pressed ...');
-            },
-            backgroundColor: FlutterFlowTheme.primaryColor,
-            elevation: 8,
-            child: FlutterFlowIconButton(
-              borderColor: Colors.transparent,
-              borderRadius: 30,
-              borderWidth: 1,
-              buttonSize: 60,
-              icon: Icon(
-                Icons.add,
-                color: FlutterFlowTheme.tertiaryColor,
-                size: 30,
+        ),
+        actions: [],
+        centerTitle: true,
+        elevation: 4,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          print('FloatingActionButton pressed ...');
+        },
+        backgroundColor: FlutterFlowTheme.primaryColor,
+        elevation: 8,
+        child: FlutterFlowIconButton(
+          borderColor: Colors.transparent,
+          borderRadius: 30,
+          borderWidth: 1,
+          buttonSize: 60,
+          icon: Icon(
+            Icons.add,
+            color: FlutterFlowTheme.tertiaryColor,
+            size: 30,
+          ),
+          onPressed: () async {
+            await Navigator.push(
+              context,
+              PageTransition(
+                type: PageTransitionType.fade,
+                duration: Duration(milliseconds: 0),
+                reverseDuration: Duration(milliseconds: 0),
+                child: ChatPageWidget(),
               ),
-              onPressed: () async {
-                await Navigator.push(
-                  context,
-                  PageTransition(
-                    type: PageTransitionType.fade,
-                    duration: Duration(milliseconds: 0),
-                    reverseDuration: Duration(milliseconds: 0),
-                    child: ChatPageWidget(),
+            );
+          },
+        ),
+      ),
+      body: Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(0, 2, 0, 0),
+        child: StreamBuilder<List<ChatsRecord>>(
+          stream: queryChatsRecord(
+            queryBuilder: (chatsRecord) => chatsRecord
+                .where('users', arrayContains: currentUserReference)
+                .orderBy('last_message_time', descending: true),
+          ),
+          builder: (context, snapshot) {
+            // Customize what your widget looks like when it's loading.
+            if (!snapshot.hasData) {
+              return Center(
+                child: SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(
+                    color: FlutterFlowTheme.primaryColor,
                   ),
-                );
-              },
-            ),
-          ),
-          body: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(0, 2, 0, 0),
-            child: StreamBuilder<List<ChatsRecord>>(
-              stream: queryChatsRecord(
-                queryBuilder: (chatsRecord) => chatsRecord
-                    .where('users', arrayContains: currentUserReference)
-                    .orderBy('last_message_time', descending: true),
-              ),
-              builder: (context, snapshot) {
-                // Customize what your widget looks like when it's loading.
-                if (!snapshot.hasData) {
-                  return Center(
-                    child: SizedBox(
-                      width: 30,
-                      height: 30,
-                      child: CircularProgressIndicator(
-                        color: FlutterFlowTheme.primaryColor,
-                      ),
-                    ),
-                  );
-                }
-                List<ChatsRecord> listViewChatsRecordList = snapshot.data;
-                return ListView.builder(
-                  padding: EdgeInsets.zero,
-                  scrollDirection: Axis.vertical,
-                  itemCount: listViewChatsRecordList.length,
-                  itemBuilder: (context, listViewIndex) {
-                    final listViewChatsRecord =
-                        listViewChatsRecordList[listViewIndex];
+                ),
+              );
+            }
+            List<ChatsRecord> listViewChatsRecordList = snapshot.data;
+            return ListView.builder(
+              padding: EdgeInsets.zero,
+              scrollDirection: Axis.vertical,
+              itemCount: listViewChatsRecordList.length,
+              itemBuilder: (context, listViewIndex) {
+                final listViewChatsRecord =
+                    listViewChatsRecordList[listViewIndex];
+                return StreamBuilder<ChatsRecord>(
+                  stream:
+                      ChatsRecord.getDocument(listViewChatsRecord.reference),
+                  builder: (context, snapshot) {
+                    // Customize what your widget looks like when it's loading.
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            color: FlutterFlowTheme.primaryColor,
+                          ),
+                        ),
+                      );
+                    }
+                    final chatPreviewChatsRecord = snapshot.data;
                     return FutureBuilder<UsersRecord>(
                       future: () async {
                         final chatUserRef = FFChatManager.instance
                             .getChatUserRef(
-                                currentUserReference, listViewChatsRecord);
+                                currentUserReference, chatPreviewChatsRecord);
                         return UsersRecord.getDocument(chatUserRef).first;
                       }(),
                       builder: (context, snapshot) {
@@ -137,9 +138,9 @@ class _AllChatsPageWidgetState extends State<AllChatsPageWidget> {
                                     ),
                                   )
                               : null,
-                          lastChatText: listViewChatsRecord.lastMessage,
-                          lastChatTime: listViewChatsRecord.lastMessageTime,
-                          seen: listViewChatsRecord.lastMessageSeenBy
+                          lastChatText: chatPreviewChatsRecord.lastMessage,
+                          lastChatTime: chatPreviewChatsRecord.lastMessageTime,
+                          seen: chatPreviewChatsRecord.lastMessageSeenBy
                               .contains(currentUserReference),
                           userName: chatUser?.displayName ?? '',
                           userProfilePic: chatUser?.photoUrl ?? '',
@@ -172,10 +173,10 @@ class _AllChatsPageWidgetState extends State<AllChatsPageWidget> {
                   },
                 );
               },
-            ),
-          ),
-        );
-      },
+            );
+          },
+        ),
+      ),
     );
   }
 }

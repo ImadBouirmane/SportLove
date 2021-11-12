@@ -6,7 +6,7 @@ import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../login/login_widget.dart';
-import '../main.dart';
+import '../profile/profile_widget.dart';
 import '../settings/settings_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -34,8 +34,8 @@ class _AccountWidgetState extends State<AccountWidget> {
         if (!snapshot.hasData) {
           return Center(
             child: SizedBox(
-              width: 30,
-              height: 30,
+              width: 20,
+              height: 20,
               child: CircularProgressIndicator(
                 color: FlutterFlowTheme.primaryColor,
               ),
@@ -84,7 +84,7 @@ class _AccountWidgetState extends State<AccountWidget> {
                             type: PageTransitionType.leftToRight,
                             duration: Duration(milliseconds: 300),
                             reverseDuration: Duration(milliseconds: 300),
-                            child: NavBarPage(initialPage: 'Profile'),
+                            child: ProfileWidget(),
                           ),
                         );
                       },

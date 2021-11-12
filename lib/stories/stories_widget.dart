@@ -1,7 +1,7 @@
 import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
-import '../main.dart';
+import '../profile/profile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -47,8 +47,8 @@ class _StoriesWidgetState extends State<StoriesWidget> {
             if (!snapshot.hasData) {
               return Center(
                 child: SizedBox(
-                  width: 30,
-                  height: 30,
+                  width: 20,
+                  height: 20,
                   child: CircularProgressIndicator(
                     color: FlutterFlowTheme.primaryColor,
                   ),
@@ -78,8 +78,8 @@ class _StoriesWidgetState extends State<StoriesWidget> {
                     if (!snapshot.hasData) {
                       return Center(
                         child: SizedBox(
-                          width: 30,
-                          height: 30,
+                          width: 20,
+                          height: 20,
                           child: CircularProgressIndicator(
                             color: FlutterFlowTheme.primaryColor,
                           ),
@@ -95,7 +95,7 @@ class _StoriesWidgetState extends State<StoriesWidget> {
                             type: PageTransitionType.fade,
                             duration: Duration(milliseconds: 0),
                             reverseDuration: Duration(milliseconds: 0),
-                            child: NavBarPage(initialPage: 'Profile'),
+                            child: ProfileWidget(),
                           ),
                         );
                       },

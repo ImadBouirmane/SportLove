@@ -9,7 +9,7 @@ import '../flutter_flow/flutter_flow_theme.dart';
 import 'package:sport_love/login/login_widget.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
 import 'home_page/home_page_widget.dart';
-import 'profile/profile_widget.dart';
+import 'search/search_widget.dart';
 import 'account/account_widget.dart';
 
 void main() async {
@@ -97,7 +97,7 @@ class _NavBarPageState extends State<NavBarPage> {
   Widget build(BuildContext context) {
     final tabs = {
       'HomePage': HomePageWidget(),
-      'Profile': ProfileWidget(),
+      'Search': SearchWidget(),
       'Account': AccountWidget(),
     };
     return Scaffold(
@@ -114,14 +114,14 @@ class _NavBarPageState extends State<NavBarPage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.person_outlined,
+              Icons.search,
               size: 24,
             ),
             activeIcon: Icon(
-              Icons.person,
+              Icons.search,
               size: 24,
             ),
-            label: 'Profile',
+            label: 'Chercher',
             tooltip: '',
           ),
           BottomNavigationBarItem(

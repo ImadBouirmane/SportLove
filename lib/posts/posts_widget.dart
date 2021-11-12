@@ -45,8 +45,8 @@ class _PostsWidgetState extends State<PostsWidget> {
             if (!snapshot.hasData) {
               return Center(
                 child: SizedBox(
-                  width: 30,
-                  height: 30,
+                  width: 20,
+                  height: 20,
                   child: CircularProgressIndicator(
                     color: FlutterFlowTheme.primaryColor,
                   ),
@@ -71,8 +71,8 @@ class _PostsWidgetState extends State<PostsWidget> {
                         if (!snapshot.hasData) {
                           return Center(
                             child: SizedBox(
-                              width: 30,
-                              height: 30,
+                              width: 20,
+                              height: 20,
                               child: CircularProgressIndicator(
                                 color: FlutterFlowTheme.primaryColor,
                               ),

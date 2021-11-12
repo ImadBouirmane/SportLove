@@ -32,8 +32,8 @@ class _StoryCreateWidgetState extends State<StoryCreateWidget> {
         if (!snapshot.hasData) {
           return Center(
             child: SizedBox(
-              width: 30,
-              height: 30,
+              width: 20,
+              height: 20,
               child: CircularProgressIndicator(
                 color: FlutterFlowTheme.primaryColor,
               ),
@@ -63,7 +63,7 @@ class _StoryCreateWidgetState extends State<StoryCreateWidget> {
               Align(
                 alignment: AlignmentDirectional(0, 0),
                 child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 30),
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 50, 0, 30),
                   child: StreamBuilder<UsersRecord>(
                     stream: UsersRecord.getDocument(
                         storyCreateUserStoriesRecord.user),
@@ -72,8 +72,8 @@ class _StoryCreateWidgetState extends State<StoryCreateWidget> {
                       if (!snapshot.hasData) {
                         return Center(
                           child: SizedBox(
-                            width: 30,
-                            height: 30,
+                            width: 20,
+                            height: 20,
                             child: CircularProgressIndicator(
                               color: FlutterFlowTheme.primaryColor,
                             ),
@@ -100,7 +100,7 @@ class _StoryCreateWidgetState extends State<StoryCreateWidget> {
                                   buttonSize: 60,
                                   icon: Icon(
                                     Icons.clear,
-                                    color: FlutterFlowTheme.tertiaryColor,
+                                    color: FlutterFlowTheme.primaryColor,
                                     size: 30,
                                   ),
                                   onPressed: () async {
@@ -112,7 +112,7 @@ class _StoryCreateWidgetState extends State<StoryCreateWidget> {
                                       .maybeHandleOverflow(maxChars: 15),
                                   style: FlutterFlowTheme.bodyText1.override(
                                     fontFamily: 'Poppins',
-                                    color: FlutterFlowTheme.tertiaryColor,
+                                    color: FlutterFlowTheme.primaryColor,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -123,7 +123,7 @@ class _StoryCreateWidgetState extends State<StoryCreateWidget> {
                                   buttonSize: 60,
                                   icon: Icon(
                                     Icons.add_box,
-                                    color: FlutterFlowTheme.tertiaryColor,
+                                    color: FlutterFlowTheme.primaryColor,
                                     size: 30,
                                   ),
                                   onPressed: () async {
@@ -167,16 +167,6 @@ class _StoryCreateWidgetState extends State<StoryCreateWidget> {
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
-                                Text(
-                                  dateTimeFormat(
-                                      'M/d H:m', getCurrentTimestamp),
-                                  style: FlutterFlowTheme.subtitle1.override(
-                                    fontFamily: 'Poppins',
-                                    color: FlutterFlowTheme.tertiaryColor,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
                                 Expanded(
                                   child: Align(
                                     alignment: AlignmentDirectional(1, 0),
@@ -187,7 +177,7 @@ class _StoryCreateWidgetState extends State<StoryCreateWidget> {
                                       buttonSize: 60,
                                       icon: Icon(
                                         Icons.send,
-                                        color: FlutterFlowTheme.tertiaryColor,
+                                        color: FlutterFlowTheme.primaryColor,
                                         size: 40,
                                       ),
                                       onPressed: () async {

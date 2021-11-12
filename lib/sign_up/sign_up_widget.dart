@@ -62,8 +62,8 @@ class _SignUpWidgetState extends State<SignUpWidget>
         if (!snapshot.hasData) {
           return Center(
             child: SizedBox(
-              width: 30,
-              height: 30,
+              width: 20,
+              height: 20,
               child: CircularProgressIndicator(
                 color: FlutterFlowTheme.primaryColor,
               ),

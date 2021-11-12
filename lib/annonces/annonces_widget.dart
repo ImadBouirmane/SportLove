@@ -26,8 +26,8 @@ class _AnnoncesWidgetState extends State<AnnoncesWidget> {
         if (!snapshot.hasData) {
           return Center(
             child: SizedBox(
-              width: 30,
-              height: 30,
+              width: 20,
+              height: 20,
               child: CircularProgressIndicator(
                 color: FlutterFlowTheme.primaryColor,
               ),
@@ -72,8 +72,8 @@ class _AnnoncesWidgetState extends State<AnnoncesWidget> {
                 if (!snapshot.hasData) {
                   return Center(
                     child: SizedBox(
-                      width: 30,
-                      height: 30,
+                      width: 20,
+                      height: 20,
                       child: CircularProgressIndicator(
                         color: FlutterFlowTheme.primaryColor,
                       ),
@@ -101,8 +101,8 @@ class _AnnoncesWidgetState extends State<AnnoncesWidget> {
                             if (!snapshot.hasData) {
                               return Center(
                                 child: SizedBox(
-                                  width: 30,
-                                  height: 30,
+                                  width: 20,
+                                  height: 20,
                                   child: CircularProgressIndicator(
                                     color: FlutterFlowTheme.primaryColor,
                                   ),
