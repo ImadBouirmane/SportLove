@@ -123,8 +123,11 @@ class _PhoneAuthWidgetState extends State<PhoneAuthWidget>
                                   topRight: Radius.circular(4.0),
                                 ),
                               ),
-                              contentPadding:
-                                  EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
+                              prefixIcon: Icon(
+                                Icons.local_phone,
+                                color: FlutterFlowTheme.tertiaryColor,
+                                size: 25,
+                              ),
                             ),
                             style: FlutterFlowTheme.bodyText1.override(
                               fontFamily: 'Poppins',

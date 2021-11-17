@@ -3,6 +3,8 @@ import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import '../search_maps/search_maps_widget.dart';
+import '../search_results/search_results_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -115,13 +117,14 @@ class _SearchWidgetState extends State<SearchWidget> {
                       size: 25,
                     ),
                     onPressed: () async {
-                      await DatePicker.showDatePicker(
+                      await DatePicker.showDateTimePicker(
                         context,
                         showTitleActions: true,
                         onConfirm: (date) {
                           setState(() => datePicked = date);
                         },
-                        currentTime: getCurrentTimestamp,
+                        currentTime: datePicked,
+                        minTime: datePicked,
                       );
                     },
                   )
@@ -152,8 +155,16 @@ class _SearchWidgetState extends State<SearchWidget> {
                       color: Colors.black,
                       size: 25,
                     ),
-                    onPressed: () {
-                      print('IconButton pressed ...');
+                    onPressed: () async {
+                      await Navigator.push(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.fade,
+                          duration: Duration(milliseconds: 0),
+                          reverseDuration: Duration(milliseconds: 0),
+                          child: SearchMapsWidget(),
+                        ),
+                      );
                     },
                   )
                 ],
@@ -207,10 +218,23 @@ class _SearchWidgetState extends State<SearchWidget> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   FFButtonWidget(
-                    onPressed: () {
-                      print('Button pressed ...');
+                    onPressed: () async {
+                      setState(() => _loadingButton = true);
+                      try {
+                        await Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.fade,
+                            duration: Duration(milliseconds: 0),
+                            reverseDuration: Duration(milliseconds: 0),
+                            child: SearchResultsWidget(),
+                          ),
+                        );
+                      } finally {
+                        setState(() => _loadingButton = false);
+                      }
                     },
-                    text: 'Continuer',
+                    text: 'Trouver',
                     options: FFButtonOptions(
                       width: 300,
                       height: 50,

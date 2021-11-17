@@ -117,243 +117,263 @@ class _ProfileWidgetState extends State<ProfileWidget> {
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Material(
-                    color: Colors.transparent,
-                    elevation: 3,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Container(
-                      width: double.infinity,
-                      height: 300,
-                      decoration: BoxDecoration(
+                  StreamBuilder<UsersRecord>(
+                    stream:
+                        UsersRecord.getDocument(profileUsersRecord.reference),
+                    builder: (context, snapshot) {
+                      // Customize what your widget looks like when it's loading.
+                      if (!snapshot.hasData) {
+                        return Center(
+                          child: SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              color: FlutterFlowTheme.primaryColor,
+                            ),
+                          ),
+                        );
+                      }
+                      final cardUsersRecord = snapshot.data;
+                      return Card(
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
                         color: FlutterFlowTheme.tertiaryColor,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: FlutterFlowTheme.primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(10, 20, 0, 0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Container(
-                                  width: 100,
-                                  height: 100,
-                                  clipBehavior: Clip.antiAlias,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Image.network(
-                                    profileUsersRecord.photoUrl,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      15, 0, 0, 0),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Row(
+                        child: Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    10, 20, 0, 0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Container(
+                                      width: 100,
+                                      height: 100,
+                                      clipBehavior: Clip.antiAlias,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Image.network(
+                                        cardUsersRecord.photoUrl,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          15, 0, 0, 0),
+                                      child: Column(
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
-                                          Text(
-                                            profileUsersRecord.displayName,
-                                            style: FlutterFlowTheme.subtitle1
-                                                .override(
-                                              fontFamily: 'Poppins',
-                                              color: FlutterFlowTheme.black,
-                                              fontWeight: FontWeight.bold,
+                                          Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Text(
+                                                cardUsersRecord.displayName,
+                                                style: FlutterFlowTheme
+                                                    .subtitle1
+                                                    .override(
+                                                  fontFamily: 'Poppins',
+                                                  color: FlutterFlowTheme.black,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    0, 2, 0, 0),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Text(
+                                                  cardUsersRecord.phoneNumber,
+                                                  style: FlutterFlowTheme
+                                                      .subtitle2
+                                                      .override(
+                                                    fontFamily: 'Poppins',
+                                                    color:
+                                                        FlutterFlowTheme.black,
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                  ),
+                                                )
+                                              ],
                                             ),
-                                          )
-                                        ],
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 2, 0, 0),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: [
-                                            Text(
-                                              profileUsersRecord.phoneNumber,
-                                              style: FlutterFlowTheme.subtitle2
-                                                  .override(
-                                                fontFamily: 'Poppins',
-                                                color: FlutterFlowTheme.black,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.normal,
+                                          ),
+                                          Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Text(
+                                                cardUsersRecord.birthDate,
+                                                style: FlutterFlowTheme
+                                                    .bodyText1
+                                                    .override(
+                                                  fontFamily: 'Poppins',
+                                                  color: Color(0xFF303030),
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
-                                            )
-                                          ],
-                                        ),
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(10, 0, 0, 0),
+                                                child: Text(
+                                                  cardUsersRecord.gender,
+                                                  style: FlutterFlowTheme
+                                                      .bodyText1
+                                                      .override(
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          )
+                                        ],
                                       ),
-                                      Row(
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    10, 30, 10, 0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Icon(
+                                      Icons.location_pin,
+                                      color: Colors.black,
+                                      size: 24,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          5, 0, 0, 0),
+                                      child: Text(
+                                        cardUsersRecord.address,
+                                        style: FlutterFlowTheme.bodyText1,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    10, 20, 10, 0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Icon(
+                                      Icons.sports_soccer,
+                                      color: Colors.black,
+                                      size: 24,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          5, 0, 0, 0),
+                                      child: Column(
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
-                                          Text(
-                                            profileUsersRecord.birthDate,
-                                            style: FlutterFlowTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'Poppins',
-                                              color: Color(0xFF303030),
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    10, 0, 0, 0),
-                                            child: Text(
-                                              profileUsersRecord.gender,
-                                              style: FlutterFlowTheme.bodyText1
-                                                  .override(
-                                                fontFamily: 'Poppins',
-                                                fontWeight: FontWeight.bold,
+                                          Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Text(
+                                                cardUsersRecord.sportType1,
+                                                style:
+                                                    FlutterFlowTheme.bodyText1,
                                               ),
-                                            ),
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(10, 30, 10, 0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Icon(
-                                  Icons.location_pin,
-                                  color: Colors.black,
-                                  size: 24,
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      5, 0, 0, 0),
-                                  child: Text(
-                                    profileUsersRecord.address,
-                                    style: FlutterFlowTheme.bodyText1,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(10, 20, 10, 0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Icon(
-                                  Icons.sports_soccer,
-                                  color: Colors.black,
-                                  size: 24,
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      5, 0, 0, 0),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Text(
-                                            profileUsersRecord.sportType1,
-                                            style: FlutterFlowTheme.bodyText1,
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(1, 0, 0, 0),
+                                                child: Text(
+                                                  ':',
+                                                  style: FlutterFlowTheme
+                                                      .bodyText1,
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(3, 0, 0, 0),
+                                                child: Text(
+                                                  cardUsersRecord.sportLevel1,
+                                                  style: FlutterFlowTheme
+                                                      .bodyText1,
+                                                ),
+                                              )
+                                            ],
                                           ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    1, 0, 0, 0),
-                                            child: Text(
-                                              ':',
-                                              style: FlutterFlowTheme.bodyText1,
-                                            ),
+                                          Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Text(
+                                                cardUsersRecord.sportType2,
+                                                style:
+                                                    FlutterFlowTheme.bodyText1,
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(1, 0, 0, 0),
+                                                child: Text(
+                                                  ':',
+                                                  style: FlutterFlowTheme
+                                                      .bodyText1,
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(3, 0, 0, 0),
+                                                child: Text(
+                                                  cardUsersRecord.sportLevel2,
+                                                  style: FlutterFlowTheme
+                                                      .bodyText1,
+                                                ),
+                                              )
+                                            ],
                                           ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    3, 0, 0, 0),
-                                            child: Text(
-                                              profileUsersRecord.sportLevel1,
-                                              style: FlutterFlowTheme.bodyText1,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Text(
-                                            profileUsersRecord.sportType2,
-                                            style: FlutterFlowTheme.bodyText1,
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    1, 0, 0, 0),
-                                            child: Text(
-                                              ':',
-                                              style: FlutterFlowTheme.bodyText1,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    3, 0, 0, 0),
-                                            child: Text(
-                                              profileUsersRecord.sportLevel2,
-                                              style: FlutterFlowTheme.bodyText1,
-                                            ),
+                                          Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Text(
+                                                cardUsersRecord.sportType3,
+                                                style:
+                                                    FlutterFlowTheme.bodyText1,
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(1, 0, 0, 0),
+                                                child: Text(
+                                                  ':',
+                                                  style: FlutterFlowTheme
+                                                      .bodyText1,
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(3, 0, 0, 0),
+                                                child: Text(
+                                                  cardUsersRecord.sportLevel3,
+                                                  style: FlutterFlowTheme
+                                                      .bodyText1,
+                                                ),
+                                              )
+                                            ],
                                           )
                                         ],
                                       ),
-                                      Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Text(
-                                            profileUsersRecord.sportType3,
-                                            style: FlutterFlowTheme.bodyText1,
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    1, 0, 0, 0),
-                                            child: Text(
-                                              ':',
-                                              style: FlutterFlowTheme.bodyText1,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    3, 0, 0, 0),
-                                            child: Text(
-                                              profileUsersRecord.sportLevel3,
-                                              style: FlutterFlowTheme.bodyText1,
-                                            ),
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    },
                   )
                 ],
               ),

@@ -42,10 +42,6 @@ class _StoryCreateWidgetState extends State<StoryCreateWidget> {
         }
         List<UserStoriesRecord> storyCreateUserStoriesRecordList =
             snapshot.data;
-        // Return an empty Container when the document does not exist.
-        if (snapshot.data.isEmpty) {
-          return Container();
-        }
         final storyCreateUserStoriesRecord =
             storyCreateUserStoriesRecordList.isNotEmpty
                 ? storyCreateUserStoriesRecordList.first
@@ -64,32 +60,31 @@ class _StoryCreateWidgetState extends State<StoryCreateWidget> {
                 alignment: AlignmentDirectional(0, 0),
                 child: Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0, 50, 0, 30),
-                  child: StreamBuilder<UsersRecord>(
-                    stream: UsersRecord.getDocument(
-                        storyCreateUserStoriesRecord.user),
-                    builder: (context, snapshot) {
-                      // Customize what your widget looks like when it's loading.
-                      if (!snapshot.hasData) {
-                        return Center(
-                          child: SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              color: FlutterFlowTheme.primaryColor,
-                            ),
-                          ),
-                        );
-                      }
-                      final columnUsersRecord = snapshot.data;
-                      return Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
-                            child: Row(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
+                        child: StreamBuilder<UsersRecord>(
+                          stream: UsersRecord.getDocument(
+                              storyCreateUserStoriesRecord.user),
+                          builder: (context, snapshot) {
+                            // Customize what your widget looks like when it's loading.
+                            if (!snapshot.hasData) {
+                              return Center(
+                                child: SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(
+                                    color: FlutterFlowTheme.primaryColor,
+                                  ),
+                                ),
+                              );
+                            }
+                            final rowUsersRecord = snapshot.data;
+                            return Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -108,7 +103,7 @@ class _StoryCreateWidgetState extends State<StoryCreateWidget> {
                                   },
                                 ),
                                 Text(
-                                  columnUsersRecord.displayName
+                                  rowUsersRecord.displayName
                                       .maybeHandleOverflow(maxChars: 15),
                                   style: FlutterFlowTheme.bodyText1.override(
                                     fontFamily: 'Poppins',
@@ -159,59 +154,58 @@ class _StoryCreateWidgetState extends State<StoryCreateWidget> {
                                   },
                                 )
                               ],
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(20, 20, 20, 0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Expanded(
-                                  child: Align(
-                                    alignment: AlignmentDirectional(1, 0),
-                                    child: FlutterFlowIconButton(
-                                      borderColor: Colors.transparent,
-                                      borderRadius: 30,
-                                      borderWidth: 1,
-                                      buttonSize: 60,
-                                      icon: Icon(
-                                        Icons.send,
-                                        color: FlutterFlowTheme.primaryColor,
-                                        size: 40,
-                                      ),
-                                      onPressed: () async {
-                                        final userStoriesCreateData =
-                                            createUserStoriesRecordData(
-                                          user: currentUserReference,
-                                          storyPhoto: uploadedFileUrl,
-                                          storyCreated: getCurrentTimestamp,
-                                          storyOwner: true,
-                                        );
-                                        await UserStoriesRecord.collection
-                                            .doc()
-                                            .set(userStoriesCreateData);
-                                        await Navigator.push(
-                                          context,
-                                          PageTransition(
-                                            type: PageTransitionType.fade,
-                                            duration: Duration(milliseconds: 0),
-                                            reverseDuration:
-                                                Duration(milliseconds: 0),
-                                            child: NavBarPage(
-                                                initialPage: 'HomePage'),
-                                          ),
-                                        );
-                                      },
-                                    ),
+                            );
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Expanded(
+                              child: Align(
+                                alignment: AlignmentDirectional(1, 0),
+                                child: FlutterFlowIconButton(
+                                  borderColor: Colors.transparent,
+                                  borderRadius: 30,
+                                  borderWidth: 1,
+                                  buttonSize: 60,
+                                  icon: Icon(
+                                    Icons.send,
+                                    color: FlutterFlowTheme.primaryColor,
+                                    size: 40,
                                   ),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      );
-                    },
+                                  onPressed: () async {
+                                    final userStoriesCreateData =
+                                        createUserStoriesRecordData(
+                                      user: currentUserReference,
+                                      storyPhoto: uploadedFileUrl,
+                                      storyCreated: getCurrentTimestamp,
+                                      storyOwner: true,
+                                    );
+                                    await UserStoriesRecord.collection
+                                        .doc()
+                                        .set(userStoriesCreateData);
+                                    await Navigator.push(
+                                      context,
+                                      PageTransition(
+                                        type: PageTransitionType.fade,
+                                        duration: Duration(milliseconds: 0),
+                                        reverseDuration:
+                                            Duration(milliseconds: 0),
+                                        child:
+                                            NavBarPage(initialPage: 'HomePage'),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
                   ),
                 ),
               )

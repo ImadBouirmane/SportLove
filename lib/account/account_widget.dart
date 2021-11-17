@@ -1,15 +1,17 @@
 import '../all_chats_page/all_chats_page_widget.dart';
 import '../annonces/annonces_widget.dart';
 import '../auth/auth_util.dart';
+import '../avis/avis_widget.dart';
 import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../friends/friends_widget.dart';
 import '../login/login_widget.dart';
 import '../profile/profile_widget.dart';
-import '../settings/settings_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AccountWidget extends StatefulWidget {
@@ -43,10 +45,6 @@ class _AccountWidgetState extends State<AccountWidget> {
           );
         }
         List<UsersRecord> accountUsersRecordList = snapshot.data;
-        // Return an empty Container when the document does not exist.
-        if (snapshot.data.isEmpty) {
-          return Container();
-        }
         final accountUsersRecord = accountUsersRecordList.isNotEmpty
             ? accountUsersRecordList.first
             : null;
@@ -118,7 +116,7 @@ class _AccountWidgetState extends State<AccountWidget> {
                                     shape: BoxShape.circle,
                                   ),
                                   child: Image.network(
-                                    accountUsersRecord.photoUrl,
+                                    'https://picsum.photos/seed/269/600',
                                   ),
                                 ),
                                 Expanded(
@@ -138,7 +136,7 @@ class _AccountWidgetState extends State<AccountWidget> {
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
                                               Text(
-                                                accountUsersRecord.displayName,
+                                                '',
                                                 style: FlutterFlowTheme
                                                     .subtitle1
                                                     .override(
@@ -236,23 +234,93 @@ class _AccountWidgetState extends State<AccountWidget> {
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 20, 0),
+                                  child: Icon(
+                                    Icons.ad_units_outlined,
+                                    color: FlutterFlowTheme.primaryColor,
+                                    size: 24,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    'Mes annonces',
+                                    style: FlutterFlowTheme.subtitle1.override(
+                                      fontFamily: 'Poppins',
+                                      color: FlutterFlowTheme.black,
+                                    ),
+                                  ),
+                                ),
                                 FlutterFlowIconButton(
                                   borderColor: Colors.transparent,
                                   borderRadius: 30,
                                   borderWidth: 1,
                                   buttonSize: 60,
                                   icon: Icon(
-                                    Icons.ad_units,
+                                    Icons.chevron_right,
                                     color: FlutterFlowTheme.primaryColor,
                                     size: 25,
                                   ),
                                   onPressed: () {
                                     print('IconButton pressed ...');
                                   },
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
+                    child: InkWell(
+                      onTap: () async {
+                        await Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.leftToRight,
+                            duration: Duration(milliseconds: 300),
+                            reverseDuration: Duration(milliseconds: 300),
+                            child: FriendsWidget(),
+                          ),
+                        );
+                      },
+                      child: Material(
+                        color: Colors.transparent,
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Container(
+                          width: double.infinity,
+                          height: 60,
+                          decoration: BoxDecoration(
+                            color: FlutterFlowTheme.tertiaryColor,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: Color(0xFFC3C2C2),
+                            ),
+                          ),
+                          child: Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 20, 0),
+                                  child: FaIcon(
+                                    FontAwesomeIcons.userFriends,
+                                    color: FlutterFlowTheme.primaryColor,
+                                    size: 24,
+                                  ),
                                 ),
                                 Expanded(
                                   child: Text(
-                                    'Mes annonces',
+                                    'Amis',
                                     style: FlutterFlowTheme.subtitle1.override(
                                       fontFamily: 'Poppins',
                                       color: FlutterFlowTheme.black,
@@ -316,19 +384,14 @@ class _AccountWidgetState extends State<AccountWidget> {
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
-                                FlutterFlowIconButton(
-                                  borderColor: Colors.transparent,
-                                  borderRadius: 30,
-                                  borderWidth: 1,
-                                  buttonSize: 60,
-                                  icon: Icon(
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 20, 0),
+                                  child: Icon(
                                     Icons.message,
                                     color: FlutterFlowTheme.primaryColor,
-                                    size: 25,
+                                    size: 24,
                                   ),
-                                  onPressed: () {
-                                    print('IconButton pressed ...');
-                                  },
                                 ),
                                 Expanded(
                                   child: Text(
@@ -360,71 +423,8 @@ class _AccountWidgetState extends State<AccountWidget> {
                       ),
                     ),
                   ),
-                  Material(
-                    color: Colors.transparent,
-                    elevation: 5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Container(
-                      width: double.infinity,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: FlutterFlowTheme.tertiaryColor,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Color(0xFFC3C2C2),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            FlutterFlowIconButton(
-                              borderColor: Colors.transparent,
-                              borderRadius: 30,
-                              borderWidth: 1,
-                              buttonSize: 60,
-                              icon: Icon(
-                                Icons.rate_review_outlined,
-                                color: FlutterFlowTheme.primaryColor,
-                                size: 25,
-                              ),
-                              onPressed: () {
-                                print('IconButton pressed ...');
-                              },
-                            ),
-                            Expanded(
-                              child: Text(
-                                'Notes et Avis',
-                                style: FlutterFlowTheme.subtitle1.override(
-                                  fontFamily: 'Poppins',
-                                  color: FlutterFlowTheme.black,
-                                ),
-                              ),
-                            ),
-                            FlutterFlowIconButton(
-                              borderColor: Colors.transparent,
-                              borderRadius: 30,
-                              borderWidth: 1,
-                              buttonSize: 60,
-                              icon: Icon(
-                                Icons.chevron_right,
-                                color: FlutterFlowTheme.primaryColor,
-                                size: 25,
-                              ),
-                              onPressed: () {
-                                print('IconButton pressed ...');
-                              },
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
                     child: InkWell(
                       onTap: () async {
                         await Navigator.push(
@@ -433,7 +433,7 @@ class _AccountWidgetState extends State<AccountWidget> {
                             type: PageTransitionType.leftToRight,
                             duration: Duration(milliseconds: 300),
                             reverseDuration: Duration(milliseconds: 300),
-                            child: SettingsWidget(),
+                            child: AvisWidget(),
                           ),
                         );
                       },
@@ -459,23 +459,18 @@ class _AccountWidgetState extends State<AccountWidget> {
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
-                                FlutterFlowIconButton(
-                                  borderColor: Colors.transparent,
-                                  borderRadius: 30,
-                                  borderWidth: 1,
-                                  buttonSize: 60,
-                                  icon: Icon(
-                                    Icons.settings,
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 20, 0),
+                                  child: Icon(
+                                    Icons.speaker_notes,
                                     color: FlutterFlowTheme.primaryColor,
-                                    size: 25,
+                                    size: 24,
                                   ),
-                                  onPressed: () {
-                                    print('IconButton pressed ...');
-                                  },
                                 ),
                                 Expanded(
                                   child: Text(
-                                    'Paramètres',
+                                    'Notes & Avis',
                                     style: FlutterFlowTheme.subtitle1.override(
                                       fontFamily: 'Poppins',
                                       color: FlutterFlowTheme.black,
@@ -504,7 +499,7 @@ class _AccountWidgetState extends State<AccountWidget> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 50, 0, 10),
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
                     child: InkWell(
                       onTap: () async {
                         await signOut();
@@ -541,19 +536,14 @@ class _AccountWidgetState extends State<AccountWidget> {
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
-                                FlutterFlowIconButton(
-                                  borderColor: Colors.transparent,
-                                  borderRadius: 30,
-                                  borderWidth: 1,
-                                  buttonSize: 60,
-                                  icon: Icon(
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 20, 0),
+                                  child: Icon(
                                     Icons.logout,
                                     color: Color(0xFFC30F0F),
-                                    size: 25,
+                                    size: 24,
                                   ),
-                                  onPressed: () {
-                                    print('IconButton pressed ...');
-                                  },
                                 ),
                                 Expanded(
                                   child: Text(

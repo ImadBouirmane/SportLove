@@ -1,12 +1,18 @@
 import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
-import '../profile/profile_widget.dart';
+import '../story_page/story_page_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class StoriesWidget extends StatefulWidget {
-  StoriesWidget({Key key}) : super(key: key);
+  StoriesWidget({
+    Key key,
+    this.getStories,
+  }) : super(key: key);
+
+  final DocumentReference getStories;
 
   @override
   _StoriesWidgetState createState() => _StoriesWidgetState();
@@ -40,7 +46,7 @@ class _StoriesWidgetState extends State<StoriesWidget> {
         child: StreamBuilder<List<UserStoriesRecord>>(
           stream: queryUserStoriesRecord(
             queryBuilder: (userStoriesRecord) =>
-                userStoriesRecord.orderBy('storyCreated'),
+                userStoriesRecord.orderBy('storyCreated', descending: true),
           ),
           builder: (context, snapshot) {
             // Customize what your widget looks like when it's loading.
@@ -70,9 +76,8 @@ class _StoriesWidgetState extends State<StoriesWidget> {
               itemBuilder: (context, gridViewIndex) {
                 final gridViewUserStoriesRecord =
                     gridViewUserStoriesRecordList[gridViewIndex];
-                return StreamBuilder<UsersRecord>(
-                  stream:
-                      UsersRecord.getDocument(gridViewUserStoriesRecord.user),
+                return StreamBuilder<UserStoriesRecord>(
+                  stream: UserStoriesRecord.getDocument(widget.getStories),
                   builder: (context, snapshot) {
                     // Customize what your widget looks like when it's loading.
                     if (!snapshot.hasData) {
@@ -86,7 +91,7 @@ class _StoriesWidgetState extends State<StoriesWidget> {
                         ),
                       );
                     }
-                    final containerUsersRecord = snapshot.data;
+                    final containerUserStoriesRecord = snapshot.data;
                     return InkWell(
                       onTap: () async {
                         await Navigator.push(
@@ -95,7 +100,7 @@ class _StoriesWidgetState extends State<StoriesWidget> {
                             type: PageTransitionType.fade,
                             duration: Duration(milliseconds: 0),
                             reverseDuration: Duration(milliseconds: 0),
-                            child: ProfileWidget(),
+                            child: StoryPageWidget(),
                           ),
                         );
                       },

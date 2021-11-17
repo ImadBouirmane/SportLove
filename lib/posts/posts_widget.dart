@@ -63,9 +63,9 @@ class _PostsWidgetState extends State<PostsWidget> {
                       publicationsPostsRecordList[publicationsIndex];
                   return Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
-                    child: StreamBuilder<UsersRecord>(
-                      stream:
-                          UsersRecord.getDocument(publicationsPostsRecord.user),
+                    child: StreamBuilder<PostsRecord>(
+                      stream: PostsRecord.getDocument(
+                          publicationsPostsRecord.reference),
                       builder: (context, snapshot) {
                         // Customize what your widget looks like when it's loading.
                         if (!snapshot.hasData) {
@@ -79,7 +79,7 @@ class _PostsWidgetState extends State<PostsWidget> {
                             ),
                           );
                         }
-                        final containerUsersRecord = snapshot.data;
+                        final containerPostsRecord = snapshot.data;
                         return Material(
                           color: Colors.transparent,
                           elevation: 5,
@@ -107,7 +107,7 @@ class _PostsWidgetState extends State<PostsWidget> {
                                     topRight: Radius.circular(30),
                                   ),
                                   child: Image.network(
-                                    publicationsPostsRecord.photo,
+                                    containerPostsRecord.photo,
                                     width: double.infinity,
                                     height: 230,
                                     fit: BoxFit.cover,
@@ -120,7 +120,7 @@ class _PostsWidgetState extends State<PostsWidget> {
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
                                       Text(
-                                        publicationsPostsRecord.titre
+                                        containerPostsRecord.titre
                                             .maybeHandleOverflow(maxChars: 20),
                                         style:
                                             FlutterFlowTheme.subtitle1.override(
@@ -139,7 +139,7 @@ class _PostsWidgetState extends State<PostsWidget> {
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
                                       Text(
-                                        publicationsPostsRecord.description
+                                        containerPostsRecord.description
                                             .maybeHandleOverflow(maxChars: 25),
                                         style: FlutterFlowTheme.bodyText1,
                                       )
@@ -155,10 +155,8 @@ class _PostsWidgetState extends State<PostsWidget> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        dateTimeFormat(
-                                            'Hm',
-                                            publicationsPostsRecord
-                                                .timeCreated),
+                                        dateTimeFormat('Hm',
+                                            containerPostsRecord.timeCreated),
                                         style:
                                             FlutterFlowTheme.bodyText1.override(
                                           fontFamily: 'Poppins',
@@ -166,7 +164,7 @@ class _PostsWidgetState extends State<PostsWidget> {
                                         ),
                                       ),
                                       Text(
-                                        publicationsPostsRecord.typeSport,
+                                        containerPostsRecord.typeSport,
                                         style: FlutterFlowTheme.bodyText1,
                                       )
                                     ],

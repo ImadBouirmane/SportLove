@@ -7,9 +7,11 @@ import 'annonces_record.dart';
 import 'posts_record.dart';
 import 'user_stories_record.dart';
 import 'story_comment_record.dart';
+import 'review_record.dart';
 
 import 'index.dart';
 
+export '../algolia/algolia_manager.dart';
 export 'index.dart';
 
 part 'serializers.g.dart';
@@ -24,6 +26,7 @@ const kDocumentReferenceField = 'Document__Reference__Field';
   PostsRecord,
   UserStoriesRecord,
   StoryCommentRecord,
+  ReviewRecord,
 ])
 final Serializers serializers = (_$serializers.toBuilder()
       ..add(DocumentReferenceSerializer())

@@ -30,6 +30,7 @@ class _LoginWidgetState extends State<LoginWidget>
       curve: Curves.easeOut,
       trigger: AnimationTrigger.onPageLoad,
       duration: 600,
+      delay: 160,
       fadeIn: true,
       slideOffset: Offset(0, -48),
     ),
@@ -79,11 +80,10 @@ class _LoginWidgetState extends State<LoginWidget>
               ),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0, 200, 0, 0),
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 1,
-                  decoration: BoxDecoration(
-                    color: FlutterFlowTheme.primaryColor,
+                child: Material(
+                  color: Colors.transparent,
+                  elevation: 10,
+                  shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(0),
                       bottomRight: Radius.circular(0),
@@ -91,243 +91,206 @@ class _LoginWidgetState extends State<LoginWidget>
                       topRight: Radius.circular(30),
                     ),
                   ),
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 50, 0, 0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Padding(
-                          padding:
-                              EdgeInsetsDirectional.fromSTEB(30, 0, 30, 10),
-                          child: TextFormField(
-                            controller: emailAddressController,
-                            obscureText: false,
-                            decoration: InputDecoration(
-                              hintText: 'Votre Email',
-                              hintStyle: FlutterFlowTheme.bodyText1.override(
-                                fontFamily: 'Poppins',
-                                color: FlutterFlowTheme.tertiaryColor,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 1,
+                    decoration: BoxDecoration(
+                      color: FlutterFlowTheme.primaryColor,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(0),
+                        bottomRight: Radius.circular(0),
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 50, 0, 0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(30, 0, 30, 10),
+                            child: TextFormField(
+                              controller: emailAddressController,
+                              obscureText: false,
+                              decoration: InputDecoration(
+                                hintText: 'Votre Email',
+                                hintStyle: FlutterFlowTheme.bodyText1.override(
+                                  fontFamily: 'Poppins',
                                   color: FlutterFlowTheme.tertiaryColor,
-                                  width: 1,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
                                 ),
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(4.0),
-                                  topRight: Radius.circular(4.0),
-                                ),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: FlutterFlowTheme.tertiaryColor,
-                                  width: 1,
-                                ),
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(4.0),
-                                  topRight: Radius.circular(4.0),
-                                ),
-                              ),
-                              contentPadding:
-                                  EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
-                            ),
-                            style: FlutterFlowTheme.bodyText1.override(
-                              fontFamily: 'Poppins',
-                              color: FlutterFlowTheme.tertiaryColor,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            keyboardType: TextInputType.emailAddress,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(30, 0, 30, 0),
-                          child: TextFormField(
-                            controller: pwdController,
-                            obscureText: !pwdVisibility,
-                            decoration: InputDecoration(
-                              hintText: 'Votre Mot de pass',
-                              hintStyle: FlutterFlowTheme.bodyText1.override(
-                                fontFamily: 'Poppins',
-                                color: FlutterFlowTheme.tertiaryColor,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: FlutterFlowTheme.tertiaryColor,
-                                  width: 1,
-                                ),
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(4.0),
-                                  topRight: Radius.circular(4.0),
-                                ),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: FlutterFlowTheme.tertiaryColor,
-                                  width: 1,
-                                ),
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(4.0),
-                                  topRight: Radius.circular(4.0),
-                                ),
-                              ),
-                              contentPadding:
-                                  EdgeInsetsDirectional.fromSTEB(20, 10, 0, 0),
-                              suffixIcon: InkWell(
-                                onTap: () => setState(
-                                  () => pwdVisibility = !pwdVisibility,
-                                ),
-                                child: Icon(
-                                  pwdVisibility
-                                      ? Icons.visibility_outlined
-                                      : Icons.visibility_off_outlined,
-                                  color: FlutterFlowTheme.tertiaryColor,
-                                  size: 22,
-                                ),
-                              ),
-                            ),
-                            style: FlutterFlowTheme.bodyText1.override(
-                              fontFamily: 'Poppins',
-                              color: FlutterFlowTheme.tertiaryColor,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            keyboardType: TextInputType.visiblePassword,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 40, 0, 0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              FFButtonWidget(
-                                onPressed: () async {
-                                  setState(() => _loadingButton = true);
-                                  try {
-                                    final user = await signInWithEmail(
-                                      context,
-                                      emailAddressController.text,
-                                      pwdController.text,
-                                    );
-                                    if (user == null) {
-                                      return;
-                                    }
-
-                                    await Navigator.pushAndRemoveUntil(
-                                      context,
-                                      PageTransition(
-                                        type: PageTransitionType.fade,
-                                        duration: Duration(milliseconds: 0),
-                                        reverseDuration:
-                                            Duration(milliseconds: 0),
-                                        child:
-                                            NavBarPage(initialPage: 'HomePage'),
-                                      ),
-                                      (r) => false,
-                                    );
-                                  } finally {
-                                    setState(() => _loadingButton = false);
-                                  }
-                                },
-                                text: 'Connexion',
-                                options: FFButtonOptions(
-                                  width: 300,
-                                  height: 50,
-                                  color: FlutterFlowTheme.primaryColor,
-                                  textStyle:
-                                      FlutterFlowTheme.subtitle2.override(
-                                    fontFamily: 'Poppins',
-                                    color: Colors.white,
-                                  ),
-                                  elevation: 3,
+                                enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
                                     color: FlutterFlowTheme.tertiaryColor,
                                     width: 1,
                                   ),
-                                  borderRadius: 5,
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(4.0),
+                                    topRight: Radius.circular(4.0),
+                                  ),
                                 ),
-                                loading: _loadingButton,
-                              )
-                            ],
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: FlutterFlowTheme.tertiaryColor,
+                                    width: 1,
+                                  ),
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(4.0),
+                                    topRight: Radius.circular(4.0),
+                                  ),
+                                ),
+                                contentPadding:
+                                    EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
+                              ),
+                              style: FlutterFlowTheme.bodyText1.override(
+                                fontFamily: 'Poppins',
+                                color: FlutterFlowTheme.tertiaryColor,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              keyboardType: TextInputType.emailAddress,
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 15, 0, 0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Vous n\'avez pad de compte',
-                                style: FlutterFlowTheme.bodyText1.override(
+                          Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(30, 0, 30, 0),
+                            child: TextFormField(
+                              controller: pwdController,
+                              obscureText: !pwdVisibility,
+                              decoration: InputDecoration(
+                                hintText: 'Votre Mot de pass',
+                                hintStyle: FlutterFlowTheme.bodyText1.override(
                                   fontFamily: 'Poppins',
                                   color: FlutterFlowTheme.tertiaryColor,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w300,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: FlutterFlowTheme.tertiaryColor,
+                                    width: 1,
+                                  ),
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(4.0),
+                                    topRight: Radius.circular(4.0),
+                                  ),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: FlutterFlowTheme.tertiaryColor,
+                                    width: 1,
+                                  ),
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(4.0),
+                                    topRight: Radius.circular(4.0),
+                                  ),
+                                ),
+                                contentPadding: EdgeInsetsDirectional.fromSTEB(
+                                    20, 10, 0, 0),
+                                suffixIcon: InkWell(
+                                  onTap: () => setState(
+                                    () => pwdVisibility = !pwdVisibility,
+                                  ),
+                                  child: Icon(
+                                    pwdVisibility
+                                        ? Icons.visibility_outlined
+                                        : Icons.visibility_off_outlined,
+                                    color: FlutterFlowTheme.tertiaryColor,
+                                    size: 22,
+                                  ),
                                 ),
                               ),
-                              Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(5, 0, 0, 0),
-                                child: InkWell(
-                                  onTap: () async {
-                                    await Navigator.push(
-                                      context,
-                                      PageTransition(
-                                        type: PageTransitionType.bottomToTop,
-                                        duration: Duration(milliseconds: 300),
-                                        reverseDuration:
-                                            Duration(milliseconds: 300),
-                                        child: SignUpWidget(),
-                                      ),
-                                    );
+                              style: FlutterFlowTheme.bodyText1.override(
+                                fontFamily: 'Poppins',
+                                color: FlutterFlowTheme.tertiaryColor,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              keyboardType: TextInputType.visiblePassword,
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(0, 40, 0, 0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                FFButtonWidget(
+                                  onPressed: () async {
+                                    setState(() => _loadingButton = true);
+                                    try {
+                                      final user = await signInWithEmail(
+                                        context,
+                                        emailAddressController.text,
+                                        pwdController.text,
+                                      );
+                                      if (user == null) {
+                                        return;
+                                      }
+
+                                      await Navigator.pushAndRemoveUntil(
+                                        context,
+                                        PageTransition(
+                                          type: PageTransitionType.fade,
+                                          duration: Duration(milliseconds: 0),
+                                          reverseDuration:
+                                              Duration(milliseconds: 0),
+                                          child: NavBarPage(
+                                              initialPage: 'HomePage'),
+                                        ),
+                                        (r) => false,
+                                      );
+                                    } finally {
+                                      setState(() => _loadingButton = false);
+                                    }
                                   },
-                                  child: Text(
-                                    'Inscription',
-                                    style: FlutterFlowTheme.bodyText1.override(
+                                  text: 'Connexion',
+                                  options: FFButtonOptions(
+                                    width: 300,
+                                    height: 50,
+                                    color: FlutterFlowTheme.primaryColor,
+                                    textStyle:
+                                        FlutterFlowTheme.subtitle2.override(
                                       fontFamily: 'Poppins',
-                                      color: FlutterFlowTheme.tertiaryColor,
-                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
                                     ),
+                                    elevation: 3,
+                                    borderSide: BorderSide(
+                                      color: FlutterFlowTheme.tertiaryColor,
+                                      width: 1,
+                                    ),
+                                    borderRadius: 5,
+                                  ),
+                                  loading: _loadingButton,
+                                )
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(0, 15, 0, 0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Vous n\'avez pas de compte !',
+                                  style: FlutterFlowTheme.bodyText1.override(
+                                    fontFamily: 'Poppins',
+                                    color: FlutterFlowTheme.tertiaryColor,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w300,
                                   ),
                                 ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding:
-                              EdgeInsetsDirectional.fromSTEB(40, 30, 40, 0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(0, 0, 20, 0),
-                                child: Container(
-                                  width: 50,
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    color: Color(0xFFEEEEEE),
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: FlutterFlowIconButton(
-                                    borderColor: Colors.transparent,
-                                    borderRadius: 30,
-                                    borderWidth: 1,
-                                    buttonSize: 60,
-                                    icon: Icon(
-                                      Icons.phone_rounded,
-                                      color: FlutterFlowTheme.primaryColor,
-                                      size: 30,
-                                    ),
-                                    onPressed: () async {
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      5, 0, 0, 0),
+                                  child: InkWell(
+                                    onTap: () async {
                                       await Navigator.push(
                                         context,
                                         PageTransition(
@@ -335,36 +298,34 @@ class _LoginWidgetState extends State<LoginWidget>
                                           duration: Duration(milliseconds: 300),
                                           reverseDuration:
                                               Duration(milliseconds: 300),
-                                          child: PhoneAuthWidget(),
+                                          child: SignUpWidget(),
                                         ),
                                       );
                                     },
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(0, 0, 20, 0),
-                                child: InkWell(
-                                  onTap: () async {
-                                    final user =
-                                        await signInWithGoogle(context);
-                                    if (user == null) {
-                                      return;
-                                    }
-                                    await Navigator.pushAndRemoveUntil(
-                                      context,
-                                      PageTransition(
-                                        type: PageTransitionType.fade,
-                                        duration: Duration(milliseconds: 0),
-                                        reverseDuration:
-                                            Duration(milliseconds: 0),
-                                        child:
-                                            NavBarPage(initialPage: 'HomePage'),
+                                    child: Text(
+                                      'Inscription',
+                                      style:
+                                          FlutterFlowTheme.bodyText1.override(
+                                        fontFamily: 'Poppins',
+                                        color: FlutterFlowTheme.tertiaryColor,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                      (r) => false,
-                                    );
-                                  },
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(50, 30, 40, 0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 20, 0),
                                   child: Container(
                                     width: 50,
                                     height: 50,
@@ -377,8 +338,109 @@ class _LoginWidgetState extends State<LoginWidget>
                                       borderRadius: 30,
                                       borderWidth: 1,
                                       buttonSize: 60,
-                                      icon: FaIcon(
-                                        FontAwesomeIcons.google,
+                                      icon: Icon(
+                                        Icons.phone_rounded,
+                                        color: FlutterFlowTheme.primaryColor,
+                                        size: 30,
+                                      ),
+                                      onPressed: () async {
+                                        await Navigator.push(
+                                          context,
+                                          PageTransition(
+                                            type:
+                                                PageTransitionType.bottomToTop,
+                                            duration:
+                                                Duration(milliseconds: 300),
+                                            reverseDuration:
+                                                Duration(milliseconds: 300),
+                                            child: PhoneAuthWidget(),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 20, 0),
+                                  child: InkWell(
+                                    onTap: () async {
+                                      final user =
+                                          await signInWithGoogle(context);
+                                      if (user == null) {
+                                        return;
+                                      }
+                                      await Navigator.pushAndRemoveUntil(
+                                        context,
+                                        PageTransition(
+                                          type: PageTransitionType.fade,
+                                          duration: Duration(milliseconds: 0),
+                                          reverseDuration:
+                                              Duration(milliseconds: 0),
+                                          child: NavBarPage(
+                                              initialPage: 'HomePage'),
+                                        ),
+                                        (r) => false,
+                                      );
+                                    },
+                                    child: Container(
+                                      width: 50,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFFEEEEEE),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: FlutterFlowIconButton(
+                                        borderColor: Colors.transparent,
+                                        borderRadius: 30,
+                                        borderWidth: 1,
+                                        buttonSize: 60,
+                                        icon: FaIcon(
+                                          FontAwesomeIcons.google,
+                                          color: FlutterFlowTheme.primaryColor,
+                                          size: 30,
+                                        ),
+                                        onPressed: () async {
+                                          final user =
+                                              await signInAnonymously(context);
+                                          if (user == null) {
+                                            return;
+                                          }
+                                          await Navigator.pushAndRemoveUntil(
+                                            context,
+                                            PageTransition(
+                                              type: PageTransitionType.fade,
+                                              duration:
+                                                  Duration(milliseconds: 0),
+                                              reverseDuration:
+                                                  Duration(milliseconds: 0),
+                                              child: NavBarPage(
+                                                  initialPage: 'HomePage'),
+                                            ),
+                                            (r) => false,
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 20, 0),
+                                  child: Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFFEEEEEE),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: FlutterFlowIconButton(
+                                      borderColor: Colors.transparent,
+                                      borderRadius: 30,
+                                      borderWidth: 1,
+                                      buttonSize: 60,
+                                      icon: Icon(
+                                        Icons.person_outlined,
                                         color: FlutterFlowTheme.primaryColor,
                                         size: 30,
                                       ),
@@ -403,54 +465,12 @@ class _LoginWidgetState extends State<LoginWidget>
                                       },
                                     ),
                                   ),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(0, 0, 20, 0),
-                                child: Container(
-                                  width: 50,
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    color: Color(0xFFEEEEEE),
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: FlutterFlowIconButton(
-                                    borderColor: Colors.transparent,
-                                    borderRadius: 30,
-                                    borderWidth: 1,
-                                    buttonSize: 60,
-                                    icon: Icon(
-                                      Icons.person_outlined,
-                                      color: FlutterFlowTheme.primaryColor,
-                                      size: 30,
-                                    ),
-                                    onPressed: () async {
-                                      final user =
-                                          await signInAnonymously(context);
-                                      if (user == null) {
-                                        return;
-                                      }
-                                      await Navigator.pushAndRemoveUntil(
-                                        context,
-                                        PageTransition(
-                                          type: PageTransitionType.fade,
-                                          duration: Duration(milliseconds: 0),
-                                          reverseDuration:
-                                              Duration(milliseconds: 0),
-                                          child: NavBarPage(
-                                              initialPage: 'HomePage'),
-                                        ),
-                                        (r) => false,
-                                      );
-                                    },
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ).animated([animationsMap['containerOnPageLoadAnimation']]),

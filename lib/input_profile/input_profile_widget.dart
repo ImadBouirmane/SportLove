@@ -236,7 +236,7 @@ class _InputProfileWidgetState extends State<InputProfileWidget>
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       7, 0, 0, 0),
                                   child: Icon(
-                                    Icons.location_history_outlined,
+                                    Icons.location_history,
                                     color: FlutterFlowTheme.tertiaryColor,
                                     size: 28,
                                   ),
@@ -346,7 +346,7 @@ class _InputProfileWidgetState extends State<InputProfileWidget>
                                   ),
                                 ),
                                 prefixIcon: Icon(
-                                  Icons.location_history,
+                                  Icons.location_pin,
                                   color: FlutterFlowTheme.tertiaryColor,
                                 ),
                               ),

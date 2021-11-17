@@ -95,7 +95,7 @@ class _StoryPageWidgetState extends State<StoryPageWidget> {
                                   .maybeHandleOverflow(maxChars: 15),
                               style: FlutterFlowTheme.subtitle1.override(
                                 fontFamily: 'Poppins',
-                                color: FlutterFlowTheme.tertiaryColor,
+                                color: FlutterFlowTheme.primaryColor,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -106,7 +106,7 @@ class _StoryPageWidgetState extends State<StoryPageWidget> {
                               buttonSize: 60,
                               icon: Icon(
                                 Icons.clear,
-                                color: FlutterFlowTheme.tertiaryColor,
+                                color: FlutterFlowTheme.primaryColor,
                                 size: 30,
                               ),
                               onPressed: () async {
@@ -129,18 +129,18 @@ class _StoryPageWidgetState extends State<StoryPageWidget> {
                                     labelStyle:
                                         FlutterFlowTheme.bodyText1.override(
                                       fontFamily: 'Poppins',
-                                      color: FlutterFlowTheme.tertiaryColor,
+                                      color: FlutterFlowTheme.primaryColor,
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                        color: FlutterFlowTheme.tertiaryColor,
+                                        color: FlutterFlowTheme.primaryColor,
                                         width: 2,
                                       ),
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                        color: FlutterFlowTheme.tertiaryColor,
+                                        color: FlutterFlowTheme.primaryColor,
                                         width: 2,
                                       ),
                                       borderRadius: BorderRadius.circular(10),
@@ -148,7 +148,7 @@ class _StoryPageWidgetState extends State<StoryPageWidget> {
                                   ),
                                   style: FlutterFlowTheme.bodyText1.override(
                                     fontFamily: 'Poppins',
-                                    color: FlutterFlowTheme.tertiaryColor,
+                                    color: FlutterFlowTheme.primaryColor,
                                   ),
                                 ),
                               ),
@@ -162,7 +162,7 @@ class _StoryPageWidgetState extends State<StoryPageWidget> {
                                   buttonSize: 60,
                                   icon: Icon(
                                     Icons.send,
-                                    color: FlutterFlowTheme.tertiaryColor,
+                                    color: FlutterFlowTheme.primaryColor,
                                     size: 30,
                                   ),
                                   onPressed: () async {

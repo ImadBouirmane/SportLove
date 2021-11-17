@@ -43,6 +43,10 @@ abstract class AnnoncesRecord
   DateTime get timeCreated;
 
   @nullable
+  @BuiltValueField(wireName: 'Distance')
+  double get distance;
+
+  @nullable
   @BuiltValueField(wireName: 'Lieu')
   String get lieu;
 
@@ -56,6 +60,7 @@ abstract class AnnoncesRecord
     ..typeSport = ''
     ..duree = ''
     ..nbrParticipants = ''
+    ..distance = 0.0
     ..lieu = '';
 
   static CollectionReference get collection =>
@@ -64,6 +69,41 @@ abstract class AnnoncesRecord
   static Stream<AnnoncesRecord> getDocument(DocumentReference ref) => ref
       .snapshots()
       .map((s) => serializers.deserializeWith(serializer, serializedData(s)));
+
+  static AnnoncesRecord fromAlgolia(AlgoliaObjectSnapshot snapshot) =>
+      AnnoncesRecord(
+        (c) => c
+          ..titre = snapshot.data['Titre']
+          ..description = snapshot.data['description']
+          ..typeSport = snapshot.data['typeSport']
+          ..date = safeGet(
+              () => DateTime.fromMillisecondsSinceEpoch(snapshot.data['Date']))
+          ..heure = safeGet(
+              () => DateTime.fromMillisecondsSinceEpoch(snapshot.data['Heure']))
+          ..duree = snapshot.data['Duree']
+          ..nbrParticipants = snapshot.data['nbrParticipants']
+          ..user = safeGet(() => toRef(snapshot.data['user']))
+          ..timeCreated = safeGet(() =>
+              DateTime.fromMillisecondsSinceEpoch(snapshot.data['timeCreated']))
+          ..distance = snapshot.data['Distance']
+          ..lieu = snapshot.data['Lieu']
+          ..reference = AnnoncesRecord.collection.doc(snapshot.objectID),
+      );
+
+  static Future<List<AnnoncesRecord>> search(
+          {String term,
+          FutureOr<LatLng> location,
+          int maxResults,
+          double searchRadiusMeters}) =>
+      FFAlgoliaManager.instance
+          .algoliaQuery(
+            index: 'annonces',
+            term: term,
+            maxResults: maxResults,
+            location: location,
+            searchRadiusMeters: searchRadiusMeters,
+          )
+          .then((r) => r.map(fromAlgolia).toList());
 
   AnnoncesRecord._();
   factory AnnoncesRecord([void Function(AnnoncesRecordBuilder) updates]) =
@@ -85,6 +125,7 @@ Map<String, dynamic> createAnnoncesRecordData({
   String nbrParticipants,
   DocumentReference user,
   DateTime timeCreated,
+  double distance,
   String lieu,
 }) =>
     serializers.toFirestore(
@@ -99,4 +140,5 @@ Map<String, dynamic> createAnnoncesRecordData({
           ..nbrParticipants = nbrParticipants
           ..user = user
           ..timeCreated = timeCreated
+          ..distance = distance
           ..lieu = lieu));

@@ -11,6 +11,7 @@ import 'schema/annonces_record.dart';
 import 'schema/posts_record.dart';
 import 'schema/user_stories_record.dart';
 import 'schema/story_comment_record.dart';
+import 'schema/review_record.dart';
 import 'schema/serializers.dart';
 
 export 'package:cloud_firestore/cloud_firestore.dart';
@@ -24,6 +25,7 @@ export 'schema/annonces_record.dart';
 export 'schema/posts_record.dart';
 export 'schema/user_stories_record.dart';
 export 'schema/story_comment_record.dart';
+export 'schema/review_record.dart';
 
 Stream<List<UsersRecord>> queryUsersRecord(
         {Query Function(Query) queryBuilder,
@@ -74,6 +76,13 @@ Stream<List<StoryCommentRecord>> queryStoryCommentRecord(
         bool singleRecord = false}) =>
     queryCollection(
         StoryCommentRecord.collection, StoryCommentRecord.serializer,
+        queryBuilder: queryBuilder, limit: limit, singleRecord: singleRecord);
+
+Stream<List<ReviewRecord>> queryReviewRecord(
+        {Query Function(Query) queryBuilder,
+        int limit = -1,
+        bool singleRecord = false}) =>
+    queryCollection(ReviewRecord.collection, ReviewRecord.serializer,
         queryBuilder: queryBuilder, limit: limit, singleRecord: singleRecord);
 
 Stream<List<T>> queryCollection<T>(
