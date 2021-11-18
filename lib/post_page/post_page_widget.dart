@@ -59,8 +59,8 @@ class _PostPageWidgetState extends State<PostPageWidget> {
             elevation: 4,
           ),
           backgroundColor: FlutterFlowTheme.tertiaryColor,
-          body: StreamBuilder<UsersRecord>(
-            stream: UsersRecord.getDocument(postPagePostsRecord.user),
+          body: StreamBuilder<PostsRecord>(
+            stream: PostsRecord.getDocument(postPagePostsRecord.reference),
             builder: (context, snapshot) {
               // Customize what your widget looks like when it's loading.
               if (!snapshot.hasData) {
@@ -74,7 +74,7 @@ class _PostPageWidgetState extends State<PostPageWidget> {
                   ),
                 );
               }
-              final columnUsersRecord = snapshot.data;
+              final columnPostsRecord = snapshot.data;
               return Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
@@ -95,7 +95,7 @@ class _PostPageWidgetState extends State<PostPageWidget> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          postPagePostsRecord.titre,
+                          columnPostsRecord.titre,
                           style: FlutterFlowTheme.subtitle1.override(
                             fontFamily: 'Poppins',
                             color: FlutterFlowTheme.black,
@@ -103,7 +103,7 @@ class _PostPageWidgetState extends State<PostPageWidget> {
                           ),
                         ),
                         Text(
-                          dateTimeFormat('Hm', postPagePostsRecord.timeCreated),
+                          dateTimeFormat('Hm', columnPostsRecord.timeCreated),
                           style: FlutterFlowTheme.bodyText1.override(
                             fontFamily: 'Poppins',
                             color: FlutterFlowTheme.primaryColor,
@@ -123,7 +123,7 @@ class _PostPageWidgetState extends State<PostPageWidget> {
                       child: Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(10, 20, 10, 10),
                         child: Text(
-                          postPagePostsRecord.description,
+                          columnPostsRecord.description,
                           style: FlutterFlowTheme.bodyText1,
                         ),
                       ),

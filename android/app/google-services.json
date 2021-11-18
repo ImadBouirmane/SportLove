@@ -1,46 +1,37 @@
 {
   "project_info": {
-    "project_number": "361750847252",
-    "firebase_url": "https://sportloveproject-default-rtdb.europe-west1.firebasedatabase.app",
-    "project_id": "sportloveproject",
-    "storage_bucket": "sportloveproject.appspot.com"
+    "project_number": "250674056063",
+    "project_id": "sportloveprojet",
+    "storage_bucket": "sportloveprojet.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:361750847252:android:c351d57d8e2edb162dec01",
+        "mobilesdk_app_id": "1:250674056063:android:f9d73c69269eb76f67e84a",
         "android_client_info": {
           "package_name": "com.app.sportlove"
         }
       },
       "oauth_client": [
         {
-          "client_id": "361750847252-lpst492qqtt9hofo2epm0bmvsulerffs.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.app.sportlove",
-            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
-          }
-        },
-        {
-          "client_id": "361750847252-8mbknmt9d8nl0v8snd8nt4vu88f0bqci.apps.googleusercontent.com",
+          "client_id": "250674056063-k3r9vi8i0e1alpi5k43q05t7721ak4fn.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB-CtayWRe11wuhH-chyvVOdhBNbpURK0I"
+          "current_key": "AIzaSyAvoPqsON8Pri3MAkDRqVGvKKiPhblO1VY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "361750847252-8mbknmt9d8nl0v8snd8nt4vu88f0bqci.apps.googleusercontent.com",
+              "client_id": "250674056063-k3r9vi8i0e1alpi5k43q05t7721ak4fn.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "361750847252-omqj75tkk2el0agr6ehoqr5js9u5ksgm.apps.googleusercontent.com",
+              "client_id": "250674056063-n2bb49bklcj9f1td7lj39lumad9f7u6q.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.app.sportlove"

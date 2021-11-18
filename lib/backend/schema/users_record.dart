@@ -65,6 +65,9 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
   String get sportLevel3;
 
   @nullable
+  DocumentReference get userReview;
+
+  @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference get reference;
 
@@ -121,6 +124,7 @@ Map<String, dynamic> createUsersRecordData({
   String sportLevel1,
   String sportLevel2,
   String sportLevel3,
+  DocumentReference userReview,
 }) =>
     serializers.toFirestore(
         UsersRecord.serializer,
@@ -141,4 +145,5 @@ Map<String, dynamic> createUsersRecordData({
           ..sportType3 = sportType3
           ..sportLevel1 = sportLevel1
           ..sportLevel2 = sportLevel2
-          ..sportLevel3 = sportLevel3));
+          ..sportLevel3 = sportLevel3
+          ..userReview = userReview));

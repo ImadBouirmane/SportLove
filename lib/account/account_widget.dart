@@ -27,10 +27,8 @@ class _AccountWidgetState extends State<AccountWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<UsersRecord>>(
-      stream: queryUsersRecord(
-        singleRecord: true,
-      ),
+    return StreamBuilder<UsersRecord>(
+      stream: UsersRecord.getDocument(currentUserReference),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
@@ -44,10 +42,7 @@ class _AccountWidgetState extends State<AccountWidget> {
             ),
           );
         }
-        List<UsersRecord> accountUsersRecordList = snapshot.data;
-        final accountUsersRecord = accountUsersRecordList.isNotEmpty
-            ? accountUsersRecordList.first
-            : null;
+        final accountUsersRecord = snapshot.data;
         return Scaffold(
           key: scaffoldKey,
           appBar: AppBar(
@@ -108,15 +103,17 @@ class _AccountWidgetState extends State<AccountWidget> {
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
-                                Container(
-                                  width: 60,
-                                  height: 60,
-                                  clipBehavior: Clip.antiAlias,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Image.network(
-                                    'https://picsum.photos/seed/269/600',
+                                AuthUserStreamWidget(
+                                  child: Container(
+                                    width: 60,
+                                    height: 60,
+                                    clipBehavior: Clip.antiAlias,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Image.network(
+                                      currentUserPhoto,
+                                    ),
                                   ),
                                 ),
                                 Expanded(
@@ -135,14 +132,17 @@ class _AccountWidgetState extends State<AccountWidget> {
                                           child: Row(
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
-                                              Text(
-                                                '',
-                                                style: FlutterFlowTheme
-                                                    .subtitle1
-                                                    .override(
-                                                  fontFamily: 'Poppins',
-                                                  color: FlutterFlowTheme.black,
-                                                  fontWeight: FontWeight.w600,
+                                              AuthUserStreamWidget(
+                                                child: Text(
+                                                  currentUserDisplayName,
+                                                  style: FlutterFlowTheme
+                                                      .subtitle1
+                                                      .override(
+                                                    fontFamily: 'Poppins',
+                                                    color:
+                                                        FlutterFlowTheme.black,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
                                                 ),
                                               )
                                             ],
@@ -151,25 +151,51 @@ class _AccountWidgetState extends State<AccountWidget> {
                                         Row(
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
-                                            RatingBar.builder(
-                                              onRatingUpdate: (newValue) =>
-                                                  setState(() =>
-                                                      ratingBarValue =
-                                                          newValue),
-                                              itemBuilder: (context, index) =>
-                                                  Icon(
-                                                Icons.star_rounded,
-                                                color: FlutterFlowTheme
-                                                    .secondaryColor,
-                                              ),
-                                              direction: Axis.horizontal,
-                                              initialRating: ratingBarValue ??=
-                                                  3,
-                                              unratedColor: Color(0xFF9E9E9E),
-                                              itemCount: 5,
-                                              itemSize: 20,
-                                              glowColor: FlutterFlowTheme
-                                                  .secondaryColor,
+                                            StreamBuilder<ReviewRecord>(
+                                              stream: ReviewRecord.getDocument(
+                                                  accountUsersRecord
+                                                      .userReview),
+                                              builder: (context, snapshot) {
+                                                // Customize what your widget looks like when it's loading.
+                                                if (!snapshot.hasData) {
+                                                  return Center(
+                                                    child: SizedBox(
+                                                      width: 20,
+                                                      height: 20,
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                        color: FlutterFlowTheme
+                                                            .primaryColor,
+                                                      ),
+                                                    ),
+                                                  );
+                                                }
+                                                final ratingBarReviewRecord =
+                                                    snapshot.data;
+                                                return RatingBar.builder(
+                                                  onRatingUpdate: (newValue) =>
+                                                      setState(() =>
+                                                          ratingBarValue =
+                                                              newValue),
+                                                  itemBuilder:
+                                                      (context, index) => Icon(
+                                                    Icons.star_rounded,
+                                                    color: FlutterFlowTheme
+                                                        .secondaryColor,
+                                                  ),
+                                                  direction: Axis.horizontal,
+                                                  initialRating:
+                                                      ratingBarValue ??=
+                                                          ratingBarReviewRecord
+                                                              .reviewRating,
+                                                  unratedColor:
+                                                      Color(0xFF9E9E9E),
+                                                  itemCount: 5,
+                                                  itemSize: 20,
+                                                  glowColor: FlutterFlowTheme
+                                                      .secondaryColor,
+                                                );
+                                              },
                                             )
                                           ],
                                         )
@@ -187,8 +213,17 @@ class _AccountWidgetState extends State<AccountWidget> {
                                     color: FlutterFlowTheme.primaryColor,
                                     size: 25,
                                   ),
-                                  onPressed: () {
-                                    print('IconButton pressed ...');
+                                  onPressed: () async {
+                                    await Navigator.push(
+                                      context,
+                                      PageTransition(
+                                        type: PageTransitionType.leftToRight,
+                                        duration: Duration(milliseconds: 300),
+                                        reverseDuration:
+                                            Duration(milliseconds: 300),
+                                        child: ProfileWidget(),
+                                      ),
+                                    );
                                   },
                                 )
                               ],
@@ -262,8 +297,17 @@ class _AccountWidgetState extends State<AccountWidget> {
                                     color: FlutterFlowTheme.primaryColor,
                                     size: 25,
                                   ),
-                                  onPressed: () {
-                                    print('IconButton pressed ...');
+                                  onPressed: () async {
+                                    await Navigator.push(
+                                      context,
+                                      PageTransition(
+                                        type: PageTransitionType.leftToRight,
+                                        duration: Duration(milliseconds: 300),
+                                        reverseDuration:
+                                            Duration(milliseconds: 300),
+                                        child: AnnoncesWidget(),
+                                      ),
+                                    );
                                   },
                                 )
                               ],
@@ -412,8 +456,17 @@ class _AccountWidgetState extends State<AccountWidget> {
                                     color: FlutterFlowTheme.primaryColor,
                                     size: 25,
                                   ),
-                                  onPressed: () {
-                                    print('IconButton pressed ...');
+                                  onPressed: () async {
+                                    await Navigator.push(
+                                      context,
+                                      PageTransition(
+                                        type: PageTransitionType.leftToRight,
+                                        duration: Duration(milliseconds: 300),
+                                        reverseDuration:
+                                            Duration(milliseconds: 300),
+                                        child: AllChatsPageWidget(),
+                                      ),
+                                    );
                                   },
                                 )
                               ],
@@ -487,8 +540,17 @@ class _AccountWidgetState extends State<AccountWidget> {
                                     color: FlutterFlowTheme.primaryColor,
                                     size: 25,
                                   ),
-                                  onPressed: () {
-                                    print('IconButton pressed ...');
+                                  onPressed: () async {
+                                    await Navigator.push(
+                                      context,
+                                      PageTransition(
+                                        type: PageTransitionType.leftToRight,
+                                        duration: Duration(milliseconds: 300),
+                                        reverseDuration:
+                                            Duration(milliseconds: 300),
+                                        child: AvisWidget(),
+                                      ),
+                                    );
                                   },
                                 )
                               ],

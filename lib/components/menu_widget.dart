@@ -170,7 +170,8 @@ class _MenuWidgetState extends State<MenuWidget> {
                                 onPressed: () async {
                                   setState(() => _loadingButton3 = true);
                                   try {
-                                    await columnAnnoncesRecord.user.delete();
+                                    await columnAnnoncesRecord.reference
+                                        .delete();
                                   } finally {
                                     setState(() => _loadingButton3 = false);
                                   }

@@ -172,7 +172,9 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
                                               Text(
-                                                cardUsersRecord.displayName,
+                                                cardUsersRecord.displayName
+                                                    .maybeHandleOverflow(
+                                                        maxChars: 20),
                                                 style: FlutterFlowTheme
                                                     .subtitle1
                                                     .override(
@@ -255,7 +257,8 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           5, 0, 0, 0),
                                       child: Text(
-                                        cardUsersRecord.address,
+                                        cardUsersRecord.address
+                                            .maybeHandleOverflow(maxChars: 40),
                                         style: FlutterFlowTheme.bodyText1,
                                       ),
                                     )

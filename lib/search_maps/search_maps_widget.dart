@@ -128,6 +128,7 @@ class _SearchMapsWidgetState extends State<SearchMapsWidget> {
                                       FlutterFlowTheme.bodyText1.override(
                                     fontFamily: 'Poppins',
                                     color: FlutterFlowTheme.primaryColor,
+                                    fontSize: 12,
                                     fontWeight: FontWeight.w600,
                                   ),
                                   enabledBorder: OutlineInputBorder(
@@ -150,6 +151,7 @@ class _SearchMapsWidgetState extends State<SearchMapsWidget> {
                                 style: FlutterFlowTheme.bodyText1.override(
                                   fontFamily: 'Poppins',
                                   color: FlutterFlowTheme.primaryColor,
+                                  fontSize: 12,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
