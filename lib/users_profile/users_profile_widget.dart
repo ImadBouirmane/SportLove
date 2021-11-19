@@ -101,7 +101,7 @@ class _UsersProfileWidgetState extends State<UsersProfileWidget> {
                                 shape: BoxShape.circle,
                               ),
                               child: Image.network(
-                                'https://picsum.photos/seed/208/600',
+                                columnUsersRecord.photoUrl,
                               ),
                             )
                           ],
@@ -114,7 +114,8 @@ class _UsersProfileWidgetState extends State<UsersProfileWidget> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              '',
+                              columnUsersRecord.displayName
+                                  .maybeHandleOverflow(maxChars: 20),
                               style: FlutterFlowTheme.subtitle1.override(
                                 fontFamily: 'Poppins',
                                 color: FlutterFlowTheme.primaryColor,
@@ -205,134 +206,169 @@ class _UsersProfileWidgetState extends State<UsersProfileWidget> {
                                           child: Column(
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
-                                              Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: [
-                                                  Container(
-                                                    width: 50,
-                                                    height: 50,
-                                                    clipBehavior:
-                                                        Clip.antiAlias,
-                                                    decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                    ),
-                                                    child: Image.network(
-                                                      'https://picsum.photos/seed/783/600',
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                5, 10, 0, 10),
-                                                    child: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      children: [
-                                                        Row(
+                                              StreamBuilder<UsersRecord>(
+                                                stream: UsersRecord.getDocument(
+                                                    annoncesSectionAnnoncesRecord
+                                                        .user),
+                                                builder: (context, snapshot) {
+                                                  // Customize what your widget looks like when it's loading.
+                                                  if (!snapshot.hasData) {
+                                                    return Center(
+                                                      child: SizedBox(
+                                                        width: 20,
+                                                        height: 20,
+                                                        child:
+                                                            CircularProgressIndicator(
+                                                          color:
+                                                              FlutterFlowTheme
+                                                                  .primaryColor,
+                                                        ),
+                                                      ),
+                                                    );
+                                                  }
+                                                  final rowUsersRecord =
+                                                      snapshot.data;
+                                                  return Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    children: [
+                                                      Container(
+                                                        width: 50,
+                                                        height: 50,
+                                                        clipBehavior:
+                                                            Clip.antiAlias,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle,
+                                                        ),
+                                                        child: Image.network(
+                                                          rowUsersRecord
+                                                              .photoUrl,
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(5, 10,
+                                                                    0, 10),
+                                                        child: Column(
                                                           mainAxisSize:
                                                               MainAxisSize.max,
                                                           children: [
-                                                            Text(
-                                                              annoncesSectionAnnoncesRecord
-                                                                  .titre,
-                                                              style:
-                                                                  FlutterFlowTheme
+                                                            Row(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              children: [
+                                                                Text(
+                                                                  annoncesSectionAnnoncesRecord
+                                                                      .titre,
+                                                                  style: FlutterFlowTheme
                                                                       .bodyText1
                                                                       .override(
-                                                                fontFamily:
-                                                                    'Poppins',
-                                                                color:
-                                                                    FlutterFlowTheme
+                                                                    fontFamily:
+                                                                        'Poppins',
+                                                                    color: FlutterFlowTheme
                                                                         .black,
-                                                                fontSize: 12,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        Row(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          children: [
-                                                            Text(
-                                                              annoncesSectionAnnoncesRecord
-                                                                  .typeSport,
-                                                              style:
-                                                                  FlutterFlowTheme
+                                                                    fontSize:
+                                                                        12,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                            Row(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              children: [
+                                                                Text(
+                                                                  annoncesSectionAnnoncesRecord
+                                                                      .typeSport,
+                                                                  style: FlutterFlowTheme
                                                                       .bodyText1
                                                                       .override(
-                                                                fontFamily:
-                                                                    'Poppins',
-                                                                fontSize: 10,
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        Row(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          children: [
-                                                            Text(
-                                                              '',
-                                                              style:
-                                                                  FlutterFlowTheme
+                                                                    fontFamily:
+                                                                        'Poppins',
+                                                                    fontSize:
+                                                                        10,
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                            Row(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              children: [
+                                                                Text(
+                                                                  rowUsersRecord
+                                                                      .displayName,
+                                                                  style: FlutterFlowTheme
                                                                       .bodyText1
                                                                       .override(
-                                                                fontFamily:
-                                                                    'Poppins',
-                                                                fontSize: 10,
-                                                              ),
+                                                                    fontFamily:
+                                                                        'Poppins',
+                                                                    fontSize:
+                                                                        10,
+                                                                  ),
+                                                                )
+                                                              ],
                                                             )
                                                           ],
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    child: Align(
-                                                      alignment:
-                                                          AlignmentDirectional(
-                                                              1, 0),
-                                                      child:
-                                                          FlutterFlowIconButton(
-                                                        borderColor:
-                                                            Colors.transparent,
-                                                        borderRadius: 30,
-                                                        borderWidth: 1,
-                                                        buttonSize: 60,
-                                                        icon: Icon(
-                                                          Icons.more_vert_sharp,
-                                                          color: Colors.black,
-                                                          size: 25,
                                                         ),
-                                                        onPressed: () async {
-                                                          await showModalBottomSheet(
-                                                            isScrollControlled:
-                                                                true,
-                                                            backgroundColor:
-                                                                Colors
-                                                                    .transparent,
-                                                            context: context,
-                                                            builder: (context) {
-                                                              return Container(
-                                                                height: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .height *
-                                                                    0.3,
-                                                                child:
-                                                                    MenuWidget(),
+                                                      ),
+                                                      Expanded(
+                                                        child: Align(
+                                                          alignment:
+                                                              AlignmentDirectional(
+                                                                  1, 0),
+                                                          child:
+                                                              FlutterFlowIconButton(
+                                                            borderColor: Colors
+                                                                .transparent,
+                                                            borderRadius: 30,
+                                                            borderWidth: 1,
+                                                            buttonSize: 60,
+                                                            icon: Icon(
+                                                              Icons
+                                                                  .more_vert_sharp,
+                                                              color:
+                                                                  Colors.black,
+                                                              size: 25,
+                                                            ),
+                                                            onPressed:
+                                                                () async {
+                                                              await showModalBottomSheet(
+                                                                isScrollControlled:
+                                                                    true,
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .transparent,
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) {
+                                                                  return Container(
+                                                                    height: MediaQuery.of(context)
+                                                                            .size
+                                                                            .height *
+                                                                        0.3,
+                                                                    child:
+                                                                        MenuWidget(),
+                                                                  );
+                                                                },
                                                               );
                                                             },
-                                                          );
-                                                        },
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  );
+                                                },
                                               ),
                                               Padding(
                                                 padding: EdgeInsetsDirectional

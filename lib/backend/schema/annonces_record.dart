@@ -51,6 +51,9 @@ abstract class AnnoncesRecord
   String get lieu;
 
   @nullable
+  LatLng get userLocation;
+
+  @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference get reference;
 
@@ -87,6 +90,10 @@ abstract class AnnoncesRecord
               DateTime.fromMillisecondsSinceEpoch(snapshot.data['timeCreated']))
           ..distance = snapshot.data['Distance']
           ..lieu = snapshot.data['Lieu']
+          ..userLocation = safeGet(() => LatLng(
+                snapshot.data['_geoloc']['lat'],
+                snapshot.data['_geoloc']['lng'],
+              ))
           ..reference = AnnoncesRecord.collection.doc(snapshot.objectID),
       );
 
@@ -127,6 +134,7 @@ Map<String, dynamic> createAnnoncesRecordData({
   DateTime timeCreated,
   double distance,
   String lieu,
+  LatLng userLocation,
 }) =>
     serializers.toFirestore(
         AnnoncesRecord.serializer,
@@ -141,4 +149,5 @@ Map<String, dynamic> createAnnoncesRecordData({
           ..user = user
           ..timeCreated = timeCreated
           ..distance = distance
-          ..lieu = lieu));
+          ..lieu = lieu
+          ..userLocation = userLocation));

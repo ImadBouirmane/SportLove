@@ -7,12 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SearchMapsWidget extends StatefulWidget {
-  SearchMapsWidget({
-    Key key,
-    this.annonceLocation,
-  }) : super(key: key);
-
-  final AnnoncesRecord annonceLocation;
+  SearchMapsWidget({Key key}) : super(key: key);
 
   @override
   _SearchMapsWidgetState createState() => _SearchMapsWidgetState();
@@ -28,24 +23,11 @@ class _SearchMapsWidgetState extends State<SearchMapsWidget> {
   @override
   void initState() {
     super.initState();
-    getCurrentUserLocation(defaultLocation: LatLng(0.0, 0.0), cached: true)
-        .then((loc) => setState(() => currentUserLocationValue = loc));
     textController = TextEditingController();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (currentUserLocationValue == null) {
-      return Center(
-        child: SizedBox(
-          width: 20,
-          height: 20,
-          child: CircularProgressIndicator(
-            color: FlutterFlowTheme.primaryColor,
-          ),
-        ),
-      );
-    }
     return StreamBuilder<List<AnnoncesRecord>>(
       stream: queryAnnoncesRecord(
         singleRecord: true,
@@ -77,7 +59,15 @@ class _SearchMapsWidgetState extends State<SearchMapsWidget> {
                 controller: googleMapsController,
                 onCameraIdle: (latLng) =>
                     setState(() => googleMapsCenter = latLng),
-                initialLocation: googleMapsCenter ??= currentUserLocationValue,
+                initialLocation: googleMapsCenter ??=
+                    searchMapsAnnoncesRecord.userLocation,
+                markers: [
+                  if (searchMapsAnnoncesRecord != null)
+                    FlutterFlowMarker(
+                      searchMapsAnnoncesRecord.reference.path,
+                      searchMapsAnnoncesRecord.userLocation,
+                    ),
+                ],
                 markerColor: GoogleMarkerColor.violet,
                 mapType: MapType.normal,
                 style: GoogleMapStyle.standard,
@@ -166,8 +156,16 @@ class _SearchMapsWidgetState extends State<SearchMapsWidget> {
                                 color: FlutterFlowTheme.primaryColor,
                                 size: 20,
                               ),
-                              onPressed: () {
-                                print('IconButton pressed ...');
+                              onPressed: () async {
+                                await getCurrentUserLocation(
+                                    defaultLocation: LatLng(0.0, 0.0));
+                                await googleMapsController.future.then(
+                                  (c) => c.animateCamera(
+                                    CameraUpdate.newLatLng(
+                                        currentUserLocationValue
+                                            .toGoogleMaps()),
+                                  ),
+                                );
                               },
                             )
                           ],

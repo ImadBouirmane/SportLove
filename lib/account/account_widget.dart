@@ -1,4 +1,3 @@
-import '../all_chats_page/all_chats_page_widget.dart';
 import '../annonces/annonces_widget.dart';
 import '../auth/auth_util.dart';
 import '../avis/avis_widget.dart';
@@ -8,6 +7,7 @@ import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../friends/friends_widget.dart';
 import '../login/login_widget.dart';
+import '../main.dart';
 import '../profile/profile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -27,8 +27,10 @@ class _AccountWidgetState extends State<AccountWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<UsersRecord>(
-      stream: UsersRecord.getDocument(currentUserReference),
+    return StreamBuilder<List<UsersRecord>>(
+      stream: queryUsersRecord(
+        singleRecord: true,
+      ),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
@@ -42,7 +44,10 @@ class _AccountWidgetState extends State<AccountWidget> {
             ),
           );
         }
-        final accountUsersRecord = snapshot.data;
+        List<UsersRecord> accountUsersRecordList = snapshot.data;
+        final accountUsersRecord = accountUsersRecordList.isNotEmpty
+            ? accountUsersRecordList.first
+            : null;
         return Scaffold(
           key: scaffoldKey,
           appBar: AppBar(
@@ -69,110 +74,103 @@ class _AccountWidgetState extends State<AccountWidget> {
                 children: [
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
-                    child: InkWell(
-                      onTap: () async {
-                        await Navigator.push(
-                          context,
-                          PageTransition(
-                            type: PageTransitionType.leftToRight,
-                            duration: Duration(milliseconds: 300),
-                            reverseDuration: Duration(milliseconds: 300),
-                            child: ProfileWidget(),
-                          ),
-                        );
-                      },
-                      child: Material(
-                        color: Colors.transparent,
-                        elevation: 5,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Container(
-                          width: double.infinity,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.tertiaryColor,
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: Color(0xFFC3C2C2),
+                    child: StreamBuilder<UsersRecord>(
+                      stream:
+                          UsersRecord.getDocument(accountUsersRecord.reference),
+                      builder: (context, snapshot) {
+                        // Customize what your widget looks like when it's loading.
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                color: FlutterFlowTheme.primaryColor,
+                              ),
                             ),
-                          ),
-                          child: Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                AuthUserStreamWidget(
-                                  child: Container(
-                                    width: 60,
-                                    height: 60,
-                                    clipBehavior: Clip.antiAlias,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Image.network(
-                                      currentUserPhoto,
-                                    ),
-                                  ),
+                          );
+                        }
+                        final secProfileUsersRecord = snapshot.data;
+                        return InkWell(
+                          onTap: () async {
+                            await Navigator.push(
+                              context,
+                              PageTransition(
+                                type: PageTransitionType.leftToRight,
+                                duration: Duration(milliseconds: 300),
+                                reverseDuration: Duration(milliseconds: 300),
+                                child: ProfileWidget(),
+                              ),
+                            );
+                          },
+                          child: Material(
+                            color: Colors.transparent,
+                            elevation: 5,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Container(
+                              width: double.infinity,
+                              height: 100,
+                              decoration: BoxDecoration(
+                                color: FlutterFlowTheme.tertiaryColor,
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: Color(0xFFC3C2C2),
                                 ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        20, 0, 0, 0),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0, 0, 0, 5),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: [
-                                              AuthUserStreamWidget(
-                                                child: Text(
-                                                  currentUserDisplayName,
-                                                  style: FlutterFlowTheme
-                                                      .subtitle1
-                                                      .override(
-                                                    fontFamily: 'Poppins',
-                                                    color:
-                                                        FlutterFlowTheme.black,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        Row(
+                              ),
+                              child: Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    10, 0, 10, 0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Container(
+                                      width: 60,
+                                      height: 60,
+                                      clipBehavior: Clip.antiAlias,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Image.network(
+                                        secProfileUsersRecord.photoUrl,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            20, 0, 0, 0),
+                                        child: Column(
                                           mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
-                                            StreamBuilder<ReviewRecord>(
-                                              stream: ReviewRecord.getDocument(
-                                                  accountUsersRecord
-                                                      .userReview),
-                                              builder: (context, snapshot) {
-                                                // Customize what your widget looks like when it's loading.
-                                                if (!snapshot.hasData) {
-                                                  return Center(
-                                                    child: SizedBox(
-                                                      width: 20,
-                                                      height: 20,
-                                                      child:
-                                                          CircularProgressIndicator(
-                                                        color: FlutterFlowTheme
-                                                            .primaryColor,
-                                                      ),
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(0, 0, 0, 5),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Text(
+                                                    secProfileUsersRecord
+                                                        .displayName,
+                                                    style: FlutterFlowTheme
+                                                        .subtitle1
+                                                        .override(
+                                                      fontFamily: 'Poppins',
+                                                      color: FlutterFlowTheme
+                                                          .black,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                     ),
-                                                  );
-                                                }
-                                                final ratingBarReviewRecord =
-                                                    snapshot.data;
-                                                return RatingBar.builder(
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                RatingBar.builder(
                                                   onRatingUpdate: (newValue) =>
                                                       setState(() =>
                                                           ratingBarValue =
@@ -185,52 +183,52 @@ class _AccountWidgetState extends State<AccountWidget> {
                                                   ),
                                                   direction: Axis.horizontal,
                                                   initialRating:
-                                                      ratingBarValue ??=
-                                                          ratingBarReviewRecord
-                                                              .reviewRating,
+                                                      ratingBarValue ??= 3,
                                                   unratedColor:
                                                       Color(0xFF9E9E9E),
                                                   itemCount: 5,
                                                   itemSize: 20,
                                                   glowColor: FlutterFlowTheme
                                                       .secondaryColor,
-                                                );
-                                              },
+                                                )
+                                              ],
                                             )
                                           ],
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                FlutterFlowIconButton(
-                                  borderColor: Colors.transparent,
-                                  borderRadius: 30,
-                                  borderWidth: 1,
-                                  buttonSize: 60,
-                                  icon: Icon(
-                                    Icons.chevron_right,
-                                    color: FlutterFlowTheme.primaryColor,
-                                    size: 25,
-                                  ),
-                                  onPressed: () async {
-                                    await Navigator.push(
-                                      context,
-                                      PageTransition(
-                                        type: PageTransitionType.leftToRight,
-                                        duration: Duration(milliseconds: 300),
-                                        reverseDuration:
-                                            Duration(milliseconds: 300),
-                                        child: ProfileWidget(),
+                                        ),
                                       ),
-                                    );
-                                  },
-                                )
-                              ],
+                                    ),
+                                    FlutterFlowIconButton(
+                                      borderColor: Colors.transparent,
+                                      borderRadius: 30,
+                                      borderWidth: 1,
+                                      buttonSize: 60,
+                                      icon: Icon(
+                                        Icons.chevron_right,
+                                        color: FlutterFlowTheme.primaryColor,
+                                        size: 25,
+                                      ),
+                                      onPressed: () async {
+                                        await Navigator.push(
+                                          context,
+                                          PageTransition(
+                                            type:
+                                                PageTransitionType.leftToRight,
+                                            duration:
+                                                Duration(milliseconds: 300),
+                                            reverseDuration:
+                                                Duration(milliseconds: 300),
+                                            child: ProfileWidget(),
+                                          ),
+                                        );
+                                      },
+                                    )
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
+                        );
+                      },
                     ),
                   ),
                   Padding(
@@ -402,7 +400,7 @@ class _AccountWidgetState extends State<AccountWidget> {
                             type: PageTransitionType.leftToRight,
                             duration: Duration(milliseconds: 300),
                             reverseDuration: Duration(milliseconds: 300),
-                            child: AllChatsPageWidget(),
+                            child: NavBarPage(initialPage: 'AllChatsPage'),
                           ),
                         );
                       },
@@ -464,7 +462,8 @@ class _AccountWidgetState extends State<AccountWidget> {
                                         duration: Duration(milliseconds: 300),
                                         reverseDuration:
                                             Duration(milliseconds: 300),
-                                        child: AllChatsPageWidget(),
+                                        child: NavBarPage(
+                                            initialPage: 'AllChatsPage'),
                                       ),
                                     );
                                   },
@@ -622,6 +621,16 @@ class _AccountWidgetState extends State<AccountWidget> {
                         ),
                       ),
                     ),
+                  ),
+                  Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [],
+                      )
+                    ],
                   )
                 ],
               ),

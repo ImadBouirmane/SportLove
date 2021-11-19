@@ -97,90 +97,122 @@ class _FriendsWidgetState extends State<FriendsWidget> {
                         ),
                         child: Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Container(
-                                width: 60,
-                                height: 60,
-                                clipBehavior: Clip.antiAlias,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Image.network(
-                                  'https://picsum.photos/seed/604/600',
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(5, 0, 0, 0),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 0, 0, 5),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Text(
-                                            listViewUsersRecord.displayName
-                                                .maybeHandleOverflow(
-                                                    maxChars: 15),
-                                            style: FlutterFlowTheme.subtitle2
-                                                .override(
-                                              fontFamily: 'Poppins',
-                                              color: FlutterFlowTheme.black,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          )
-                                        ],
-                                      ),
+                          child: StreamBuilder<UsersRecord>(
+                            stream: UsersRecord.getDocument(
+                                listViewUsersRecord.reference),
+                            builder: (context, snapshot) {
+                              // Customize what your widget looks like when it's loading.
+                              if (!snapshot.hasData) {
+                                return Center(
+                                  child: SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                      color: FlutterFlowTheme.primaryColor,
                                     ),
-                                    Row(
+                                  ),
+                                );
+                              }
+                              final rowUsersRecord = snapshot.data;
+                              return Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Container(
+                                    width: 60,
+                                    height: 60,
+                                    clipBehavior: Clip.antiAlias,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Image.network(
+                                      rowUsersRecord.photoUrl,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        5, 0, 0, 0),
+                                    child: Column(
                                       mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
-                                        Text(
-                                          listViewUsersRecord.email
-                                              .maybeHandleOverflow(
-                                                  maxChars: 15),
-                                          style: FlutterFlowTheme.bodyText1,
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0, 0, 0, 5),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Text(
+                                                rowUsersRecord.displayName
+                                                    .maybeHandleOverflow(
+                                                        maxChars: 15),
+                                                style: FlutterFlowTheme
+                                                    .subtitle2
+                                                    .override(
+                                                  fontFamily: 'Poppins',
+                                                  color: FlutterFlowTheme.black,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Text(
+                                              rowUsersRecord.email
+                                                  .maybeHandleOverflow(
+                                                maxChars: 15,
+                                                replacement: '…',
+                                              ),
+                                              style: FlutterFlowTheme.bodyText1
+                                                  .override(
+                                                fontFamily: 'Poppins',
+                                                fontSize: 12,
+                                              ),
+                                            )
+                                          ],
                                         )
                                       ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Align(
-                                  alignment: AlignmentDirectional(0.9, 0),
-                                  child: FlutterFlowIconButton(
-                                    borderColor: Colors.transparent,
-                                    borderRadius: 30,
-                                    borderWidth: 1,
-                                    buttonSize: 60,
-                                    icon: Icon(
-                                      Icons.chevron_right,
-                                      color: FlutterFlowTheme.primaryColor,
-                                      size: 22,
                                     ),
-                                    onPressed: () async {
-                                      await Navigator.push(
-                                        context,
-                                        PageTransition(
-                                          type: PageTransitionType.leftToRight,
-                                          duration: Duration(milliseconds: 300),
-                                          reverseDuration:
-                                              Duration(milliseconds: 300),
-                                          child: ChatPageWidget(),
-                                        ),
-                                      );
-                                    },
                                   ),
-                                ),
-                              )
-                            ],
+                                  Expanded(
+                                    child: Align(
+                                      alignment: AlignmentDirectional(0.9, 0),
+                                      child: FlutterFlowIconButton(
+                                        borderColor: Colors.transparent,
+                                        borderRadius: 30,
+                                        borderWidth: 1,
+                                        buttonSize: 60,
+                                        icon: Icon(
+                                          Icons.chat_bubble_sharp,
+                                          color: FlutterFlowTheme.primaryColor,
+                                          size: 22,
+                                        ),
+                                        onPressed: () async {
+                                          await Navigator.push(
+                                            context,
+                                            PageTransition(
+                                              type: PageTransitionType
+                                                  .leftToRight,
+                                              duration:
+                                                  Duration(milliseconds: 300),
+                                              reverseDuration:
+                                                  Duration(milliseconds: 300),
+                                              child: ChatPageWidget(
+                                                chatUser: rowUsersRecord,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              );
+                            },
                           ),
                         ),
                       ),

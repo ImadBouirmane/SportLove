@@ -3,7 +3,6 @@ import '../edit_profile/edit_profile_widget.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
-import '../new_post/new_post_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -37,10 +36,6 @@ class _ProfileWidgetState extends State<ProfileWidget> {
           );
         }
         List<UsersRecord> profileUsersRecordList = snapshot.data;
-        // Return an empty Container when the document does not exist.
-        if (snapshot.data.isEmpty) {
-          return Container();
-        }
         final profileUsersRecord = profileUsersRecordList.isNotEmpty
             ? profileUsersRecordList.first
             : null;
@@ -85,32 +80,6 @@ class _ProfileWidgetState extends State<ProfileWidget> {
             elevation: 4,
           ),
           backgroundColor: FlutterFlowTheme.tertiaryColor,
-          floatingActionButton: FloatingActionButton.extended(
-            onPressed: () async {
-              await Navigator.push(
-                context,
-                PageTransition(
-                  type: PageTransitionType.bottomToTop,
-                  duration: Duration(milliseconds: 300),
-                  reverseDuration: Duration(milliseconds: 300),
-                  child: NewPostWidget(),
-                ),
-              );
-            },
-            backgroundColor: FlutterFlowTheme.primaryColor,
-            icon: Icon(
-              Icons.post_add,
-              size: 25,
-            ),
-            elevation: 8,
-            label: Text(
-              'Nouveau Publication',
-              style: FlutterFlowTheme.bodyText1.override(
-                fontFamily: 'Poppins',
-                color: FlutterFlowTheme.tertiaryColor,
-              ),
-            ),
-          ),
           body: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(10, 20, 10, 0),
             child: SingleChildScrollView(
@@ -200,7 +169,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                                     fontFamily: 'Poppins',
                                                     color:
                                                         FlutterFlowTheme.black,
-                                                    fontSize: 15,
+                                                    fontSize: 12,
                                                     fontWeight:
                                                         FontWeight.normal,
                                                   ),

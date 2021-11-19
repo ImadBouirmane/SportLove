@@ -167,7 +167,7 @@ class _AnnoncePageWidgetState extends State<AnnoncePageWidget> {
                                       child: Align(
                                         alignment: AlignmentDirectional(1, 0),
                                         child: Text(
-                                          dateTimeFormat('relative',
+                                          dateTimeFormat('d/M H:m',
                                               containerAnnoncesRecord.heure),
                                           style: FlutterFlowTheme.bodyText1
                                               .override(

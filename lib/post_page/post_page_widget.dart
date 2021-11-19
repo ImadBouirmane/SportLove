@@ -59,79 +59,65 @@ class _PostPageWidgetState extends State<PostPageWidget> {
             elevation: 4,
           ),
           backgroundColor: FlutterFlowTheme.tertiaryColor,
-          body: StreamBuilder<PostsRecord>(
-            stream: PostsRecord.getDocument(postPagePostsRecord.reference),
-            builder: (context, snapshot) {
-              // Customize what your widget looks like when it's loading.
-              if (!snapshot.hasData) {
-                return Center(
-                  child: SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(
-                      color: FlutterFlowTheme.primaryColor,
-                    ),
+          body: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Container(
+                width: double.infinity,
+                height: 200,
+                decoration: BoxDecoration(
+                  color: FlutterFlowTheme.tertiaryColor,
+                  border: Border.all(
+                    color: Color(0xFFC3C2C2),
                   ),
-                );
-              }
-              final columnPostsRecord = snapshot.data;
-              return Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Container(
-                    width: double.infinity,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      color: FlutterFlowTheme.tertiaryColor,
-                      border: Border.all(
-                        color: Color(0xFFC3C2C2),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(10, 20, 10, 0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      postPagePostsRecord.titre.maybeHandleOverflow(
+                        maxChars: 30,
+                        replacement: '…',
+                      ),
+                      style: FlutterFlowTheme.subtitle1.override(
+                        fontFamily: 'Poppins',
+                        color: FlutterFlowTheme.black,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
+                    Text(
+                      dateTimeFormat(
+                          'relative', postPagePostsRecord.timeCreated),
+                      style: FlutterFlowTheme.bodyText1.override(
+                        fontFamily: 'Poppins',
+                        color: FlutterFlowTheme.primaryColor,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 0),
+                child: Container(
+                  width: double.infinity,
+                  height: 200,
+                  decoration: BoxDecoration(
+                    color: FlutterFlowTheme.tertiaryColor,
                   ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(10, 20, 10, 0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          columnPostsRecord.titre,
-                          style: FlutterFlowTheme.subtitle1.override(
-                            fontFamily: 'Poppins',
-                            color: FlutterFlowTheme.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          dateTimeFormat('Hm', columnPostsRecord.timeCreated),
-                          style: FlutterFlowTheme.bodyText1.override(
-                            fontFamily: 'Poppins',
-                            color: FlutterFlowTheme.primaryColor,
-                          ),
-                        )
-                      ],
+                  child: Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(10, 20, 10, 10),
+                    child: Text(
+                      postPagePostsRecord.description,
+                      style: FlutterFlowTheme.bodyText1,
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 0),
-                    child: Container(
-                      width: double.infinity,
-                      height: 200,
-                      decoration: BoxDecoration(
-                        color: FlutterFlowTheme.tertiaryColor,
-                      ),
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(10, 20, 10, 10),
-                        child: Text(
-                          columnPostsRecord.description,
-                          style: FlutterFlowTheme.bodyText1,
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              );
-            },
+                ),
+              )
+            ],
           ),
         );
       },

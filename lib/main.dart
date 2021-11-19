@@ -10,6 +10,7 @@ import 'package:sport_love/login/login_widget.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
 import 'home_page/home_page_widget.dart';
 import 'search/search_widget.dart';
+import 'all_chats_page/all_chats_page_widget.dart';
 import 'account/account_widget.dart';
 
 void main() async {
@@ -98,6 +99,7 @@ class _NavBarPageState extends State<NavBarPage> {
     final tabs = {
       'HomePage': HomePageWidget(),
       'Search': SearchWidget(),
+      'AllChatsPage': AllChatsPageWidget(),
       'Account': AccountWidget(),
     };
     return Scaffold(
@@ -122,6 +124,18 @@ class _NavBarPageState extends State<NavBarPage> {
               size: 20,
             ),
             label: 'Chercher',
+            tooltip: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.chat_bubble_outline,
+              size: 24,
+            ),
+            activeIcon: Icon(
+              Icons.chat_bubble_rounded,
+              size: 24,
+            ),
+            label: 'Chats',
             tooltip: '',
           ),
           BottomNavigationBarItem(

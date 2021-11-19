@@ -79,9 +79,9 @@ class _AvisWidgetState extends State<AvisWidget> {
                       ),
                       child: Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 10),
-                        child: StreamBuilder<ReviewRecord>(
-                          stream: ReviewRecord.getDocument(
-                              columnReviewRecord.reference),
+                        child: StreamBuilder<UsersRecord>(
+                          stream: UsersRecord.getDocument(
+                              columnReviewRecord.userReview),
                           builder: (context, snapshot) {
                             // Customize what your widget looks like when it's loading.
                             if (!snapshot.hasData) {
@@ -95,7 +95,7 @@ class _AvisWidgetState extends State<AvisWidget> {
                                 ),
                               );
                             }
-                            final rowReviewRecord = snapshot.data;
+                            final rowUsersRecord = snapshot.data;
                             return Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
@@ -107,7 +107,7 @@ class _AvisWidgetState extends State<AvisWidget> {
                                     shape: BoxShape.circle,
                                   ),
                                   child: Image.network(
-                                    'https://picsum.photos/seed/197/600',
+                                    rowUsersRecord.photoUrl,
                                   ),
                                 ),
                                 Padding(
@@ -122,7 +122,7 @@ class _AvisWidgetState extends State<AvisWidget> {
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
                                           Text(
-                                            '',
+                                            rowUsersRecord.displayName,
                                             style: FlutterFlowTheme.bodyText1
                                                 .override(
                                               fontFamily: 'Poppins',
@@ -150,7 +150,8 @@ class _AvisWidgetState extends State<AvisWidget> {
                                               ),
                                               direction: Axis.horizontal,
                                               initialRating: ratingBarValue ??=
-                                                  rowReviewRecord.reviewRating,
+                                                  columnReviewRecord
+                                                      .reviewRating,
                                               unratedColor: Color(0xFF9E9E9E),
                                               itemCount: 5,
                                               itemSize: 20,
@@ -170,7 +171,7 @@ class _AvisWidgetState extends State<AvisWidget> {
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(10, 0, 10, 0),
                                               child: AutoSizeText(
-                                                rowReviewRecord.comment,
+                                                columnReviewRecord.comment,
                                                 textAlign: TextAlign.start,
                                                 style: FlutterFlowTheme
                                                     .bodyText1

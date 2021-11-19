@@ -1,6 +1,7 @@
 import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../post_page/post_page_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -38,7 +39,8 @@ class _PostsWidgetState extends State<PostsWidget> {
         padding: EdgeInsetsDirectional.fromSTEB(10, 20, 10, 0),
         child: StreamBuilder<List<PostsRecord>>(
           stream: queryPostsRecord(
-            queryBuilder: (postsRecord) => postsRecord.orderBy('timeCreated'),
+            queryBuilder: (postsRecord) =>
+                postsRecord.orderBy('timeCreated', descending: true),
           ),
           builder: (context, snapshot) {
             // Customize what your widget looks like when it's loading.
@@ -62,57 +64,46 @@ class _PostsWidgetState extends State<PostsWidget> {
                   final publicationsPostsRecord =
                       publicationsPostsRecordList[publicationsIndex];
                   return Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
-                    child: StreamBuilder<PostsRecord>(
-                      stream: PostsRecord.getDocument(
-                          publicationsPostsRecord.reference),
-                      builder: (context, snapshot) {
-                        // Customize what your widget looks like when it's loading.
-                        if (!snapshot.hasData) {
-                          return Center(
-                            child: SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(
-                                color: FlutterFlowTheme.primaryColor,
-                              ),
-                            ),
-                          );
-                        }
-                        final containerPostsRecord = snapshot.data;
-                        return Material(
-                          color: Colors.transparent,
-                          elevation: 5,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
+                    child: InkWell(
+                      onTap: () async {
+                        await Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.fade,
+                            duration: Duration(milliseconds: 0),
+                            reverseDuration: Duration(milliseconds: 0),
+                            child: PostPageWidget(),
                           ),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height * 0.4,
-                            decoration: BoxDecoration(
-                              color: FlutterFlowTheme.tertiaryColor,
-                              borderRadius: BorderRadius.circular(30),
-                              border: Border.all(
-                                color: Color(0xFFC3C2C2),
+                        );
+                      },
+                      child: Card(
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        color: FlutterFlowTheme.tertiaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(0),
+                                bottomRight: Radius.circular(0),
+                                topLeft: Radius.circular(30),
+                                topRight: Radius.circular(30),
+                              ),
+                              child: Image.network(
+                                publicationsPostsRecord.photo,
+                                width: double.infinity,
+                                height: 100,
+                                fit: BoxFit.cover,
                               ),
                             ),
-                            child: Column(
+                            Column(
                               mainAxisSize: MainAxisSize.max,
                               children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(0),
-                                    bottomRight: Radius.circular(0),
-                                    topLeft: Radius.circular(30),
-                                    topRight: Radius.circular(30),
-                                  ),
-                                  child: Image.network(
-                                    containerPostsRecord.photo,
-                                    width: double.infinity,
-                                    height: 230,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       10, 10, 10, 0),
@@ -120,7 +111,7 @@ class _PostsWidgetState extends State<PostsWidget> {
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
                                       Text(
-                                        containerPostsRecord.titre
+                                        publicationsPostsRecord.titre
                                             .maybeHandleOverflow(maxChars: 20),
                                         style:
                                             FlutterFlowTheme.subtitle1.override(
@@ -139,8 +130,8 @@ class _PostsWidgetState extends State<PostsWidget> {
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
                                       Text(
-                                        containerPostsRecord.description
-                                            .maybeHandleOverflow(maxChars: 25),
+                                        publicationsPostsRecord.description
+                                            .maybeHandleOverflow(maxChars: 30),
                                         style: FlutterFlowTheme.bodyText1,
                                       )
                                     ],
@@ -148,15 +139,17 @@ class _PostsWidgetState extends State<PostsWidget> {
                                 ),
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
-                                      10, 0, 10, 0),
+                                      10, 0, 10, 10),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        dateTimeFormat('Hm',
-                                            containerPostsRecord.timeCreated),
+                                        dateTimeFormat(
+                                            'Hm',
+                                            publicationsPostsRecord
+                                                .timeCreated),
                                         style:
                                             FlutterFlowTheme.bodyText1.override(
                                           fontFamily: 'Poppins',
@@ -164,17 +157,17 @@ class _PostsWidgetState extends State<PostsWidget> {
                                         ),
                                       ),
                                       Text(
-                                        containerPostsRecord.typeSport,
+                                        publicationsPostsRecord.typeSport,
                                         style: FlutterFlowTheme.bodyText1,
                                       )
                                     ],
                                   ),
                                 )
                               ],
-                            ),
-                          ),
-                        );
-                      },
+                            )
+                          ],
+                        ),
+                      ),
                     ),
                   );
                 }),

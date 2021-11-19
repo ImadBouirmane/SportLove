@@ -2,17 +2,11 @@ import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../story_page/story_page_widget.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class StoriesWidget extends StatefulWidget {
-  StoriesWidget({
-    Key key,
-    this.getStories,
-  }) : super(key: key);
-
-  final DocumentReference getStories;
+  StoriesWidget({Key key}) : super(key: key);
 
   @override
   _StoriesWidgetState createState() => _StoriesWidgetState();
@@ -76,47 +70,29 @@ class _StoriesWidgetState extends State<StoriesWidget> {
               itemBuilder: (context, gridViewIndex) {
                 final gridViewUserStoriesRecord =
                     gridViewUserStoriesRecordList[gridViewIndex];
-                return StreamBuilder<UserStoriesRecord>(
-                  stream: UserStoriesRecord.getDocument(widget.getStories),
-                  builder: (context, snapshot) {
-                    // Customize what your widget looks like when it's loading.
-                    if (!snapshot.hasData) {
-                      return Center(
-                        child: SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            color: FlutterFlowTheme.primaryColor,
-                          ),
-                        ),
-                      );
-                    }
-                    final containerUserStoriesRecord = snapshot.data;
-                    return InkWell(
-                      onTap: () async {
-                        await Navigator.push(
-                          context,
-                          PageTransition(
-                            type: PageTransitionType.fade,
-                            duration: Duration(milliseconds: 0),
-                            reverseDuration: Duration(milliseconds: 0),
-                            child: StoryPageWidget(),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        width: 100,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          color: FlutterFlowTheme.tertiaryColor,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: FlutterFlowTheme.primaryColor,
-                          ),
-                        ),
+                return InkWell(
+                  onTap: () async {
+                    await Navigator.push(
+                      context,
+                      PageTransition(
+                        type: PageTransitionType.fade,
+                        duration: Duration(milliseconds: 0),
+                        reverseDuration: Duration(milliseconds: 0),
+                        child: StoryPageWidget(),
                       ),
                     );
                   },
+                  child: Container(
+                    width: 100,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      color: FlutterFlowTheme.tertiaryColor,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: FlutterFlowTheme.primaryColor,
+                      ),
+                    ),
+                  ),
                 );
               },
             );

@@ -23,196 +23,149 @@ class _StoryCreateWidgetState extends State<StoryCreateWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<UserStoriesRecord>>(
-      stream: queryUserStoriesRecord(
-        singleRecord: true,
-      ),
-      builder: (context, snapshot) {
-        // Customize what your widget looks like when it's loading.
-        if (!snapshot.hasData) {
-          return Center(
-            child: SizedBox(
-              width: 20,
-              height: 20,
-              child: CircularProgressIndicator(
-                color: FlutterFlowTheme.primaryColor,
-              ),
-            ),
-          );
-        }
-        List<UserStoriesRecord> storyCreateUserStoriesRecordList =
-            snapshot.data;
-        final storyCreateUserStoriesRecord =
-            storyCreateUserStoriesRecordList.isNotEmpty
-                ? storyCreateUserStoriesRecordList.first
-                : null;
-        return Scaffold(
-          key: scaffoldKey,
-          body: Stack(
-            children: [
-              Image.network(
-                uploadedFileUrl,
-                width: double.infinity,
-                height: double.infinity,
-                fit: BoxFit.cover,
-              ),
-              Align(
-                alignment: AlignmentDirectional(0, 0),
-                child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 50, 0, 30),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
-                        child: StreamBuilder<UsersRecord>(
-                          stream: UsersRecord.getDocument(
-                              storyCreateUserStoriesRecord.user),
-                          builder: (context, snapshot) {
-                            // Customize what your widget looks like when it's loading.
-                            if (!snapshot.hasData) {
-                              return Center(
-                                child: SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: CircularProgressIndicator(
-                                    color: FlutterFlowTheme.primaryColor,
-                                  ),
-                                ),
-                              );
-                            }
-                            final rowUsersRecord = snapshot.data;
-                            return Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                FlutterFlowIconButton(
-                                  borderColor: Colors.transparent,
-                                  borderRadius: 30,
-                                  borderWidth: 1,
-                                  buttonSize: 60,
-                                  icon: Icon(
-                                    Icons.clear,
-                                    color: FlutterFlowTheme.primaryColor,
-                                    size: 30,
-                                  ),
-                                  onPressed: () async {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                                Text(
-                                  rowUsersRecord.displayName
-                                      .maybeHandleOverflow(maxChars: 15),
-                                  style: FlutterFlowTheme.bodyText1.override(
-                                    fontFamily: 'Poppins',
-                                    color: FlutterFlowTheme.primaryColor,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                FlutterFlowIconButton(
-                                  borderColor: Colors.transparent,
-                                  borderRadius: 30,
-                                  borderWidth: 1,
-                                  buttonSize: 60,
-                                  icon: Icon(
-                                    Icons.add_box,
-                                    color: FlutterFlowTheme.primaryColor,
-                                    size: 30,
-                                  ),
-                                  onPressed: () async {
-                                    final selectedMedia =
-                                        await selectMediaWithSourceBottomSheet(
-                                      context: context,
-                                      allowPhoto: true,
-                                      textColor: FlutterFlowTheme.primaryColor,
-                                      pickerFontFamily: 'Poppins',
-                                    );
-                                    if (selectedMedia != null &&
-                                        validateFileFormat(
-                                            selectedMedia.storagePath,
-                                            context)) {
-                                      showUploadMessage(
-                                          context, 'Uploading file...',
-                                          showLoading: true);
-                                      final downloadUrl = await uploadData(
-                                          selectedMedia.storagePath,
-                                          selectedMedia.bytes);
-                                      ScaffoldMessenger.of(context)
-                                          .hideCurrentSnackBar();
-                                      if (downloadUrl != null) {
-                                        setState(() =>
-                                            uploadedFileUrl = downloadUrl);
-                                        showUploadMessage(context, 'Success!');
-                                      } else {
-                                        showUploadMessage(
-                                            context, 'Failed to upload media');
-                                        return;
-                                      }
-                                    }
-                                  },
-                                )
-                              ],
-                            );
+    return Scaffold(
+      key: scaffoldKey,
+      body: Stack(
+        children: [
+          Image.network(
+            uploadedFileUrl,
+            width: double.infinity,
+            height: double.infinity,
+            fit: BoxFit.cover,
+          ),
+          Align(
+            alignment: AlignmentDirectional(0, 0),
+            child: Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0, 50, 0, 30),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        FlutterFlowIconButton(
+                          borderColor: Colors.transparent,
+                          borderRadius: 30,
+                          borderWidth: 1,
+                          buttonSize: 60,
+                          icon: Icon(
+                            Icons.clear,
+                            color: FlutterFlowTheme.primaryColor,
+                            size: 30,
+                          ),
+                          onPressed: () async {
+                            Navigator.pop(context);
                           },
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Expanded(
-                              child: Align(
-                                alignment: AlignmentDirectional(1, 0),
-                                child: FlutterFlowIconButton(
-                                  borderColor: Colors.transparent,
-                                  borderRadius: 30,
-                                  borderWidth: 1,
-                                  buttonSize: 60,
-                                  icon: Icon(
-                                    Icons.send,
-                                    color: FlutterFlowTheme.primaryColor,
-                                    size: 40,
-                                  ),
-                                  onPressed: () async {
-                                    final userStoriesCreateData =
-                                        createUserStoriesRecordData(
-                                      user: currentUserReference,
-                                      storyPhoto: uploadedFileUrl,
-                                      storyCreated: getCurrentTimestamp,
-                                      storyOwner: true,
-                                    );
-                                    await UserStoriesRecord.collection
-                                        .doc()
-                                        .set(userStoriesCreateData);
-                                    await Navigator.push(
-                                      context,
-                                      PageTransition(
-                                        type: PageTransitionType.fade,
-                                        duration: Duration(milliseconds: 0),
-                                        reverseDuration:
-                                            Duration(milliseconds: 0),
-                                        child:
-                                            NavBarPage(initialPage: 'HomePage'),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                            )
-                          ],
+                        AuthUserStreamWidget(
+                          child: Text(
+                            currentUserDisplayName.maybeHandleOverflow(
+                                maxChars: 15),
+                            style: FlutterFlowTheme.bodyText1.override(
+                              fontFamily: 'Poppins',
+                              color: FlutterFlowTheme.primaryColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
-                      )
-                    ],
+                        FlutterFlowIconButton(
+                          borderColor: Colors.transparent,
+                          borderRadius: 30,
+                          borderWidth: 1,
+                          buttonSize: 60,
+                          icon: Icon(
+                            Icons.add_box,
+                            color: FlutterFlowTheme.primaryColor,
+                            size: 30,
+                          ),
+                          onPressed: () async {
+                            final selectedMedia =
+                                await selectMediaWithSourceBottomSheet(
+                              context: context,
+                              allowPhoto: true,
+                              textColor: FlutterFlowTheme.primaryColor,
+                              pickerFontFamily: 'Poppins',
+                            );
+                            if (selectedMedia != null &&
+                                validateFileFormat(
+                                    selectedMedia.storagePath, context)) {
+                              showUploadMessage(context, 'Uploading file...',
+                                  showLoading: true);
+                              final downloadUrl = await uploadData(
+                                  selectedMedia.storagePath,
+                                  selectedMedia.bytes);
+                              ScaffoldMessenger.of(context)
+                                  .hideCurrentSnackBar();
+                              if (downloadUrl != null) {
+                                setState(() => uploadedFileUrl = downloadUrl);
+                                showUploadMessage(context, 'Success!');
+                              } else {
+                                showUploadMessage(
+                                    context, 'Failed to upload media');
+                                return;
+                              }
+                            }
+                          },
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              )
-            ],
-          ),
-        );
-      },
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Expanded(
+                          child: Align(
+                            alignment: AlignmentDirectional(1, 0),
+                            child: FlutterFlowIconButton(
+                              borderColor: Colors.transparent,
+                              borderRadius: 30,
+                              borderWidth: 1,
+                              buttonSize: 60,
+                              icon: Icon(
+                                Icons.send,
+                                color: FlutterFlowTheme.primaryColor,
+                                size: 40,
+                              ),
+                              onPressed: () async {
+                                final userStoriesCreateData =
+                                    createUserStoriesRecordData(
+                                  user: currentUserReference,
+                                  storyPhoto: uploadedFileUrl,
+                                  storyCreated: getCurrentTimestamp,
+                                  storyOwner: true,
+                                );
+                                await UserStoriesRecord.collection
+                                    .doc()
+                                    .set(userStoriesCreateData);
+                                await Navigator.push(
+                                  context,
+                                  PageTransition(
+                                    type: PageTransitionType.fade,
+                                    duration: Duration(milliseconds: 0),
+                                    reverseDuration: Duration(milliseconds: 0),
+                                    child: NavBarPage(initialPage: 'HomePage'),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

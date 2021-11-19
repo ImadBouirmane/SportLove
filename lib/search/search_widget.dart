@@ -99,7 +99,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Selectionner la date',
+                    dateTimeFormat('d/M/y', datePicked),
                     style: FlutterFlowTheme.subtitle2.override(
                       fontFamily: 'Poppins',
                       fontSize: 13,
