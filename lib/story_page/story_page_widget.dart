@@ -95,7 +95,7 @@ class _StoryPageWidgetState extends State<StoryPageWidget> {
                                   .maybeHandleOverflow(maxChars: 15),
                               style: FlutterFlowTheme.subtitle1.override(
                                 fontFamily: 'Poppins',
-                                color: FlutterFlowTheme.primaryColor,
+                                color: FlutterFlowTheme.tertiaryColor,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -106,7 +106,7 @@ class _StoryPageWidgetState extends State<StoryPageWidget> {
                               buttonSize: 60,
                               icon: Icon(
                                 Icons.clear,
-                                color: FlutterFlowTheme.primaryColor,
+                                color: FlutterFlowTheme.tertiaryColor,
                                 size: 30,
                               ),
                               onPressed: () async {
@@ -129,7 +129,7 @@ class _StoryPageWidgetState extends State<StoryPageWidget> {
                                     labelStyle:
                                         FlutterFlowTheme.bodyText1.override(
                                       fontFamily: 'Poppins',
-                                      color: FlutterFlowTheme.primaryColor,
+                                      color: FlutterFlowTheme.tertiaryColor,
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -148,7 +148,7 @@ class _StoryPageWidgetState extends State<StoryPageWidget> {
                                   ),
                                   style: FlutterFlowTheme.bodyText1.override(
                                     fontFamily: 'Poppins',
-                                    color: FlutterFlowTheme.primaryColor,
+                                    color: FlutterFlowTheme.tertiaryColor,
                                   ),
                                 ),
                               ),

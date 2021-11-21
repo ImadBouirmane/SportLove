@@ -97,7 +97,7 @@ class _AnnoncePageWidgetState extends State<AnnoncePageWidget> {
                             ),
                           );
                         }
-                        final containerAnnoncesRecord = snapshot.data;
+                        final annonceDetailsAnnoncesRecord = snapshot.data;
                         return Container(
                           width: double.infinity,
                           decoration: BoxDecoration(
@@ -109,77 +109,108 @@ class _AnnoncePageWidgetState extends State<AnnoncePageWidget> {
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     10, 20, 10, 0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Container(
-                                      width: 50,
-                                      height: 50,
-                                      clipBehavior: Clip.antiAlias,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Image.network(
-                                        'https://picsum.photos/seed/783/600',
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          5, 10, 0, 10),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: [
-                                              Text(
-                                                containerAnnoncesRecord.titre,
-                                                style: FlutterFlowTheme
-                                                    .bodyText1
-                                                    .override(
-                                                  fontFamily: 'Poppins',
-                                                  color: FlutterFlowTheme.black,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: [
-                                              Text(
-                                                containerAnnoncesRecord
-                                                    .typeSport,
-                                                style: FlutterFlowTheme
-                                                    .bodyText1
-                                                    .override(
-                                                  fontFamily: 'Poppins',
-                                                  fontSize: 10,
-                                                ),
-                                              )
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Align(
-                                        alignment: AlignmentDirectional(1, 0),
-                                        child: Text(
-                                          dateTimeFormat('d/M H:m',
-                                              containerAnnoncesRecord.heure),
-                                          style: FlutterFlowTheme.bodyText1
-                                              .override(
-                                            fontFamily: 'Poppins',
+                                child: StreamBuilder<UsersRecord>(
+                                  stream: UsersRecord.getDocument(
+                                      annonceDetailsAnnoncesRecord.user),
+                                  builder: (context, snapshot) {
+                                    // Customize what your widget looks like when it's loading.
+                                    if (!snapshot.hasData) {
+                                      return Center(
+                                        child: SizedBox(
+                                          width: 20,
+                                          height: 20,
+                                          child: CircularProgressIndicator(
                                             color:
                                                 FlutterFlowTheme.primaryColor,
-                                            fontWeight: FontWeight.w600,
                                           ),
                                         ),
-                                      ),
-                                    )
-                                  ],
+                                      );
+                                    }
+                                    final rowUsersRecord = snapshot.data;
+                                    return Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Container(
+                                          width: 50,
+                                          height: 50,
+                                          clipBehavior: Clip.antiAlias,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: Image.network(
+                                            rowUsersRecord.photoUrl,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  5, 10, 0, 10),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Text(
+                                                    annonceDetailsAnnoncesRecord
+                                                        .titre
+                                                        .maybeHandleOverflow(
+                                                      maxChars: 30,
+                                                      replacement: '…',
+                                                    ),
+                                                    style: FlutterFlowTheme
+                                                        .bodyText1
+                                                        .override(
+                                                      fontFamily: 'Poppins',
+                                                      color: FlutterFlowTheme
+                                                          .black,
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Text(
+                                                    annonceDetailsAnnoncesRecord
+                                                        .typeSport,
+                                                    style: FlutterFlowTheme
+                                                        .bodyText1
+                                                        .override(
+                                                      fontFamily: 'Poppins',
+                                                      fontSize: 10,
+                                                    ),
+                                                  )
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Align(
+                                            alignment:
+                                                AlignmentDirectional(1, 0),
+                                            child: Text(
+                                              dateTimeFormat(
+                                                  'd/M H:m',
+                                                  annonceDetailsAnnoncesRecord
+                                                      .heure),
+                                              style: FlutterFlowTheme.bodyText1
+                                                  .override(
+                                                fontFamily: 'Poppins',
+                                                color: FlutterFlowTheme
+                                                    .primaryColor,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    );
+                                  },
                                 ),
                               ),
                               Padding(
@@ -206,7 +237,7 @@ class _AnnoncePageWidgetState extends State<AnnoncePageWidget> {
                                             child: Text(
                                               dateTimeFormat(
                                                   'Hm',
-                                                  containerAnnoncesRecord
+                                                  annonceDetailsAnnoncesRecord
                                                       .heure),
                                               style: FlutterFlowTheme.bodyText1
                                                   .override(
@@ -233,8 +264,10 @@ class _AnnoncePageWidgetState extends State<AnnoncePageWidget> {
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     5, 0, 0, 0),
                                             child: Text(
-                                              dateTimeFormat('d/M/y',
-                                                  containerAnnoncesRecord.date),
+                                              dateTimeFormat(
+                                                  'd/M/y',
+                                                  annonceDetailsAnnoncesRecord
+                                                      .date),
                                               style: FlutterFlowTheme.bodyText1
                                                   .override(
                                                 fontFamily: 'Poppins',
@@ -258,7 +291,7 @@ class _AnnoncePageWidgetState extends State<AnnoncePageWidget> {
                                               EdgeInsetsDirectional.fromSTEB(
                                                   5, 0, 0, 0),
                                           child: Text(
-                                            containerAnnoncesRecord.lieu
+                                            annonceDetailsAnnoncesRecord.lieu
                                                 .maybeHandleOverflow(
                                                     maxChars: 40),
                                             style: FlutterFlowTheme.bodyText1
@@ -302,7 +335,8 @@ class _AnnoncePageWidgetState extends State<AnnoncePageWidget> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           10, 20, 10, 30),
                                       child: Text(
-                                        containerAnnoncesRecord.nbrParticipants,
+                                        annonceDetailsAnnoncesRecord
+                                            .nbrParticipants,
                                         style: FlutterFlowTheme.bodyText1,
                                       ),
                                     )
@@ -319,6 +353,8 @@ class _AnnoncePageWidgetState extends State<AnnoncePageWidget> {
                       child: StreamBuilder<List<ReviewRecord>>(
                         stream: queryReviewRecord(
                           queryBuilder: (reviewRecord) => reviewRecord
+                              .where('userReview',
+                                  isEqualTo: currentUserReference)
                               .orderBy('timeCreated', descending: true),
                         ),
                         builder: (context, snapshot) {
@@ -334,21 +370,23 @@ class _AnnoncePageWidgetState extends State<AnnoncePageWidget> {
                               ),
                             );
                           }
-                          List<ReviewRecord> columnReviewRecordList =
+                          List<ReviewRecord> commentSectionReviewRecordList =
                               snapshot.data;
                           return SingleChildScrollView(
                             child: Column(
                               mainAxisSize: MainAxisSize.max,
                               children: List.generate(
-                                  columnReviewRecordList.length, (columnIndex) {
-                                final columnReviewRecord =
-                                    columnReviewRecordList[columnIndex];
+                                  commentSectionReviewRecordList.length,
+                                  (commentSectionIndex) {
+                                final commentSectionReviewRecord =
+                                    commentSectionReviewRecordList[
+                                        commentSectionIndex];
                                 return Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0, 0, 0, 10),
                                   child: StreamBuilder<ReviewRecord>(
                                     stream: ReviewRecord.getDocument(
-                                        columnReviewRecord.reference),
+                                        commentSectionReviewRecord.reference),
                                     builder: (context, snapshot) {
                                       // Customize what your widget looks like when it's loading.
                                       if (!snapshot.hasData) {

@@ -126,6 +126,7 @@ class _FriendsWidgetState extends State<FriendsWidget> {
                                     ),
                                     child: Image.network(
                                       rowUsersRecord.photoUrl,
+                                      fit: BoxFit.contain,
                                     ),
                                   ),
                                   Padding(

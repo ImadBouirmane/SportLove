@@ -30,6 +30,14 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
+  void initState() {
+    super.initState();
+    ageController = TextEditingController();
+    fullNameController = TextEditingController(text: currentUserDisplayName);
+    numberPhoneController = TextEditingController(text: currentPhoneNumber);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<UsersRecord>>(
       stream: queryUsersRecord(
@@ -174,78 +182,76 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                     ),
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(10, 30, 10, 10),
-                      child: TextFormField(
-                        controller: fullNameController ??=
-                            TextEditingController(
-                          text: columnUsersRecord.displayName,
-                        ),
-                        obscureText: false,
-                        decoration: InputDecoration(
-                          labelText: 'Nom Complet',
-                          labelStyle: FlutterFlowTheme.bodyText1.override(
+                      child: AuthUserStreamWidget(
+                        child: TextFormField(
+                          controller: fullNameController,
+                          obscureText: false,
+                          decoration: InputDecoration(
+                            labelText: 'Nom Complet',
+                            labelStyle: FlutterFlowTheme.bodyText1.override(
+                              fontFamily: 'Poppins',
+                              color: FlutterFlowTheme.black,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: FlutterFlowTheme.primaryColor,
+                                width: 1,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: FlutterFlowTheme.primaryColor,
+                                width: 1,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          style: FlutterFlowTheme.bodyText1.override(
                             fontFamily: 'Poppins',
                             color: FlutterFlowTheme.black,
                             fontWeight: FontWeight.w500,
                           ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: FlutterFlowTheme.primaryColor,
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: FlutterFlowTheme.primaryColor,
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
+                          keyboardType: TextInputType.name,
                         ),
-                        style: FlutterFlowTheme.bodyText1.override(
-                          fontFamily: 'Poppins',
-                          color: FlutterFlowTheme.black,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        keyboardType: TextInputType.name,
                       ),
                     ),
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 10),
-                      child: TextFormField(
-                        controller: numberPhoneController ??=
-                            TextEditingController(
-                          text: columnUsersRecord.phoneNumber,
-                        ),
-                        obscureText: false,
-                        decoration: InputDecoration(
-                          labelText: 'Numéro de téléphone',
-                          labelStyle: FlutterFlowTheme.bodyText1.override(
+                      child: AuthUserStreamWidget(
+                        child: TextFormField(
+                          controller: numberPhoneController,
+                          obscureText: false,
+                          decoration: InputDecoration(
+                            labelText: 'Numéro de téléphone',
+                            labelStyle: FlutterFlowTheme.bodyText1.override(
+                              fontFamily: 'Poppins',
+                              color: FlutterFlowTheme.black,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: FlutterFlowTheme.primaryColor,
+                                width: 1,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: FlutterFlowTheme.primaryColor,
+                                width: 1,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          style: FlutterFlowTheme.bodyText1.override(
                             fontFamily: 'Poppins',
                             color: FlutterFlowTheme.black,
                             fontWeight: FontWeight.w500,
                           ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: FlutterFlowTheme.primaryColor,
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: FlutterFlowTheme.primaryColor,
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
+                          keyboardType: TextInputType.phone,
                         ),
-                        style: FlutterFlowTheme.bodyText1.override(
-                          fontFamily: 'Poppins',
-                          color: FlutterFlowTheme.black,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        keyboardType: TextInputType.phone,
                       ),
                     ),
                     Padding(
@@ -294,12 +300,10 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
                       child: TextFormField(
-                        controller: ageController ??= TextEditingController(
-                          text: columnUsersRecord.birthDate,
-                        ),
+                        controller: ageController,
                         obscureText: false,
                         decoration: InputDecoration(
-                          labelText: 'Age',
+                          labelText: columnUsersRecord.birthDate,
                           labelStyle: FlutterFlowTheme.bodyText1.override(
                             fontFamily: 'Poppins',
                             color: FlutterFlowTheme.black,
@@ -378,9 +382,8 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                               try {
                                 final usersUpdateData = createUsersRecordData(
                                   photoUrl: uploadedFileUrl,
-                                  phoneNumber:
-                                      numberPhoneController?.text ?? '',
-                                  birthDate: ageController?.text ?? '',
+                                  phoneNumber: numberPhoneController.text,
+                                  birthDate: ageController.text,
                                   gender: genderValue,
                                   address: addressController?.text ?? '',
                                 );

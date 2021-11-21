@@ -1,6 +1,8 @@
 import '../annonce_page/annonce_page_widget.dart';
 import '../annonces/annonces_widget.dart';
 import '../backend/backend.dart';
+import '../chat_page/chat_page_widget.dart';
+import '../components/comment_widget.dart';
 import '../components/menu_widget.dart';
 import '../components/post_type_widget.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
@@ -13,6 +15,7 @@ import '../stories/stories_widget.dart';
 import '../story_create/story_create_widget.dart';
 import '../story_page/story_page_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomePageWidget extends StatefulWidget {
@@ -77,6 +80,28 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         duration: Duration(milliseconds: 300),
                         reverseDuration: Duration(milliseconds: 300),
                         child: StoryCreateWidget(),
+                      ),
+                    );
+                  },
+                ),
+                FlutterFlowIconButton(
+                  borderColor: Colors.transparent,
+                  borderRadius: 30,
+                  borderWidth: 1,
+                  buttonSize: 40,
+                  icon: Icon(
+                    Icons.chat_bubble_sharp,
+                    color: FlutterFlowTheme.tertiaryColor,
+                    size: 25,
+                  ),
+                  onPressed: () async {
+                    await Navigator.push(
+                      context,
+                      PageTransition(
+                        type: PageTransitionType.fade,
+                        duration: Duration(milliseconds: 0),
+                        reverseDuration: Duration(milliseconds: 0),
+                        child: ChatPageWidget(),
                       ),
                     );
                   },
@@ -431,7 +456,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                       children: [
                                                         Text(
                                                           annoncesSectionAnnoncesRecord
-                                                              .titre,
+                                                              .titre
+                                                              .maybeHandleOverflow(
+                                                            maxChars: 30,
+                                                            replacement: '…',
+                                                          ),
                                                           style:
                                                               FlutterFlowTheme
                                                                   .bodyText1
@@ -790,7 +819,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
                                           mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                              MainAxisAlignment.start,
                                           children: [
                                             Text(
                                               dateTimeFormat(
@@ -804,9 +833,48 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                     .primaryColor,
                                               ),
                                             ),
-                                            Text(
-                                              publicationsPostsRecord.typeSport,
-                                              style: FlutterFlowTheme.bodyText1,
+                                            FlutterFlowIconButton(
+                                              borderColor: Colors.transparent,
+                                              borderRadius: 30,
+                                              borderWidth: 1,
+                                              buttonSize: 60,
+                                              icon: FaIcon(
+                                                FontAwesomeIcons
+                                                    .solidCommentAlt,
+                                                color: FlutterFlowTheme
+                                                    .primaryColor,
+                                                size: 20,
+                                              ),
+                                              onPressed: () async {
+                                                await showModalBottomSheet(
+                                                  isScrollControlled: true,
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return Container(
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.3,
+                                                      child: CommentWidget(),
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                            Expanded(
+                                              child: Align(
+                                                alignment:
+                                                    AlignmentDirectional(1, 0),
+                                                child: Text(
+                                                  publicationsPostsRecord
+                                                      .typeSport,
+                                                  style: FlutterFlowTheme
+                                                      .bodyText1,
+                                                ),
+                                              ),
                                             )
                                           ],
                                         ),

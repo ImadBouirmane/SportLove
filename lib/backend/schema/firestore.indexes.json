@@ -1,6 +1,34 @@
 {
   "indexes": [
     {
+      "collectionGroup": "review",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "userReview",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "timeCreated",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "review",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "userReview",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "timeCreated",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
       "collectionGroup": "chats",
       "queryScope": "COLLECTION",
       "fields": [
