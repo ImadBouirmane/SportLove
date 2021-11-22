@@ -857,7 +857,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                           MediaQuery.of(context)
                                                                   .size
                                                                   .height *
-                                                              0.3,
+                                                              0.4,
                                                       child: CommentWidget(),
                                                     );
                                                   },
