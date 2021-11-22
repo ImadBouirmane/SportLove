@@ -9,7 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class StoryPageWidget extends StatefulWidget {
-  StoryPageWidget({Key key}) : super(key: key);
+  StoryPageWidget({
+    Key key,
+    this.storyReference,
+    this.userStory,
+  }) : super(key: key);
+
+  final DocumentReference storyReference;
+  final UsersRecord userStory;
 
   @override
   _StoryPageWidgetState createState() => _StoryPageWidgetState();
@@ -27,10 +34,8 @@ class _StoryPageWidgetState extends State<StoryPageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<UserStoriesRecord>>(
-      stream: queryUserStoriesRecord(
-        singleRecord: true,
-      ),
+    return StreamBuilder<UserStoriesRecord>(
+      stream: UserStoriesRecord.getDocument(widget.storyReference),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
@@ -44,15 +49,7 @@ class _StoryPageWidgetState extends State<StoryPageWidget> {
             ),
           );
         }
-        List<UserStoriesRecord> storyPageUserStoriesRecordList = snapshot.data;
-        // Return an empty Container when the document does not exist.
-        if (snapshot.data.isEmpty) {
-          return Container();
-        }
-        final storyPageUserStoriesRecord =
-            storyPageUserStoriesRecordList.isNotEmpty
-                ? storyPageUserStoriesRecordList.first
-                : null;
+        final storyPageUserStoriesRecord = snapshot.data;
         return Scaffold(
           key: scaffoldKey,
           body: Stack(

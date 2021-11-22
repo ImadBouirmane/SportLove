@@ -8,6 +8,8 @@ import '../friends/friends_widget.dart';
 import '../login/login_widget.dart';
 import '../main.dart';
 import '../profile/profile_widget.dart';
+import '../user_annonces/user_annonces_widget.dart';
+import '../user_avis/user_avis_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -121,7 +123,7 @@ class _AccountWidgetState extends State<AccountWidget> {
                                                   .override(
                                                 fontFamily: 'Poppins',
                                                 color: FlutterFlowTheme.black,
-                                                fontSize: 14,
+                                                fontSize: 16,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
@@ -173,7 +175,7 @@ class _AccountWidgetState extends State<AccountWidget> {
                         type: PageTransitionType.leftToRight,
                         duration: Duration(milliseconds: 300),
                         reverseDuration: Duration(milliseconds: 300),
-                        child: AnnoncesWidget(),
+                        child: UserAnnoncesWidget(),
                       ),
                     );
                   },
@@ -414,7 +416,7 @@ class _AccountWidgetState extends State<AccountWidget> {
                         type: PageTransitionType.leftToRight,
                         duration: Duration(milliseconds: 300),
                         reverseDuration: Duration(milliseconds: 300),
-                        child: AvisWidget(),
+                        child: UserAvisWidget(),
                       ),
                     );
                   },

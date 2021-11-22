@@ -31,54 +31,55 @@ class _CommentWidgetState extends State<CommentWidget> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
-      child: Material(
-        color: Colors.transparent,
-        elevation: 10,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(0),
-            bottomRight: Radius.circular(0),
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
+      child: StreamBuilder<List<ReviewRecord>>(
+        stream: queryReviewRecord(
+          queryBuilder: (reviewRecord) =>
+              reviewRecord.where('userReview', isEqualTo: currentUserReference),
+          singleRecord: true,
         ),
-        child: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: BoxDecoration(
-            color: FlutterFlowTheme.tertiaryColor,
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(0),
-              bottomRight: Radius.circular(0),
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
-            ),
-          ),
-          child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-            child: StreamBuilder<List<ReviewRecord>>(
-              stream: queryReviewRecord(
-                singleRecord: true,
+        builder: (context, snapshot) {
+          // Customize what your widget looks like when it's loading.
+          if (!snapshot.hasData) {
+            return Center(
+              child: SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(
+                  color: FlutterFlowTheme.primaryColor,
+                ),
               ),
-              builder: (context, snapshot) {
-                // Customize what your widget looks like when it's loading.
-                if (!snapshot.hasData) {
-                  return Center(
-                    child: SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                        color: FlutterFlowTheme.primaryColor,
-                      ),
-                    ),
-                  );
-                }
-                List<ReviewRecord> avisSectionReviewRecordList = snapshot.data;
-                final avisSectionReviewRecord =
-                    avisSectionReviewRecordList.isNotEmpty
-                        ? avisSectionReviewRecordList.first
-                        : null;
-                return Column(
+            );
+          }
+          List<ReviewRecord> containerReviewRecordList = snapshot.data;
+          final containerReviewRecord = containerReviewRecordList.isNotEmpty
+              ? containerReviewRecordList.first
+              : null;
+          return Material(
+            color: Colors.transparent,
+            elevation: 10,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(0),
+                bottomRight: Radius.circular(0),
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
+            ),
+            child: Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: BoxDecoration(
+                color: FlutterFlowTheme.tertiaryColor,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(0),
+                  bottomRight: Radius.circular(0),
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
+              ),
+              child: Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                child: Column(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -248,11 +249,11 @@ class _CommentWidgetState extends State<CommentWidget> {
                       ),
                     )
                   ],
-                );
-              },
+                ),
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

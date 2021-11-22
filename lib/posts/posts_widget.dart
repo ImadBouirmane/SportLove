@@ -1,8 +1,11 @@
 import '../backend/backend.dart';
+import '../components/comment_widget.dart';
+import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../post_page/post_page_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PostsWidget extends StatefulWidget {
@@ -36,7 +39,7 @@ class _PostsWidgetState extends State<PostsWidget> {
       ),
       backgroundColor: FlutterFlowTheme.tertiaryColor,
       body: Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(10, 20, 10, 0),
+        padding: EdgeInsetsDirectional.fromSTEB(10, 20, 10, 20),
         child: StreamBuilder<List<PostsRecord>>(
           stream: queryPostsRecord(
             queryBuilder: (postsRecord) =>
@@ -73,7 +76,9 @@ class _PostsWidgetState extends State<PostsWidget> {
                             type: PageTransitionType.fade,
                             duration: Duration(milliseconds: 0),
                             reverseDuration: Duration(milliseconds: 0),
-                            child: PostPageWidget(),
+                            child: PostPageWidget(
+                              postReference: publicationsPostsRecord.reference,
+                            ),
                           ),
                         );
                       },
@@ -142,12 +147,11 @@ class _PostsWidgetState extends State<PostsWidget> {
                                       10, 0, 10, 10),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
                                         dateTimeFormat(
-                                            'Hm',
+                                            'relative',
                                             publicationsPostsRecord
                                                 .timeCreated),
                                         style:
@@ -156,9 +160,41 @@ class _PostsWidgetState extends State<PostsWidget> {
                                           color: FlutterFlowTheme.primaryColor,
                                         ),
                                       ),
-                                      Text(
-                                        publicationsPostsRecord.typeSport,
-                                        style: FlutterFlowTheme.bodyText1,
+                                      FlutterFlowIconButton(
+                                        borderColor: Colors.transparent,
+                                        borderRadius: 30,
+                                        borderWidth: 1,
+                                        buttonSize: 60,
+                                        icon: FaIcon(
+                                          FontAwesomeIcons.solidCommentAlt,
+                                          color: FlutterFlowTheme.primaryColor,
+                                          size: 20,
+                                        ),
+                                        onPressed: () async {
+                                          await showModalBottomSheet(
+                                            isScrollControlled: true,
+                                            backgroundColor: Colors.transparent,
+                                            context: context,
+                                            builder: (context) {
+                                              return Container(
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.35,
+                                                child: CommentWidget(),
+                                              );
+                                            },
+                                          );
+                                        },
+                                      ),
+                                      Expanded(
+                                        child: Align(
+                                          alignment: AlignmentDirectional(1, 0),
+                                          child: Text(
+                                            publicationsPostsRecord.typeSport,
+                                            style: FlutterFlowTheme.bodyText1,
+                                          ),
+                                        ),
                                       )
                                     ],
                                   ),

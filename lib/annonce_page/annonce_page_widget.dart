@@ -9,7 +9,14 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AnnoncePageWidget extends StatefulWidget {
-  AnnoncePageWidget({Key key}) : super(key: key);
+  AnnoncePageWidget({
+    Key key,
+    this.annonceReference,
+    this.userRecord,
+  }) : super(key: key);
+
+  final DocumentReference annonceReference;
+  final UsersRecord userRecord;
 
   @override
   _AnnoncePageWidgetState createState() => _AnnoncePageWidgetState();
@@ -31,10 +38,8 @@ class _AnnoncePageWidgetState extends State<AnnoncePageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<AnnoncesRecord>>(
-      stream: queryAnnoncesRecord(
-        singleRecord: true,
-      ),
+    return StreamBuilder<AnnoncesRecord>(
+      stream: AnnoncesRecord.getDocument(widget.annonceReference),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
@@ -48,15 +53,7 @@ class _AnnoncePageWidgetState extends State<AnnoncePageWidget> {
             ),
           );
         }
-        List<AnnoncesRecord> annoncePageAnnoncesRecordList = snapshot.data;
-        // Return an empty Container when the document does not exist.
-        if (snapshot.data.isEmpty) {
-          return Container();
-        }
-        final annoncePageAnnoncesRecord =
-            annoncePageAnnoncesRecordList.isNotEmpty
-                ? annoncePageAnnoncesRecordList.first
-                : null;
+        final annoncePageAnnoncesRecord = snapshot.data;
         return Scaffold(
           key: scaffoldKey,
           appBar: AppBar(

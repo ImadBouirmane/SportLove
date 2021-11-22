@@ -26,10 +26,8 @@ class _SportLevelWidgetState extends State<SportLevelWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<UsersRecord>>(
-      stream: queryUsersRecord(
-        singleRecord: true,
-      ),
+    return StreamBuilder<UsersRecord>(
+      stream: UsersRecord.getDocument(currentUserReference),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
@@ -43,14 +41,7 @@ class _SportLevelWidgetState extends State<SportLevelWidget> {
             ),
           );
         }
-        List<UsersRecord> sportLevelUsersRecordList = snapshot.data;
-        // Return an empty Container when the document does not exist.
-        if (snapshot.data.isEmpty) {
-          return Container();
-        }
-        final sportLevelUsersRecord = sportLevelUsersRecordList.isNotEmpty
-            ? sportLevelUsersRecordList.first
-            : null;
+        final sportLevelUsersRecord = snapshot.data;
         return Scaffold(
           key: scaffoldKey,
           appBar: AppBar(

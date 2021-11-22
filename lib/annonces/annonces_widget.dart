@@ -1,9 +1,8 @@
 import '../annonce_page/annonce_page_widget.dart';
 import '../backend/backend.dart';
-import '../components/menu_widget.dart';
-import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../users_profile/users_profile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -69,60 +68,81 @@ class _AnnoncesWidgetState extends State<AnnoncesWidget> {
                       annoncesSectionAnnoncesRecordList[annoncesSectionIndex];
                   return Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                    child: InkWell(
-                      onTap: () async {
-                        await Navigator.push(
-                          context,
-                          PageTransition(
-                            type: PageTransitionType.fade,
-                            duration: Duration(milliseconds: 0),
-                            reverseDuration: Duration(milliseconds: 0),
-                            child: AnnoncePageWidget(),
-                          ),
-                        );
-                      },
-                      child: Card(
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        color: FlutterFlowTheme.tertiaryColor,
-                        elevation: 3,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Padding(
-                          padding:
-                              EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              StreamBuilder<UsersRecord>(
-                                stream: UsersRecord.getDocument(
-                                    annoncesSectionAnnoncesRecord.user),
-                                builder: (context, snapshot) {
-                                  // Customize what your widget looks like when it's loading.
-                                  if (!snapshot.hasData) {
-                                    return Center(
-                                      child: SizedBox(
-                                        width: 20,
-                                        height: 20,
-                                        child: CircularProgressIndicator(
-                                          color: FlutterFlowTheme.primaryColor,
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                  final rowUsersRecord = snapshot.data;
-                                  return Row(
+                    child: StreamBuilder<UsersRecord>(
+                      stream: UsersRecord.getDocument(
+                          annoncesSectionAnnoncesRecord.user),
+                      builder: (context, snapshot) {
+                        // Customize what your widget looks like when it's loading.
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                color: FlutterFlowTheme.primaryColor,
+                              ),
+                            ),
+                          );
+                        }
+                        final cardUsersRecord = snapshot.data;
+                        return InkWell(
+                          onTap: () async {
+                            await Navigator.push(
+                              context,
+                              PageTransition(
+                                type: PageTransitionType.fade,
+                                duration: Duration(milliseconds: 0),
+                                reverseDuration: Duration(milliseconds: 0),
+                                child: AnnoncePageWidget(
+                                  annonceReference:
+                                      annoncesSectionAnnoncesRecord.reference,
+                                  userRecord: cardUsersRecord,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Card(
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            color: FlutterFlowTheme.tertiaryColor,
+                            elevation: 3,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  10, 10, 10, 10),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Row(
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
-                                      Container(
-                                        width: 50,
-                                        height: 50,
-                                        clipBehavior: Clip.antiAlias,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: Image.network(
-                                          rowUsersRecord.photoUrl,
+                                      InkWell(
+                                        onTap: () async {
+                                          await Navigator.push(
+                                            context,
+                                            PageTransition(
+                                              type: PageTransitionType.fade,
+                                              duration:
+                                                  Duration(milliseconds: 0),
+                                              reverseDuration:
+                                                  Duration(milliseconds: 0),
+                                              child: UsersProfileWidget(
+                                                userDetails: cardUsersRecord,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: Container(
+                                          width: 50,
+                                          height: 50,
+                                          clipBehavior: Clip.antiAlias,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: Image.network(
+                                            cardUsersRecord.photoUrl,
+                                          ),
                                         ),
                                       ),
                                       Padding(
@@ -136,7 +156,11 @@ class _AnnoncesWidgetState extends State<AnnoncesWidget> {
                                               children: [
                                                 Text(
                                                   annoncesSectionAnnoncesRecord
-                                                      .titre,
+                                                      .titre
+                                                      .maybeHandleOverflow(
+                                                    maxChars: 30,
+                                                    replacement: '…',
+                                                  ),
                                                   style: FlutterFlowTheme
                                                       .bodyText1
                                                       .override(
@@ -168,7 +192,7 @@ class _AnnoncesWidgetState extends State<AnnoncesWidget> {
                                               mainAxisSize: MainAxisSize.max,
                                               children: [
                                                 Text(
-                                                  rowUsersRecord.displayName,
+                                                  cardUsersRecord.displayName,
                                                   style: FlutterFlowTheme
                                                       .bodyText1
                                                       .override(
@@ -180,143 +204,111 @@ class _AnnoncesWidgetState extends State<AnnoncesWidget> {
                                             )
                                           ],
                                         ),
-                                      ),
-                                      Expanded(
-                                        child: Align(
-                                          alignment: AlignmentDirectional(1, 0),
-                                          child: FlutterFlowIconButton(
-                                            borderColor: Colors.transparent,
-                                            borderRadius: 30,
-                                            borderWidth: 1,
-                                            buttonSize: 60,
-                                            icon: Icon(
-                                              Icons.more_vert_sharp,
-                                              color: Colors.black,
-                                              size: 25,
-                                            ),
-                                            onPressed: () async {
-                                              await showModalBottomSheet(
-                                                isScrollControlled: true,
-                                                backgroundColor:
-                                                    Colors.transparent,
-                                                context: context,
-                                                builder: (context) {
-                                                  return Container(
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height *
-                                                            0.3,
-                                                    child: MenuWidget(),
-                                                  );
-                                                },
-                                              );
-                                            },
-                                          ),
-                                        ),
                                       )
                                     ],
-                                  );
-                                },
-                              ),
-                              Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 0, 0, 10),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Icon(
-                                            Icons.calendar_today,
-                                            color: Colors.black,
-                                            size: 22,
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    5, 0, 0, 0),
-                                            child: Text(
-                                              dateTimeFormat(
-                                                  'Hm',
-                                                  annoncesSectionAnnoncesRecord
-                                                      .heure),
-                                              style: FlutterFlowTheme.bodyText1
-                                                  .override(
-                                                fontFamily: 'Poppins',
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    5, 0, 0, 0),
-                                            child: Text(
-                                              '-',
-                                              style: FlutterFlowTheme.bodyText1
-                                                  .override(
-                                                fontFamily: 'Poppins',
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    5, 0, 0, 0),
-                                            child: Text(
-                                              dateTimeFormat(
-                                                  'd/M/y',
-                                                  annoncesSectionAnnoncesRecord
-                                                      .date),
-                                              style: FlutterFlowTheme.bodyText1
-                                                  .override(
-                                                fontFamily: 'Poppins',
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Row(
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0, 20, 0, 0),
+                                    child: Column(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
-                                        Icon(
-                                          Icons.location_pin,
-                                          color: Colors.black,
-                                          size: 22,
-                                        ),
                                         Padding(
                                           padding:
                                               EdgeInsetsDirectional.fromSTEB(
-                                                  5, 0, 0, 0),
-                                          child: Text(
-                                            annoncesSectionAnnoncesRecord.lieu
-                                                .maybeHandleOverflow(
-                                                    maxChars: 40),
-                                            style: FlutterFlowTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'Poppins',
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w500,
-                                            ),
+                                                  0, 0, 0, 10),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Icon(
+                                                Icons.calendar_today,
+                                                color: Colors.black,
+                                                size: 22,
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(5, 0, 0, 0),
+                                                child: Text(
+                                                  dateTimeFormat(
+                                                      'Hm',
+                                                      annoncesSectionAnnoncesRecord
+                                                          .heure),
+                                                  style: FlutterFlowTheme
+                                                      .bodyText1
+                                                      .override(
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(5, 0, 0, 0),
+                                                child: Text(
+                                                  '-',
+                                                  style: FlutterFlowTheme
+                                                      .bodyText1
+                                                      .override(
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(5, 0, 0, 0),
+                                                child: Text(
+                                                  dateTimeFormat(
+                                                      'd/M/y',
+                                                      annoncesSectionAnnoncesRecord
+                                                          .date),
+                                                  style: FlutterFlowTheme
+                                                      .bodyText1
+                                                      .override(
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
                                           ),
+                                        ),
+                                        Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Icon(
+                                              Icons.location_pin,
+                                              color: Colors.black,
+                                              size: 22,
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(5, 0, 0, 0),
+                                              child: Text(
+                                                annoncesSectionAnnoncesRecord
+                                                    .lieu
+                                                    .maybeHandleOverflow(
+                                                        maxChars: 40),
+                                                style: FlutterFlowTheme
+                                                    .bodyText1
+                                                    .override(
+                                                  fontFamily: 'Poppins',
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            )
+                                          ],
                                         )
                                       ],
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
+                        );
+                      },
                     ),
                   );
                 }),

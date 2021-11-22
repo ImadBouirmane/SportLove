@@ -75,7 +75,9 @@ class _FriendsWidgetState extends State<FriendsWidget> {
                           type: PageTransitionType.leftToRight,
                           duration: Duration(milliseconds: 300),
                           reverseDuration: Duration(milliseconds: 300),
-                          child: UsersProfileWidget(),
+                          child: UsersProfileWidget(
+                            userDetails: listViewUsersRecord,
+                          ),
                         ),
                       );
                     },

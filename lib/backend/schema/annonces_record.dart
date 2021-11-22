@@ -47,11 +47,14 @@ abstract class AnnoncesRecord
   double get distance;
 
   @nullable
-  @BuiltValueField(wireName: 'Lieu')
-  String get lieu;
+  LatLng get userLocation;
 
   @nullable
-  LatLng get userLocation;
+  bool get annonceOwner;
+
+  @nullable
+  @BuiltValueField(wireName: 'Lieu')
+  String get lieu;
 
   @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
@@ -64,6 +67,7 @@ abstract class AnnoncesRecord
     ..duree = ''
     ..nbrParticipants = ''
     ..distance = 0.0
+    ..annonceOwner = false
     ..lieu = '';
 
   static CollectionReference get collection =>
@@ -89,11 +93,12 @@ abstract class AnnoncesRecord
           ..timeCreated = safeGet(() =>
               DateTime.fromMillisecondsSinceEpoch(snapshot.data['timeCreated']))
           ..distance = snapshot.data['Distance']
-          ..lieu = snapshot.data['Lieu']
           ..userLocation = safeGet(() => LatLng(
                 snapshot.data['_geoloc']['lat'],
                 snapshot.data['_geoloc']['lng'],
               ))
+          ..annonceOwner = snapshot.data['annonceOwner']
+          ..lieu = snapshot.data['Lieu']
           ..reference = AnnoncesRecord.collection.doc(snapshot.objectID),
       );
 
@@ -133,8 +138,9 @@ Map<String, dynamic> createAnnoncesRecordData({
   DocumentReference user,
   DateTime timeCreated,
   double distance,
-  String lieu,
   LatLng userLocation,
+  bool annonceOwner,
+  String lieu,
 }) =>
     serializers.toFirestore(
         AnnoncesRecord.serializer,
@@ -149,5 +155,6 @@ Map<String, dynamic> createAnnoncesRecordData({
           ..user = user
           ..timeCreated = timeCreated
           ..distance = distance
-          ..lieu = lieu
-          ..userLocation = userLocation));
+          ..userLocation = userLocation
+          ..annonceOwner = annonceOwner
+          ..lieu = lieu));

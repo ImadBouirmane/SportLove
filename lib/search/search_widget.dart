@@ -1,10 +1,10 @@
+import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_drop_down.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
-import '../search_maps/search_maps_widget.dart';
-import '../search_results/search_results_widget.dart';
+import '../main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,9 +19,17 @@ class SearchWidget extends StatefulWidget {
 class _SearchWidgetState extends State<SearchWidget> {
   DateTime datePicked;
   String sportTypeValue;
+  TextEditingController textController;
   double sliderValue;
+  List<AnnoncesRecord> algoliaSearchResults = [];
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    super.initState();
+    textController = TextEditingController();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +107,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Selectionner la date',
+                    dateTimeFormat('M/d H:m', datePicked),
                     style: FlutterFlowTheme.subtitle2.override(
                       fontFamily: 'Poppins',
                       fontSize: 13,
@@ -113,7 +121,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                     buttonSize: 60,
                     icon: Icon(
                       Icons.calendar_today,
-                      color: Colors.black,
+                      color: FlutterFlowTheme.primaryColor,
                       size: 25,
                     ),
                     onPressed: () async {
@@ -137,12 +145,37 @@ class _SearchWidgetState extends State<SearchWidget> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Lieu',
-                    style: FlutterFlowTheme.subtitle2.override(
-                      fontFamily: 'Poppins',
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
+                  Expanded(
+                    child: TextFormField(
+                      controller: textController,
+                      obscureText: false,
+                      decoration: InputDecoration(
+                        hintText: 'Tapez votre addresse',
+                        hintStyle: FlutterFlowTheme.bodyText1,
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0x00000000),
+                            width: 1,
+                          ),
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(4.0),
+                            topRight: Radius.circular(4.0),
+                          ),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0x00000000),
+                            width: 1,
+                          ),
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(4.0),
+                            topRight: Radius.circular(4.0),
+                          ),
+                        ),
+                      ),
+                      style: FlutterFlowTheme.bodyText1,
+                      maxLines: 3,
+                      keyboardType: TextInputType.streetAddress,
                     ),
                   ),
                   FlutterFlowIconButton(
@@ -152,19 +185,11 @@ class _SearchWidgetState extends State<SearchWidget> {
                     buttonSize: 60,
                     icon: Icon(
                       Icons.location_pin,
-                      color: Colors.black,
+                      color: FlutterFlowTheme.primaryColor,
                       size: 25,
                     ),
-                    onPressed: () async {
-                      await Navigator.push(
-                        context,
-                        PageTransition(
-                          type: PageTransitionType.fade,
-                          duration: Duration(milliseconds: 0),
-                          reverseDuration: Duration(milliseconds: 0),
-                          child: SearchMapsWidget(),
-                        ),
-                      );
+                    onPressed: () {
+                      print('IconButton pressed ...');
                     },
                   )
                 ],
@@ -221,13 +246,20 @@ class _SearchWidgetState extends State<SearchWidget> {
                     onPressed: () async {
                       setState(() => _loadingButton = true);
                       try {
+                        setState(() => algoliaSearchResults = null);
+                        await AnnoncesRecord.search(
+                          term: dateTimeFormat('relative', datePicked),
+                        )
+                            .then((r) => algoliaSearchResults = r)
+                            .onError((_, __) => algoliaSearchResults = [])
+                            .whenComplete(() => setState(() {}));
                         await Navigator.push(
                           context,
                           PageTransition(
                             type: PageTransitionType.fade,
                             duration: Duration(milliseconds: 0),
                             reverseDuration: Duration(milliseconds: 0),
-                            child: SearchResultsWidget(),
+                            child: NavBarPage(initialPage: 'Search'),
                           ),
                         );
                       } finally {

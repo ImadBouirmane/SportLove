@@ -26,10 +26,8 @@ class _EditSLWidgetState extends State<EditSLWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<UsersRecord>>(
-      stream: queryUsersRecord(
-        singleRecord: true,
-      ),
+    return StreamBuilder<UsersRecord>(
+      stream: UsersRecord.getDocument(currentUserReference),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
@@ -43,14 +41,7 @@ class _EditSLWidgetState extends State<EditSLWidget> {
             ),
           );
         }
-        List<UsersRecord> editSLUsersRecordList = snapshot.data;
-        // Return an empty Container when the document does not exist.
-        if (snapshot.data.isEmpty) {
-          return Container();
-        }
-        final editSLUsersRecord = editSLUsersRecordList.isNotEmpty
-            ? editSLUsersRecordList.first
-            : null;
+        final editSLUsersRecord = snapshot.data;
         return Scaffold(
           key: scaffoldKey,
           appBar: AppBar(
@@ -104,7 +95,8 @@ class _EditSLWidgetState extends State<EditSLWidget> {
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 30),
                   child: FlutterFlowChoiceChips(
-                    initialOption: sportLevel1Value ??= 'Débutant ',
+                    initialOption: sportLevel1Value ??=
+                        editSLUsersRecord.sportLevel1,
                     options: [
                       ChipData('Débutant '),
                       ChipData('Amateur'),
@@ -151,7 +143,8 @@ class _EditSLWidgetState extends State<EditSLWidget> {
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 30),
                   child: FlutterFlowChoiceChips(
-                    initialOption: sportLevel2Value ??= 'Débutant ',
+                    initialOption: sportLevel2Value ??=
+                        editSLUsersRecord.sportLevel2,
                     options: [
                       ChipData('Débutant '),
                       ChipData('Amateur'),
@@ -198,7 +191,8 @@ class _EditSLWidgetState extends State<EditSLWidget> {
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 30),
                   child: FlutterFlowChoiceChips(
-                    initialOption: sportLevel3Value ??= 'Débutant ',
+                    initialOption: sportLevel3Value ??=
+                        editSLUsersRecord.sportLevel3,
                     options: [
                       ChipData('Débutant '),
                       ChipData('Amateur'),

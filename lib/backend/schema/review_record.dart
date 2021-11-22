@@ -23,12 +23,16 @@ abstract class ReviewRecord
   DateTime get timeCreated;
 
   @nullable
+  bool get reviewOwner;
+
+  @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference get reference;
 
   static void _initializeBuilder(ReviewRecordBuilder builder) => builder
     ..comment = ''
-    ..reviewRating = 0.0;
+    ..reviewRating = 0.0
+    ..reviewOwner = false;
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('review');
@@ -52,6 +56,7 @@ Map<String, dynamic> createReviewRecordData({
   String comment,
   double reviewRating,
   DateTime timeCreated,
+  bool reviewOwner,
 }) =>
     serializers.toFirestore(
         ReviewRecord.serializer,
@@ -59,4 +64,5 @@ Map<String, dynamic> createReviewRecordData({
           ..userReview = userReview
           ..comment = comment
           ..reviewRating = reviewRating
-          ..timeCreated = timeCreated));
+          ..timeCreated = timeCreated
+          ..reviewOwner = reviewOwner));

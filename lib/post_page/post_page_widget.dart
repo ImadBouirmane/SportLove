@@ -9,7 +9,12 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PostPageWidget extends StatefulWidget {
-  PostPageWidget({Key key}) : super(key: key);
+  PostPageWidget({
+    Key key,
+    this.postReference,
+  }) : super(key: key);
+
+  final DocumentReference postReference;
 
   @override
   _PostPageWidgetState createState() => _PostPageWidgetState();
@@ -31,10 +36,8 @@ class _PostPageWidgetState extends State<PostPageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<PostsRecord>>(
-      stream: queryPostsRecord(
-        singleRecord: true,
-      ),
+    return StreamBuilder<PostsRecord>(
+      stream: PostsRecord.getDocument(widget.postReference),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
@@ -48,14 +51,7 @@ class _PostPageWidgetState extends State<PostPageWidget> {
             ),
           );
         }
-        List<PostsRecord> postPagePostsRecordList = snapshot.data;
-        // Return an empty Container when the document does not exist.
-        if (snapshot.data.isEmpty) {
-          return Container();
-        }
-        final postPagePostsRecord = postPagePostsRecordList.isNotEmpty
-            ? postPagePostsRecordList.first
-            : null;
+        final postPagePostsRecord = snapshot.data;
         return Scaffold(
           key: scaffoldKey,
           appBar: AppBar(
@@ -76,29 +72,30 @@ class _PostPageWidgetState extends State<PostPageWidget> {
           backgroundColor: FlutterFlowTheme.tertiaryColor,
           body: Stack(
             children: [
-              StreamBuilder<PostsRecord>(
-                stream: PostsRecord.getDocument(postPagePostsRecord.reference),
-                builder: (context, snapshot) {
-                  // Customize what your widget looks like when it's loading.
-                  if (!snapshot.hasData) {
-                    return Center(
-                      child: SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          color: FlutterFlowTheme.primaryColor,
-                        ),
-                      ),
-                    );
-                  }
-                  final columnPostsRecord = snapshot.data;
-                  return Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
-                        child: Container(
+              Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
+                    child: StreamBuilder<PostsRecord>(
+                      stream: PostsRecord.getDocument(
+                          postPagePostsRecord.reference),
+                      builder: (context, snapshot) {
+                        // Customize what your widget looks like when it's loading.
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                color: FlutterFlowTheme.primaryColor,
+                              ),
+                            ),
+                          );
+                        }
+                        final containerPostsRecord = snapshot.data;
+                        return Container(
                           width: double.infinity,
                           height: 200,
                           decoration: BoxDecoration(
@@ -111,7 +108,7 @@ class _PostPageWidgetState extends State<PostPageWidget> {
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               Image.network(
-                                columnPostsRecord.photo,
+                                containerPostsRecord.photo,
                                 width: double.infinity,
                                 height: 200,
                                 fit: BoxFit.cover,
@@ -125,7 +122,7 @@ class _PostPageWidgetState extends State<PostPageWidget> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      columnPostsRecord.titre,
+                                      containerPostsRecord.titre,
                                       style:
                                           FlutterFlowTheme.subtitle1.override(
                                         fontFamily: 'Poppins',
@@ -134,8 +131,8 @@ class _PostPageWidgetState extends State<PostPageWidget> {
                                       ),
                                     ),
                                     Text(
-                                      dateTimeFormat(
-                                          'Hm', columnPostsRecord.timeCreated),
+                                      dateTimeFormat('relative',
+                                          containerPostsRecord.timeCreated),
                                       style:
                                           FlutterFlowTheme.bodyText1.override(
                                         fontFamily: 'Poppins',
@@ -147,15 +144,15 @@ class _PostPageWidgetState extends State<PostPageWidget> {
                               ),
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
-                                    20, 20, 20, 0),
+                                    20, 20, 20, 20),
                                 child: Container(
                                   width: double.infinity,
-                                  height: 100,
+                                  height: 80,
                                   decoration: BoxDecoration(
                                     color: FlutterFlowTheme.tertiaryColor,
                                   ),
                                   child: Text(
-                                    columnPostsRecord.description
+                                    containerPostsRecord.description
                                         .maybeHandleOverflow(maxChars: 150),
                                     style: FlutterFlowTheme.bodyText1.override(
                                       fontFamily: 'Poppins',
@@ -166,218 +163,210 @@ class _PostPageWidgetState extends State<PostPageWidget> {
                               )
                             ],
                           ),
-                        ),
+                        );
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
+                    child: StreamBuilder<List<ReviewRecord>>(
+                      stream: queryReviewRecord(
+                        queryBuilder: (reviewRecord) => reviewRecord
+                            .where('userReview',
+                                isEqualTo: currentUserReference)
+                            .orderBy('timeCreated', descending: true),
                       ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
-                        child: StreamBuilder<List<ReviewRecord>>(
-                          stream: queryReviewRecord(
-                            queryBuilder: (reviewRecord) => reviewRecord
-                                .where('userReview',
-                                    isEqualTo: currentUserReference)
-                                .orderBy('timeCreated', descending: true),
-                          ),
-                          builder: (context, snapshot) {
-                            // Customize what your widget looks like when it's loading.
-                            if (!snapshot.hasData) {
-                              return Center(
-                                child: SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: CircularProgressIndicator(
-                                    color: FlutterFlowTheme.primaryColor,
-                                  ),
-                                ),
-                              );
-                            }
-                            List<ReviewRecord> commentSectionReviewRecordList =
-                                snapshot.data;
-                            return SingleChildScrollView(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: List.generate(
-                                    commentSectionReviewRecordList.length,
-                                    (commentSectionIndex) {
-                                  final commentSectionReviewRecord =
-                                      commentSectionReviewRecordList[
-                                          commentSectionIndex];
-                                  return Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0, 0, 0, 10),
-                                    child: StreamBuilder<ReviewRecord>(
-                                      stream: ReviewRecord.getDocument(
-                                          commentSectionReviewRecord.reference),
-                                      builder: (context, snapshot) {
-                                        // Customize what your widget looks like when it's loading.
-                                        if (!snapshot.hasData) {
-                                          return Center(
-                                            child: SizedBox(
-                                              width: 20,
-                                              height: 20,
-                                              child: CircularProgressIndicator(
-                                                color: FlutterFlowTheme
-                                                    .primaryColor,
-                                              ),
-                                            ),
-                                          );
-                                        }
-                                        final containerReviewRecord =
-                                            snapshot.data;
-                                        return Container(
-                                          width: double.infinity,
-                                          height: 80,
-                                          decoration: BoxDecoration(
+                      builder: (context, snapshot) {
+                        // Customize what your widget looks like when it's loading.
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                color: FlutterFlowTheme.primaryColor,
+                              ),
+                            ),
+                          );
+                        }
+                        List<ReviewRecord> commentSectionReviewRecordList =
+                            snapshot.data;
+                        return SingleChildScrollView(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: List.generate(
+                                commentSectionReviewRecordList.length,
+                                (commentSectionIndex) {
+                              final commentSectionReviewRecord =
+                                  commentSectionReviewRecordList[
+                                      commentSectionIndex];
+                              return Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
+                                child: StreamBuilder<ReviewRecord>(
+                                  stream: ReviewRecord.getDocument(
+                                      commentSectionReviewRecord.reference),
+                                  builder: (context, snapshot) {
+                                    // Customize what your widget looks like when it's loading.
+                                    if (!snapshot.hasData) {
+                                      return Center(
+                                        child: SizedBox(
+                                          width: 20,
+                                          height: 20,
+                                          child: CircularProgressIndicator(
                                             color:
-                                                FlutterFlowTheme.tertiaryColor,
+                                                FlutterFlowTheme.primaryColor,
                                           ),
-                                          child: Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    10, 5, 10, 5),
-                                            child: StreamBuilder<UsersRecord>(
-                                              stream: UsersRecord.getDocument(
-                                                  containerReviewRecord
-                                                      .userReview),
-                                              builder: (context, snapshot) {
-                                                // Customize what your widget looks like when it's loading.
-                                                if (!snapshot.hasData) {
-                                                  return Center(
-                                                    child: SizedBox(
-                                                      width: 20,
-                                                      height: 20,
-                                                      child:
-                                                          CircularProgressIndicator(
-                                                        color: FlutterFlowTheme
-                                                            .primaryColor,
-                                                      ),
-                                                    ),
-                                                  );
-                                                }
-                                                final rowUsersRecord =
-                                                    snapshot.data;
-                                                return Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  children: [
-                                                    Container(
-                                                      width: 30,
-                                                      height: 30,
-                                                      clipBehavior:
-                                                          Clip.antiAlias,
-                                                      decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                      ),
-                                                      child: Image.network(
-                                                        rowUsersRecord.photoUrl,
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    8, 0, 0, 0),
-                                                        child: Column(
+                                        ),
+                                      );
+                                    }
+                                    final containerReviewRecord = snapshot.data;
+                                    return Container(
+                                      width: double.infinity,
+                                      height: 80,
+                                      decoration: BoxDecoration(
+                                        color: FlutterFlowTheme.tertiaryColor,
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            10, 5, 10, 5),
+                                        child: StreamBuilder<UsersRecord>(
+                                          stream: UsersRecord.getDocument(
+                                              containerReviewRecord.userReview),
+                                          builder: (context, snapshot) {
+                                            // Customize what your widget looks like when it's loading.
+                                            if (!snapshot.hasData) {
+                                              return Center(
+                                                child: SizedBox(
+                                                  width: 20,
+                                                  height: 20,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    color: FlutterFlowTheme
+                                                        .primaryColor,
+                                                  ),
+                                                ),
+                                              );
+                                            }
+                                            final rowUsersRecord =
+                                                snapshot.data;
+                                            return Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Container(
+                                                  width: 30,
+                                                  height: 30,
+                                                  clipBehavior: Clip.antiAlias,
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                  ),
+                                                  child: Image.network(
+                                                    rowUsersRecord.photoUrl,
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                8, 0, 0, 0),
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          children: [
+                                                            Text(
+                                                              containerReviewRecord
+                                                                  .comment,
+                                                              style:
+                                                                  FlutterFlowTheme
+                                                                      .bodyText1,
+                                                            )
+                                                          ],
+                                                        ),
+                                                        Row(
                                                           mainAxisSize:
                                                               MainAxisSize.max,
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
-                                                                  .center,
+                                                                  .spaceBetween,
                                                           children: [
-                                                            Row(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              children: [
-                                                                Text(
-                                                                  containerReviewRecord
-                                                                      .comment,
-                                                                  style: FlutterFlowTheme
-                                                                      .bodyText1,
-                                                                )
-                                                              ],
-                                                            ),
-                                                            Row(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceBetween,
-                                                              children: [
-                                                                RatingBar
-                                                                    .builder(
-                                                                  onRatingUpdate:
-                                                                      (newValue) =>
-                                                                          setState(() =>
-                                                                              ratingBarValue = newValue),
-                                                                  itemBuilder:
-                                                                      (context,
-                                                                              index) =>
-                                                                          Icon(
-                                                                    Icons
-                                                                        .star_rounded,
-                                                                    color: FlutterFlowTheme
-                                                                        .secondaryColor,
-                                                                  ),
-                                                                  direction: Axis
-                                                                      .horizontal,
-                                                                  initialRating:
-                                                                      ratingBarValue ??=
-                                                                          containerReviewRecord
-                                                                              .reviewRating,
-                                                                  unratedColor:
-                                                                      Color(
-                                                                          0xFF9E9E9E),
-                                                                  itemCount: 5,
-                                                                  itemSize: 20,
-                                                                  glowColor:
-                                                                      FlutterFlowTheme
-                                                                          .secondaryColor,
-                                                                ),
-                                                                Text(
-                                                                  dateTimeFormat(
-                                                                      'relative',
+                                                            RatingBar.builder(
+                                                              onRatingUpdate: (newValue) =>
+                                                                  setState(() =>
+                                                                      ratingBarValue =
+                                                                          newValue),
+                                                              itemBuilder:
+                                                                  (context,
+                                                                          index) =>
+                                                                      Icon(
+                                                                Icons
+                                                                    .star_rounded,
+                                                                color: FlutterFlowTheme
+                                                                    .secondaryColor,
+                                                              ),
+                                                              direction: Axis
+                                                                  .horizontal,
+                                                              initialRating:
+                                                                  ratingBarValue ??=
                                                                       containerReviewRecord
-                                                                          .timeCreated),
-                                                                  style: FlutterFlowTheme
+                                                                          .reviewRating,
+                                                              unratedColor: Color(
+                                                                  0xFF9E9E9E),
+                                                              itemCount: 5,
+                                                              itemSize: 20,
+                                                              glowColor:
+                                                                  FlutterFlowTheme
+                                                                      .secondaryColor,
+                                                            ),
+                                                            Text(
+                                                              dateTimeFormat(
+                                                                  'relative',
+                                                                  containerReviewRecord
+                                                                      .timeCreated),
+                                                              style:
+                                                                  FlutterFlowTheme
                                                                       .bodyText1
                                                                       .override(
-                                                                    fontFamily:
-                                                                        'Poppins',
-                                                                    color: FlutterFlowTheme
-                                                                        .primaryColor,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                  ),
-                                                                )
-                                                              ],
+                                                                fontFamily:
+                                                                    'Poppins',
+                                                                color: FlutterFlowTheme
+                                                                    .primaryColor,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                              ),
                                                             )
                                                           ],
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                );
-                                              },
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  );
-                                }),
-                              ),
-                            );
-                          },
-                        ),
-                      )
-                    ],
-                  );
-                },
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              );
+                            }),
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                ],
               ),
               Column(
                 mainAxisSize: MainAxisSize.max,

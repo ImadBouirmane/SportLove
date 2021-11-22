@@ -6,7 +6,6 @@ import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../main.dart';
-import '../search_maps/search_maps_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -24,7 +23,7 @@ class _NouveauAnnonceWidgetState extends State<NouveauAnnonceWidget> {
   String sportTypeValue;
   TextEditingController descriptionController;
   TextEditingController titleController;
-  TextEditingController lieuController;
+  TextEditingController adresseController;
   DateTime datePicked2;
   String hoursValue;
   TextEditingController nbrParticipantsController;
@@ -34,9 +33,9 @@ class _NouveauAnnonceWidgetState extends State<NouveauAnnonceWidget> {
   @override
   void initState() {
     super.initState();
+    adresseController = TextEditingController();
     descriptionController = TextEditingController();
     titleController = TextEditingController();
-    lieuController = TextEditingController();
     nbrParticipantsController = TextEditingController();
   }
 
@@ -198,13 +197,13 @@ class _NouveauAnnonceWidgetState extends State<NouveauAnnonceWidget> {
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 5),
+                        padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
                         child: TextFormField(
-                          controller: lieuController,
+                          controller: adresseController,
                           obscureText: false,
                           decoration: InputDecoration(
-                            hintText: 'Lieu',
-                            hintStyle: FlutterFlowTheme.subtitle2,
+                            hintText: 'Tapez votre adresse',
+                            hintStyle: FlutterFlowTheme.bodyText1,
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
                                 color: Color(0x00000000),
@@ -225,32 +224,10 @@ class _NouveauAnnonceWidgetState extends State<NouveauAnnonceWidget> {
                                 topRight: Radius.circular(4.0),
                               ),
                             ),
-                            contentPadding:
-                                EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
                           ),
-                          style: FlutterFlowTheme.subtitle2,
+                          style: FlutterFlowTheme.bodyText1,
+                          maxLines: 3,
                           keyboardType: TextInputType.streetAddress,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 0, 15, 0),
-                      child: InkWell(
-                        onTap: () async {
-                          await Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.fade,
-                              duration: Duration(milliseconds: 0),
-                              reverseDuration: Duration(milliseconds: 0),
-                              child: SearchMapsWidget(),
-                            ),
-                          );
-                        },
-                        child: Icon(
-                          Icons.location_pin,
-                          color: FlutterFlowTheme.primaryColor,
-                          size: 30,
                         ),
                       ),
                     )
@@ -460,7 +437,7 @@ class _NouveauAnnonceWidgetState extends State<NouveauAnnonceWidget> {
                             nbrParticipants: nbrParticipantsController.text,
                             timeCreated: getCurrentTimestamp,
                             user: currentUserReference,
-                            lieu: lieuController.text,
+                            lieu: adresseController.text,
                           );
                           await AnnoncesRecord.collection
                               .doc()

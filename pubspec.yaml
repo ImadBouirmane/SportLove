@@ -39,10 +39,7 @@ dependencies:
   flutter_datetime_picker: 1.5.0
   flutter_rating_bar:
   font_awesome_flutter:
-  geolocator: 7.6.2
   google_fonts: ^2.1.0
-  google_maps_flutter: ^2.0.6
-  google_maps_flutter_web: ^0.3.0+3
   google_sign_in: ^4.5.9
   image_picker: ^0.8.2
   intl:

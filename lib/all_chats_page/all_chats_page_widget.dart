@@ -23,7 +23,8 @@ class _AllChatsPageWidgetState extends State<AllChatsPageWidget> {
       key: scaffoldKey,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        automaticallyImplyLeading: false,
+        iconTheme: IconThemeData(color: FlutterFlowTheme.primaryColor),
+        automaticallyImplyLeading: true,
         title: Text(
           'All Chats',
           style: FlutterFlowTheme.bodyText1.override(

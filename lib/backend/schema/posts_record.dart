@@ -31,6 +31,9 @@ abstract class PostsRecord implements Built<PostsRecord, PostsRecordBuilder> {
   bool get visibility;
 
   @nullable
+  bool get postOwner;
+
+  @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference get reference;
 
@@ -39,7 +42,8 @@ abstract class PostsRecord implements Built<PostsRecord, PostsRecordBuilder> {
     ..description = ''
     ..titre = ''
     ..typeSport = ''
-    ..visibility = false;
+    ..visibility = false
+    ..postOwner = false;
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('posts');
@@ -66,6 +70,7 @@ Map<String, dynamic> createPostsRecordData({
   String titre,
   String typeSport,
   bool visibility,
+  bool postOwner,
 }) =>
     serializers.toFirestore(
         PostsRecord.serializer,
@@ -76,4 +81,5 @@ Map<String, dynamic> createPostsRecordData({
           ..timeCreated = timeCreated
           ..titre = titre
           ..typeSport = typeSport
-          ..visibility = visibility));
+          ..visibility = visibility
+          ..postOwner = postOwner));
