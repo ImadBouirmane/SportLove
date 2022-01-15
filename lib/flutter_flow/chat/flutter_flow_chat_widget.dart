@@ -24,9 +24,9 @@ class FFChatWidget extends StatelessWidget {
     this.backgroundColor,
     this.timeDisplaySetting = TimeDisplaySetting.visibleOnTap,
     this.currentUserBoxDecoration,
-    this.otherUserBoxDecoration,
+    this.otherUsersBoxDecoration,
     this.currentUserTextStyle,
-    this.otherUserTextStyle,
+    this.otherUsersTextStyle,
     this.inputHintTextStyle,
     this.inputTextStyle,
     this.emptyChatWidget,
@@ -42,9 +42,9 @@ class FFChatWidget extends StatelessWidget {
   final Color backgroundColor;
   final TimeDisplaySetting timeDisplaySetting;
   final BoxDecoration currentUserBoxDecoration;
-  final BoxDecoration otherUserBoxDecoration;
+  final BoxDecoration otherUsersBoxDecoration;
   final TextStyle currentUserTextStyle;
-  final TextStyle otherUserTextStyle;
+  final TextStyle otherUsersTextStyle;
   final TextStyle inputHintTextStyle;
   final TextStyle inputTextStyle;
   final Widget emptyChatWidget;
@@ -119,9 +119,9 @@ class FFChatWidget extends StatelessWidget {
                     chatMessage: chatMessage,
                     timeDisplaySetting: timeDisplaySetting,
                     currentUserBoxDecoration: currentUserBoxDecoration,
-                    otherUserBoxDecoration: otherUserBoxDecoration,
+                    otherUsersBoxDecoration: otherUsersBoxDecoration,
                     currentUserTextStyle: currentUserTextStyle,
-                    otherUserTextStyle: otherUserTextStyle,
+                    otherUsersTextStyle: otherUsersTextStyle,
                     isMe: chatMessage.user.uid == currentUser.uid,
                   ),
                 ),
@@ -140,18 +140,18 @@ class FFChatMessage extends StatefulWidget {
     this.chatMessage,
     this.timeDisplaySetting,
     this.currentUserBoxDecoration,
-    this.otherUserBoxDecoration,
+    this.otherUsersBoxDecoration,
     this.currentUserTextStyle,
-    this.otherUserTextStyle,
+    this.otherUsersTextStyle,
     this.isMe,
   }) : super(key: key);
 
   final ChatMessage chatMessage;
   final TimeDisplaySetting timeDisplaySetting;
   final BoxDecoration currentUserBoxDecoration;
-  final BoxDecoration otherUserBoxDecoration;
+  final BoxDecoration otherUsersBoxDecoration;
   final TextStyle currentUserTextStyle;
-  final TextStyle otherUserTextStyle;
+  final TextStyle otherUsersTextStyle;
   final bool isMe;
 
   @override
@@ -174,7 +174,7 @@ class _FFChatMessageState extends State<FFChatMessage> {
 
   BoxDecoration get boxDecoration => ((widget.isMe
                   ? widget.currentUserBoxDecoration
-                  : widget.otherUserBoxDecoration) ??
+                  : widget.otherUsersBoxDecoration) ??
               BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 color: widget.isMe ? Colors.white : const Color(0xFF4B39EF),
@@ -191,7 +191,7 @@ class _FFChatMessageState extends State<FFChatMessage> {
 
   TextStyle get textStyle => ((widget.isMe
               ? widget.currentUserTextStyle
-              : widget.otherUserTextStyle) ??
+              : widget.otherUsersTextStyle) ??
           GoogleFonts.getFont(
             'DM Sans',
             color: widget.isMe ? const Color(0xFF1E2429) : Colors.white,

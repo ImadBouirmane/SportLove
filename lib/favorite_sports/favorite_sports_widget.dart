@@ -11,7 +11,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FavoriteSportsWidget extends StatefulWidget {
-  FavoriteSportsWidget({Key key}) : super(key: key);
+  const FavoriteSportsWidget({Key key}) : super(key: key);
 
   @override
   _FavoriteSportsWidgetState createState() => _FavoriteSportsWidgetState();
@@ -21,7 +21,6 @@ class _FavoriteSportsWidgetState extends State<FavoriteSportsWidget> {
   String section1Value;
   String section2Value;
   String section3Value;
-  bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -53,7 +52,7 @@ class _FavoriteSportsWidgetState extends State<FavoriteSportsWidget> {
                       FontAwesomeIcons.volleyballBall,
                       color: FlutterFlowTheme.primaryColor,
                       size: 90,
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -70,7 +69,7 @@ class _FavoriteSportsWidgetState extends State<FavoriteSportsWidget> {
                         color: FlutterFlowTheme.black,
                         fontWeight: FontWeight.w600,
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -181,26 +180,21 @@ class _FavoriteSportsWidgetState extends State<FavoriteSportsWidget> {
                   children: [
                     FFButtonWidget(
                       onPressed: () async {
-                        setState(() => _loadingButton = true);
-                        try {
-                          final usersUpdateData = createUsersRecordData(
-                            sportType1: section1Value,
-                            sportType2: section2Value,
-                            sportType3: section3Value,
-                          );
-                          await currentUserReference.update(usersUpdateData);
-                          await Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.leftToRight,
-                              duration: Duration(milliseconds: 300),
-                              reverseDuration: Duration(milliseconds: 300),
-                              child: SportLevelWidget(),
-                            ),
-                          );
-                        } finally {
-                          setState(() => _loadingButton = false);
-                        }
+                        final usersUpdateData = createUsersRecordData(
+                          sportType1: section1Value,
+                          sportType2: section2Value,
+                          sportType3: section3Value,
+                        );
+                        await currentUserReference.update(usersUpdateData);
+                        await Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.leftToRight,
+                            duration: Duration(milliseconds: 300),
+                            reverseDuration: Duration(milliseconds: 300),
+                            child: SportLevelWidget(),
+                          ),
+                        );
                       },
                       text: 'Continuer',
                       options: FFButtonOptions(
@@ -218,11 +212,10 @@ class _FavoriteSportsWidgetState extends State<FavoriteSportsWidget> {
                         ),
                         borderRadius: 12,
                       ),
-                      loading: _loadingButton,
-                    )
+                    ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

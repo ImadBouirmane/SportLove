@@ -46,6 +46,10 @@ abstract class UserStoriesRecord
       .snapshots()
       .map((s) => serializers.deserializeWith(serializer, serializedData(s)));
 
+  static Future<UserStoriesRecord> getDocumentOnce(DocumentReference ref) => ref
+      .get()
+      .then((s) => serializers.deserializeWith(serializer, serializedData(s)));
+
   UserStoriesRecord._();
   factory UserStoriesRecord([void Function(UserStoriesRecordBuilder) updates]) =
       _$UserStoriesRecord;

@@ -9,7 +9,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PostsWidget extends StatefulWidget {
-  PostsWidget({Key key}) : super(key: key);
+  const PostsWidget({Key key}) : super(key: key);
 
   @override
   _PostsWidgetState createState() => _PostsWidgetState();
@@ -124,7 +124,7 @@ class _PostsWidgetState extends State<PostsWidget> {
                                           color: FlutterFlowTheme.black,
                                           fontWeight: FontWeight.w600,
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -138,7 +138,7 @@ class _PostsWidgetState extends State<PostsWidget> {
                                         publicationsPostsRecord.description
                                             .maybeHandleOverflow(maxChars: 30),
                                         style: FlutterFlowTheme.bodyText1,
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -176,12 +176,16 @@ class _PostsWidgetState extends State<PostsWidget> {
                                             backgroundColor: Colors.transparent,
                                             context: context,
                                             builder: (context) {
-                                              return Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.35,
-                                                child: CommentWidget(),
+                                              return Padding(
+                                                padding: MediaQuery.of(context)
+                                                    .viewInsets,
+                                                child: Container(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.35,
+                                                  child: CommentWidget(),
+                                                ),
                                               );
                                             },
                                           );
@@ -195,12 +199,12 @@ class _PostsWidgetState extends State<PostsWidget> {
                                             style: FlutterFlowTheme.bodyText1,
                                           ),
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
-                                )
+                                ),
                               ],
-                            )
+                            ),
                           ],
                         ),
                       ),

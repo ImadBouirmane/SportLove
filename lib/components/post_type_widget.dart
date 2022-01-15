@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PostTypeWidget extends StatefulWidget {
-  PostTypeWidget({Key key}) : super(key: key);
+  const PostTypeWidget({Key key}) : super(key: key);
 
   @override
   _PostTypeWidgetState createState() => _PostTypeWidgetState();
@@ -106,7 +106,7 @@ class _PostTypeWidgetState extends State<PostTypeWidget> {
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -171,14 +171,14 @@ class _PostTypeWidgetState extends State<PostTypeWidget> {
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),

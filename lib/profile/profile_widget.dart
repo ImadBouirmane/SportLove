@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProfileWidget extends StatefulWidget {
-  ProfileWidget({Key key}) : super(key: key);
+  const ProfileWidget({Key key}) : super(key: key);
 
   @override
   _ProfileWidgetState createState() => _ProfileWidgetState();
@@ -70,7 +70,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                     ),
                   );
                 },
-              )
+              ),
             ],
             centerTitle: true,
             elevation: 4,
@@ -131,7 +131,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                                 color: FlutterFlowTheme.black,
                                                 fontWeight: FontWeight.bold,
                                               ),
-                                            )
+                                            ),
                                           ],
                                         ),
                                         Padding(
@@ -151,7 +151,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.normal,
                                                 ),
-                                              )
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -179,12 +179,12 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
-                                            )
+                                            ),
                                           ],
-                                        )
+                                        ),
                                       ],
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
@@ -207,7 +207,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                           .maybeHandleOverflow(maxChars: 40),
                                       style: FlutterFlowTheme.bodyText1,
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
@@ -252,7 +252,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                                 style:
                                                     FlutterFlowTheme.bodyText1,
                                               ),
-                                            )
+                                            ),
                                           ],
                                         ),
                                         Row(
@@ -279,7 +279,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                                 style:
                                                     FlutterFlowTheme.bodyText1,
                                               ),
-                                            )
+                                            ),
                                           ],
                                         ),
                                         Row(
@@ -306,20 +306,20 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                                 style:
                                                     FlutterFlowTheme.bodyText1,
                                               ),
-                                            )
+                                            ),
                                           ],
-                                        )
+                                        ),
                                       ],
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

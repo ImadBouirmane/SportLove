@@ -9,7 +9,7 @@ class FFChatPreview extends StatelessWidget {
     @required this.lastChatText,
     @required this.lastChatTime,
     @required this.seen,
-    @required this.userName,
+    @required this.title,
     @required this.userProfilePic,
     @required this.onTap,
     // Theme settings
@@ -25,7 +25,7 @@ class FFChatPreview extends StatelessWidget {
   final String lastChatText;
   final DateTime lastChatTime;
   final bool seen;
-  final String userName;
+  final String title;
   final String userProfilePic;
   final Function() onTap;
 
@@ -39,7 +39,7 @@ class FFChatPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final name = userName.isNotEmpty ? userName : 'Friend';
+    final chatTitle = title.isNotEmpty ? title : 'Friend';
     return InkWell(
       onTap: onTap,
       child: Column(
@@ -65,8 +65,12 @@ class FFChatPreview extends StatelessWidget {
                     ),
                   ),
                   AvatarContainer(
-                    user: ChatUser(name: name, avatar: userProfilePic),
+                    user: ChatUser(avatar: userProfilePic),
                     avatarMaxSize: 30.0,
+                    constraints: BoxConstraints(
+                      maxHeight: 420.0,
+                      maxWidth: 420.0,
+                    ),
                   ),
                 ],
               ),
@@ -75,7 +79,9 @@ class FFChatPreview extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(name, style: titleTextStyle),
+                    Expanded(
+                      child: Text(chatTitle, style: titleTextStyle),
+                    ),
                     Text(formattedDate(lastChatTime), style: dateTextStyle),
                   ],
                 ),

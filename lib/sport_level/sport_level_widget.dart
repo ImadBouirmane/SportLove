@@ -11,7 +11,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SportLevelWidget extends StatefulWidget {
-  SportLevelWidget({Key key}) : super(key: key);
+  const SportLevelWidget({Key key}) : super(key: key);
 
   @override
   _SportLevelWidgetState createState() => _SportLevelWidgetState();
@@ -21,7 +21,6 @@ class _SportLevelWidgetState extends State<SportLevelWidget> {
   String sportLevel1Value;
   String sportLevel2Value;
   String sportLevel3Value;
-  bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -66,7 +65,7 @@ class _SportLevelWidgetState extends State<SportLevelWidget> {
                     color: FlutterFlowTheme.black,
                     fontWeight: FontWeight.w600,
                   ),
-                )
+                ),
               ],
             ),
             actions: [],
@@ -89,7 +88,7 @@ class _SportLevelWidgetState extends State<SportLevelWidget> {
                         color: Color(0xFF2E2C2C),
                         fontWeight: FontWeight.bold,
                       ),
-                    )
+                    ),
                   ],
                 ),
                 Padding(
@@ -136,7 +135,7 @@ class _SportLevelWidgetState extends State<SportLevelWidget> {
                         color: Color(0xFF2E2C2C),
                         fontWeight: FontWeight.bold,
                       ),
-                    )
+                    ),
                   ],
                 ),
                 Padding(
@@ -183,7 +182,7 @@ class _SportLevelWidgetState extends State<SportLevelWidget> {
                         color: Color(0xFF2E2C2C),
                         fontWeight: FontWeight.bold,
                       ),
-                    )
+                    ),
                   ],
                 ),
                 Padding(
@@ -228,26 +227,21 @@ class _SportLevelWidgetState extends State<SportLevelWidget> {
                     children: [
                       FFButtonWidget(
                         onPressed: () async {
-                          setState(() => _loadingButton = true);
-                          try {
-                            final usersUpdateData = createUsersRecordData(
-                              sportLevel1: sportLevel1Value,
-                              sportLevel2: sportLevel2Value,
-                              sportLevel3: sportLevel3Value,
-                            );
-                            await currentUserReference.update(usersUpdateData);
-                            await Navigator.push(
-                              context,
-                              PageTransition(
-                                type: PageTransitionType.fade,
-                                duration: Duration(milliseconds: 300),
-                                reverseDuration: Duration(milliseconds: 300),
-                                child: NavBarPage(initialPage: 'HomePage'),
-                              ),
-                            );
-                          } finally {
-                            setState(() => _loadingButton = false);
-                          }
+                          final usersUpdateData = createUsersRecordData(
+                            sportLevel1: sportLevel1Value,
+                            sportLevel2: sportLevel2Value,
+                            sportLevel3: sportLevel3Value,
+                          );
+                          await currentUserReference.update(usersUpdateData);
+                          await Navigator.push(
+                            context,
+                            PageTransition(
+                              type: PageTransitionType.fade,
+                              duration: Duration(milliseconds: 300),
+                              reverseDuration: Duration(milliseconds: 300),
+                              child: NavBarPage(initialPage: 'HomePage'),
+                            ),
+                          );
                         },
                         text: 'Continuer',
                         options: FFButtonOptions(
@@ -265,11 +259,10 @@ class _SportLevelWidgetState extends State<SportLevelWidget> {
                           ),
                           borderRadius: 12,
                         ),
-                        loading: _loadingButton,
-                      )
+                      ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),

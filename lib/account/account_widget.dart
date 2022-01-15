@@ -15,7 +15,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AccountWidget extends StatefulWidget {
-  AccountWidget({Key key}) : super(key: key);
+  const AccountWidget({Key key}) : super(key: key);
 
   @override
   _AccountWidgetState createState() => _AccountWidgetState();
@@ -127,10 +127,10 @@ class _AccountWidgetState extends State<AccountWidget> {
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
-                                          )
+                                          ),
                                         ],
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
@@ -157,7 +157,7 @@ class _AccountWidgetState extends State<AccountWidget> {
                                   ),
                                 );
                               },
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -240,7 +240,7 @@ class _AccountWidgetState extends State<AccountWidget> {
                                   ),
                                 );
                               },
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -314,7 +314,7 @@ class _AccountWidgetState extends State<AccountWidget> {
                               onPressed: () {
                                 print('IconButton pressed ...');
                               },
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -398,7 +398,7 @@ class _AccountWidgetState extends State<AccountWidget> {
                                   ),
                                 );
                               },
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -481,7 +481,7 @@ class _AccountWidgetState extends State<AccountWidget> {
                                   ),
                                 );
                               },
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -543,14 +543,14 @@ class _AccountWidgetState extends State<AccountWidget> {
                                   color: FlutterFlowTheme.black,
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
                     ),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),

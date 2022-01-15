@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class UsersProfileWidget extends StatefulWidget {
-  UsersProfileWidget({
+  const UsersProfileWidget({
     Key key,
     this.userDetails,
   }) : super(key: key);
@@ -104,7 +104,7 @@ class _UsersProfileWidgetState extends State<UsersProfileWidget> {
                                                 color: FlutterFlowTheme.black,
                                                 fontWeight: FontWeight.bold,
                                               ),
-                                            )
+                                            ),
                                           ],
                                         ),
                                         Padding(
@@ -125,7 +125,7 @@ class _UsersProfileWidgetState extends State<UsersProfileWidget> {
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.normal,
                                                 ),
-                                              )
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -153,12 +153,12 @@ class _UsersProfileWidgetState extends State<UsersProfileWidget> {
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
-                                            )
+                                            ),
                                           ],
-                                        )
+                                        ),
                                       ],
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
@@ -181,7 +181,7 @@ class _UsersProfileWidgetState extends State<UsersProfileWidget> {
                                           .maybeHandleOverflow(maxChars: 40),
                                       style: FlutterFlowTheme.bodyText1,
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
@@ -228,7 +228,7 @@ class _UsersProfileWidgetState extends State<UsersProfileWidget> {
                                                 style:
                                                     FlutterFlowTheme.bodyText1,
                                               ),
-                                            )
+                                            ),
                                           ],
                                         ),
                                         Row(
@@ -257,7 +257,7 @@ class _UsersProfileWidgetState extends State<UsersProfileWidget> {
                                                 style:
                                                     FlutterFlowTheme.bodyText1,
                                               ),
-                                            )
+                                            ),
                                           ],
                                         ),
                                         Row(
@@ -286,20 +286,20 @@ class _UsersProfileWidgetState extends State<UsersProfileWidget> {
                                                 style:
                                                     FlutterFlowTheme.bodyText1,
                                               ),
-                                            )
+                                            ),
                                           ],
-                                        )
+                                        ),
                                       ],
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

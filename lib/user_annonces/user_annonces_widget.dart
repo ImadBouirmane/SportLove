@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class UserAnnoncesWidget extends StatefulWidget {
-  UserAnnoncesWidget({Key key}) : super(key: key);
+  const UserAnnoncesWidget({Key key}) : super(key: key);
 
   @override
   _UserAnnoncesWidgetState createState() => _UserAnnoncesWidgetState();
@@ -106,7 +106,12 @@ class _UserAnnoncesWidgetState extends State<UserAnnoncesWidget> {
                                     type: PageTransitionType.fade,
                                     duration: Duration(milliseconds: 0),
                                     reverseDuration: Duration(milliseconds: 0),
-                                    child: AnnoncePageWidget(),
+                                    child: AnnoncePageWidget(
+                                      annonceReference:
+                                          annoncesSectionAnnoncesRecord
+                                              .reference,
+                                      userRecord: cardUsersRecord,
+                                    ),
                                   ),
                                 );
                               },
@@ -161,7 +166,7 @@ class _UserAnnoncesWidgetState extends State<UserAnnoncesWidget> {
                                                         fontWeight:
                                                             FontWeight.w600,
                                                       ),
-                                                    )
+                                                    ),
                                                   ],
                                                 ),
                                                 Row(
@@ -177,7 +182,7 @@ class _UserAnnoncesWidgetState extends State<UserAnnoncesWidget> {
                                                         fontFamily: 'Poppins',
                                                         fontSize: 10,
                                                       ),
-                                                    )
+                                                    ),
                                                   ],
                                                 ),
                                                 Row(
@@ -193,9 +198,9 @@ class _UserAnnoncesWidgetState extends State<UserAnnoncesWidget> {
                                                         fontFamily: 'Poppins',
                                                         fontSize: 10,
                                                       ),
-                                                    )
+                                                    ),
                                                   ],
-                                                )
+                                                ),
                                               ],
                                             ),
                                           ),
@@ -220,20 +225,25 @@ class _UserAnnoncesWidgetState extends State<UserAnnoncesWidget> {
                                                         Colors.transparent,
                                                     context: context,
                                                     builder: (context) {
-                                                      return Container(
-                                                        height: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .height *
-                                                            0.3,
-                                                        child: MenuWidget(),
+                                                      return Padding(
+                                                        padding: MediaQuery.of(
+                                                                context)
+                                                            .viewInsets,
+                                                        child: Container(
+                                                          height: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height *
+                                                              0.3,
+                                                          child: MenuWidget(),
+                                                        ),
                                                       );
                                                     },
                                                   );
                                                 },
                                               ),
                                             ),
-                                          )
+                                          ),
                                         ],
                                       ),
                                       Padding(
@@ -306,7 +316,7 @@ class _UserAnnoncesWidgetState extends State<UserAnnoncesWidget> {
                                                             FontWeight.w500,
                                                       ),
                                                     ),
-                                                  )
+                                                  ),
                                                 ],
                                               ),
                                             ),
@@ -335,12 +345,12 @@ class _UserAnnoncesWidgetState extends State<UserAnnoncesWidget> {
                                                           FontWeight.w500,
                                                     ),
                                                   ),
-                                                )
+                                                ),
                                               ],
-                                            )
+                                            ),
                                           ],
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ),

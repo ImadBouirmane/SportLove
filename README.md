@@ -1,4 +1,4 @@
-# sport_love
+# SportLove
 
 A new Flutter project.
 

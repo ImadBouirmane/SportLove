@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class StoryCreateWidget extends StatefulWidget {
-  StoryCreateWidget({Key key}) : super(key: key);
+  const StoryCreateWidget({Key key}) : super(key: key);
 
   @override
   _StoryCreateWidgetState createState() => _StoryCreateWidgetState();
@@ -100,7 +100,7 @@ class _StoryCreateWidgetState extends State<StoryCreateWidget> {
                               }
                             }
                           },
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -145,14 +145,14 @@ class _StoryCreateWidgetState extends State<StoryCreateWidget> {
                               },
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );

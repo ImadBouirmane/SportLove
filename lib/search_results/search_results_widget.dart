@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SearchResultsWidget extends StatefulWidget {
-  SearchResultsWidget({Key key}) : super(key: key);
+  const SearchResultsWidget({Key key}) : super(key: key);
 
   @override
   _SearchResultsWidgetState createState() => _SearchResultsWidgetState();
@@ -165,7 +165,7 @@ class _SearchResultsWidgetState extends State<SearchResultsWidget> {
                                                       fontWeight:
                                                           FontWeight.w600,
                                                     ),
-                                                  )
+                                                  ),
                                                 ],
                                               ),
                                               Row(
@@ -180,7 +180,7 @@ class _SearchResultsWidgetState extends State<SearchResultsWidget> {
                                                       fontFamily: 'Poppins',
                                                       fontSize: 10,
                                                     ),
-                                                  )
+                                                  ),
                                                 ],
                                               ),
                                               Row(
@@ -194,9 +194,9 @@ class _SearchResultsWidgetState extends State<SearchResultsWidget> {
                                                       fontFamily: 'Poppins',
                                                       fontSize: 10,
                                                     ),
-                                                  )
+                                                  ),
                                                 ],
-                                              )
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -221,20 +221,25 @@ class _SearchResultsWidgetState extends State<SearchResultsWidget> {
                                                       Colors.transparent,
                                                   context: context,
                                                   builder: (context) {
-                                                    return Container(
-                                                      height:
+                                                    return Padding(
+                                                      padding:
                                                           MediaQuery.of(context)
-                                                                  .size
-                                                                  .height *
-                                                              0.3,
-                                                      child: MenuWidget(),
+                                                              .viewInsets,
+                                                      child: Container(
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.3,
+                                                        child: MenuWidget(),
+                                                      ),
                                                     );
                                                   },
                                                 );
                                               },
                                             ),
                                           ),
-                                        )
+                                        ),
                                       ],
                                     );
                                   },
@@ -296,7 +301,7 @@ class _SearchResultsWidgetState extends State<SearchResultsWidget> {
                                                   fontWeight: FontWeight.w500,
                                                 ),
                                               ),
-                                            )
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -323,12 +328,12 @@ class _SearchResultsWidgetState extends State<SearchResultsWidget> {
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
-                                          )
+                                          ),
                                         ],
-                                      )
+                                      ),
                                     ],
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),

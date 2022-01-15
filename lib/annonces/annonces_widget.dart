@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AnnoncesWidget extends StatefulWidget {
-  AnnoncesWidget({Key key}) : super(key: key);
+  const AnnoncesWidget({Key key}) : super(key: key);
 
   @override
   _AnnoncesWidgetState createState() => _AnnoncesWidgetState();
@@ -170,7 +170,7 @@ class _AnnoncesWidgetState extends State<AnnoncesWidget> {
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.w600,
                                                   ),
-                                                )
+                                                ),
                                               ],
                                             ),
                                             Row(
@@ -185,7 +185,7 @@ class _AnnoncesWidgetState extends State<AnnoncesWidget> {
                                                     fontFamily: 'Poppins',
                                                     fontSize: 10,
                                                   ),
-                                                )
+                                                ),
                                               ],
                                             ),
                                             Row(
@@ -199,12 +199,12 @@ class _AnnoncesWidgetState extends State<AnnoncesWidget> {
                                                     fontFamily: 'Poppins',
                                                     fontSize: 10,
                                                   ),
-                                                )
+                                                ),
                                               ],
-                                            )
+                                            ),
                                           ],
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
                                   Padding(
@@ -269,7 +269,7 @@ class _AnnoncesWidgetState extends State<AnnoncesWidget> {
                                                     fontWeight: FontWeight.w500,
                                                   ),
                                                 ),
-                                              )
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -297,12 +297,12 @@ class _AnnoncesWidgetState extends State<AnnoncesWidget> {
                                                   fontWeight: FontWeight.w500,
                                                 ),
                                               ),
-                                            )
+                                            ),
                                           ],
-                                        )
+                                        ),
                                       ],
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             ),

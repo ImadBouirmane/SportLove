@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PhoneOTPWidget extends StatefulWidget {
-  PhoneOTPWidget({Key key}) : super(key: key);
+  const PhoneOTPWidget({Key key}) : super(key: key);
 
   @override
   _PhoneOTPWidgetState createState() => _PhoneOTPWidgetState();
@@ -17,7 +17,6 @@ class PhoneOTPWidget extends StatefulWidget {
 class _PhoneOTPWidgetState extends State<PhoneOTPWidget>
     with TickerProviderStateMixin {
   TextEditingController verificationCodeController;
-  bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final animationsMap = {
     'containerOnPageLoadAnimation': AnimationInfo(
@@ -25,7 +24,14 @@ class _PhoneOTPWidgetState extends State<PhoneOTPWidget>
       trigger: AnimationTrigger.onPageLoad,
       duration: 600,
       fadeIn: true,
-      slideOffset: Offset(0, -48),
+      initialState: AnimationState(
+        offset: Offset(0, 48),
+        opacity: 0,
+      ),
+      finalState: AnimationState(
+        offset: Offset(0, 0),
+        opacity: 1,
+      ),
     ),
   };
 
@@ -74,7 +80,7 @@ class _PhoneOTPWidgetState extends State<PhoneOTPWidget>
                     width: 100,
                     height: 100,
                     fit: BoxFit.contain,
-                  )
+                  ),
                 ],
               ),
               Padding(
@@ -109,7 +115,7 @@ class _PhoneOTPWidgetState extends State<PhoneOTPWidget>
                                   fontFamily: 'Poppins',
                                   color: FlutterFlowTheme.tertiaryColor,
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -126,7 +132,7 @@ class _PhoneOTPWidgetState extends State<PhoneOTPWidget>
                                   color: FlutterFlowTheme.tertiaryColor,
                                   fontSize: 14,
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -187,41 +193,33 @@ class _PhoneOTPWidgetState extends State<PhoneOTPWidget>
                             children: [
                               FFButtonWidget(
                                 onPressed: () async {
-                                  setState(() => _loadingButton = true);
-                                  try {
-                                    if (verificationCodeController
-                                        .text.isEmpty) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                              'Enter SMS verification code.'),
-                                        ),
-                                      );
-                                      return;
-                                    }
-                                    final phoneVerifiedUser =
-                                        await verifySmsCode(
-                                      context: context,
-                                      smsCode: verificationCodeController.text,
-                                    );
-                                    if (phoneVerifiedUser == null) {
-                                      return;
-                                    }
-                                    await Navigator.push(
-                                      context,
-                                      PageTransition(
-                                        type: PageTransitionType.scale,
-                                        alignment: Alignment.bottomCenter,
-                                        duration: Duration(milliseconds: 100),
-                                        reverseDuration:
-                                            Duration(milliseconds: 100),
-                                        child: FavoriteSportsWidget(),
+                                  if (verificationCodeController.text.isEmpty) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                            'Enter SMS verification code.'),
                                       ),
                                     );
-                                  } finally {
-                                    setState(() => _loadingButton = false);
+                                    return;
                                   }
+                                  final phoneVerifiedUser = await verifySmsCode(
+                                    context: context,
+                                    smsCode: verificationCodeController.text,
+                                  );
+                                  if (phoneVerifiedUser == null) {
+                                    return;
+                                  }
+                                  await Navigator.push(
+                                    context,
+                                    PageTransition(
+                                      type: PageTransitionType.scale,
+                                      alignment: Alignment.bottomCenter,
+                                      duration: Duration(milliseconds: 100),
+                                      reverseDuration:
+                                          Duration(milliseconds: 100),
+                                      child: FavoriteSportsWidget(),
+                                    ),
+                                  );
                                 },
                                 text: 'Soumettre',
                                 options: FFButtonOptions(
@@ -239,16 +237,15 @@ class _PhoneOTPWidgetState extends State<PhoneOTPWidget>
                                   ),
                                   borderRadius: 0,
                                 ),
-                                loading: _loadingButton,
-                              )
+                              ),
                             ],
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
                 ).animated([animationsMap['containerOnPageLoadAnimation']]),
-              )
+              ),
             ],
           ),
         ),

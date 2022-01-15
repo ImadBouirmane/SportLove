@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SignUpWidget extends StatefulWidget {
-  SignUpWidget({Key key}) : super(key: key);
+  const SignUpWidget({Key key}) : super(key: key);
 
   @override
   _SignUpWidgetState createState() => _SignUpWidgetState();
@@ -23,7 +23,6 @@ class _SignUpWidgetState extends State<SignUpWidget>
   bool pwdVisibility;
   TextEditingController pwdConfirmationController;
   bool pwdConfirmationVisibility;
-  bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final animationsMap = {
     'containerOnPageLoadAnimation': AnimationInfo(
@@ -31,7 +30,14 @@ class _SignUpWidgetState extends State<SignUpWidget>
       trigger: AnimationTrigger.onPageLoad,
       duration: 600,
       fadeIn: true,
-      slideOffset: Offset(0, -48),
+      initialState: AnimationState(
+        offset: Offset(0, 48),
+        opacity: 0,
+      ),
+      finalState: AnimationState(
+        offset: Offset(0, 0),
+        opacity: 1,
+      ),
     ),
   };
 
@@ -108,7 +114,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
                           width: MediaQuery.of(context).size.width * 0.3,
                           height: 100,
                           fit: BoxFit.cover,
-                        )
+                        ),
                       ],
                     ),
                     Padding(
@@ -309,7 +315,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                           fontSize: 14,
                                         ),
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
@@ -322,46 +328,40 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                   children: [
                                     FFButtonWidget(
                                       onPressed: () async {
-                                        setState(() => _loadingButton = true);
-                                        try {
-                                          if (pwdController.text !=
-                                              pwdConfirmationController.text) {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              SnackBar(
-                                                content: Text(
-                                                  "Passwords don't match!",
-                                                ),
+                                        if (pwdController.text !=
+                                            pwdConfirmationController.text) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                "Passwords don't match!",
                                               ),
-                                            );
-                                            return;
-                                          }
-
-                                          final user =
-                                              await createAccountWithEmail(
-                                            context,
-                                            emailAddressController.text,
-                                            pwdController.text,
-                                          );
-                                          if (user == null) {
-                                            return;
-                                          }
-
-                                          await Navigator.push(
-                                            context,
-                                            PageTransition(
-                                              type: PageTransitionType.fade,
-                                              duration:
-                                                  Duration(milliseconds: 300),
-                                              reverseDuration:
-                                                  Duration(milliseconds: 300),
-                                              child: InputProfileWidget(),
                                             ),
                                           );
-                                        } finally {
-                                          setState(
-                                              () => _loadingButton = false);
+                                          return;
                                         }
+
+                                        final user =
+                                            await createAccountWithEmail(
+                                          context,
+                                          emailAddressController.text,
+                                          pwdController.text,
+                                        );
+                                        if (user == null) {
+                                          return;
+                                        }
+
+                                        await Navigator.push(
+                                          context,
+                                          PageTransition(
+                                            type: PageTransitionType.fade,
+                                            duration:
+                                                Duration(milliseconds: 300),
+                                            reverseDuration:
+                                                Duration(milliseconds: 300),
+                                            child: InputProfileWidget(),
+                                          ),
+                                        );
                                       },
                                       text: 'Inscription',
                                       options: FFButtonOptions(
@@ -380,8 +380,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                         ),
                                         borderRadius: 5,
                                       ),
-                                      loading: _loadingButton,
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
@@ -431,16 +430,16 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                           ),
                                         ),
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),
                       ).animated(
                           [animationsMap['containerOnPageLoadAnimation']]),
-                    )
+                    ),
                   ],
                 ),
               ),

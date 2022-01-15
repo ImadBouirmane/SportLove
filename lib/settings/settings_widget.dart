@@ -12,7 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:share_plus/share_plus.dart';
 
 class SettingsWidget extends StatefulWidget {
-  SettingsWidget({Key key}) : super(key: key);
+  const SettingsWidget({Key key}) : super(key: key);
 
   @override
   _SettingsWidgetState createState() => _SettingsWidgetState();
@@ -92,7 +92,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                             dense: true,
                             controlAffinity: ListTileControlAffinity.trailing,
                           ),
-                        )
+                        ),
                       ],
                     ),
                     Padding(
@@ -125,7 +125,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 ),
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -151,7 +151,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 ),
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -185,7 +185,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 ),
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -219,7 +219,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 ),
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -253,7 +253,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 ),
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -273,7 +273,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -294,7 +294,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -315,7 +315,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -336,7 +336,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -357,7 +357,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -383,7 +383,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 ),
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -404,7 +404,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -453,11 +453,11 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

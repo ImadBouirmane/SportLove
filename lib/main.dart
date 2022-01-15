@@ -16,6 +16,7 @@ import 'account/account_widget.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
   runApp(MyApp());
 }
 
@@ -28,6 +29,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   Stream<SportLoveFirebaseUser> userStream;
   SportLoveFirebaseUser initialUser;
+  bool displaySplashImage = true;
   final authUserSub = authenticatedUserStream.listen((_) {});
 
   @override
@@ -35,6 +37,8 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     userStream = sportLoveFirebaseUserStream()
       ..listen((user) => initialUser ?? setState(() => initialUser = user));
+    Future.delayed(
+        Duration(seconds: 1), () => setState(() => displaySplashImage = false));
   }
 
   @override
@@ -55,7 +59,7 @@ class _MyAppState extends State<MyApp> {
       ],
       supportedLocales: const [Locale('en', '')],
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: initialUser == null
+      home: initialUser == null || displaySplashImage
           ? Container(
               color: Colors.transparent,
               child: Center(
@@ -102,9 +106,18 @@ class _NavBarPageState extends State<NavBarPage> {
       'AllChatsPage': AllChatsPageWidget(),
       'Account': AccountWidget(),
     };
+    final currentIndex = tabs.keys.toList().indexOf(_currentPage);
     return Scaffold(
       body: tabs[_currentPage],
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentIndex,
+        onTap: (i) => setState(() => _currentPage = tabs.keys.toList()[i]),
+        backgroundColor: Colors.white,
+        selectedItemColor: FlutterFlowTheme.primaryColor,
+        unselectedItemColor: Color(0x8A000000),
+        showSelectedLabels: true,
+        showUnselectedLabels: false,
+        type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(
@@ -147,14 +160,6 @@ class _NavBarPageState extends State<NavBarPage> {
             tooltip: '',
           )
         ],
-        backgroundColor: Colors.white,
-        currentIndex: tabs.keys.toList().indexOf(_currentPage),
-        selectedItemColor: FlutterFlowTheme.primaryColor,
-        unselectedItemColor: Color(0x8A000000),
-        onTap: (i) => setState(() => _currentPage = tabs.keys.toList()[i]),
-        showSelectedLabels: true,
-        showUnselectedLabels: false,
-        type: BottomNavigationBarType.fixed,
       ),
     );
   }

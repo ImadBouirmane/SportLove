@@ -1,6 +1,6 @@
 {
-    "name": "sport_love",
-    "short_name": "sport_love",
+    "name": "SportLove",
+    "short_name": "SportLove",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

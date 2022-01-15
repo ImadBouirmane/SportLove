@@ -10,7 +10,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SearchWidget extends StatefulWidget {
-  SearchWidget({Key key}) : super(key: key);
+  const SearchWidget({Key key}) : super(key: key);
 
   @override
   _SearchWidgetState createState() => _SearchWidgetState();
@@ -22,7 +22,6 @@ class _SearchWidgetState extends State<SearchWidget> {
   TextEditingController textController;
   double sliderValue;
   List<AnnoncesRecord> algoliaSearchResults = [];
-  bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -96,7 +95,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                     borderRadius: 0,
                     margin: EdgeInsetsDirectional.fromSTEB(8, 4, 8, 4),
                     hidesUnderline: true,
-                  )
+                  ),
                 ],
               ),
             ),
@@ -107,7 +106,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    dateTimeFormat('M/d H:m', datePicked),
+                    dateTimeFormat('M/d H:mm', datePicked),
                     style: FlutterFlowTheme.subtitle2.override(
                       fontFamily: 'Poppins',
                       fontSize: 13,
@@ -135,7 +134,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                         minTime: datePicked,
                       );
                     },
-                  )
+                  ),
                 ],
               ),
             ),
@@ -191,7 +190,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                     onPressed: () {
                       print('IconButton pressed ...');
                     },
-                  )
+                  ),
                 ],
               ),
             ),
@@ -207,7 +206,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                       color: FlutterFlowTheme.black,
                       fontWeight: FontWeight.bold,
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -232,7 +231,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                   Text(
                     '0 - 30 KM',
                     style: FlutterFlowTheme.bodyText1,
-                  )
+                  ),
                 ],
               ),
             ),
@@ -244,27 +243,22 @@ class _SearchWidgetState extends State<SearchWidget> {
                 children: [
                   FFButtonWidget(
                     onPressed: () async {
-                      setState(() => _loadingButton = true);
-                      try {
-                        setState(() => algoliaSearchResults = null);
-                        await AnnoncesRecord.search(
-                          term: dateTimeFormat('relative', datePicked),
-                        )
-                            .then((r) => algoliaSearchResults = r)
-                            .onError((_, __) => algoliaSearchResults = [])
-                            .whenComplete(() => setState(() {}));
-                        await Navigator.push(
-                          context,
-                          PageTransition(
-                            type: PageTransitionType.fade,
-                            duration: Duration(milliseconds: 0),
-                            reverseDuration: Duration(milliseconds: 0),
-                            child: NavBarPage(initialPage: 'Search'),
-                          ),
-                        );
-                      } finally {
-                        setState(() => _loadingButton = false);
-                      }
+                      setState(() => algoliaSearchResults = null);
+                      await AnnoncesRecord.search(
+                        term: dateTimeFormat('relative', datePicked),
+                      )
+                          .then((r) => algoliaSearchResults = r)
+                          .onError((_, __) => algoliaSearchResults = [])
+                          .whenComplete(() => setState(() {}));
+                      await Navigator.push(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.fade,
+                          duration: Duration(milliseconds: 0),
+                          reverseDuration: Duration(milliseconds: 0),
+                          child: NavBarPage(initialPage: 'Search'),
+                        ),
+                      );
                     },
                     text: 'Trouver',
                     options: FFButtonOptions(
@@ -282,11 +276,10 @@ class _SearchWidgetState extends State<SearchWidget> {
                       ),
                       borderRadius: 5,
                     ),
-                    loading: _loadingButton,
-                  )
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PasswordResetWidget extends StatefulWidget {
-  PasswordResetWidget({Key key}) : super(key: key);
+  const PasswordResetWidget({Key key}) : super(key: key);
 
   @override
   _PasswordResetWidgetState createState() => _PasswordResetWidgetState();
@@ -18,7 +18,6 @@ class _PasswordResetWidgetState extends State<PasswordResetWidget> {
   bool pwdVisibility;
   TextEditingController pwdConfirmationController;
   bool pwdConfirmationVisibility;
-  bool _loadingButton = false;
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -65,7 +64,7 @@ class _PasswordResetWidgetState extends State<PasswordResetWidget> {
                         color: FlutterFlowTheme.primaryColor,
                         fontWeight: FontWeight.w600,
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -231,28 +230,23 @@ class _PasswordResetWidgetState extends State<PasswordResetWidget> {
                   children: [
                     FFButtonWidget(
                       onPressed: () async {
-                        setState(() => _loadingButton = true);
-                        try {
-                          if (!formKey.currentState.validate()) {
-                            return;
-                          }
-                          if (emailController.text.isEmpty) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'Email required!',
-                                ),
-                              ),
-                            );
-                            return;
-                          }
-                          await resetPassword(
-                            email: emailController.text,
-                            context: context,
-                          );
-                        } finally {
-                          setState(() => _loadingButton = false);
+                        if (!formKey.currentState.validate()) {
+                          return;
                         }
+                        if (emailController.text.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Email required!',
+                              ),
+                            ),
+                          );
+                          return;
+                        }
+                        await resetPassword(
+                          email: emailController.text,
+                          context: context,
+                        );
                       },
                       text: 'Valider',
                       options: FFButtonOptions(
@@ -270,11 +264,10 @@ class _PasswordResetWidgetState extends State<PasswordResetWidget> {
                         ),
                         borderRadius: 12,
                       ),
-                      loading: _loadingButton,
-                    )
+                    ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

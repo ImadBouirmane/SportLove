@@ -12,7 +12,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class NouveauAnnonceWidget extends StatefulWidget {
-  NouveauAnnonceWidget({Key key}) : super(key: key);
+  const NouveauAnnonceWidget({Key key}) : super(key: key);
 
   @override
   _NouveauAnnonceWidgetState createState() => _NouveauAnnonceWidgetState();
@@ -27,7 +27,6 @@ class _NouveauAnnonceWidgetState extends State<NouveauAnnonceWidget> {
   DateTime datePicked2;
   String hoursValue;
   TextEditingController nbrParticipantsController;
-  bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -180,7 +179,7 @@ class _NouveauAnnonceWidgetState extends State<NouveauAnnonceWidget> {
                       borderRadius: 0,
                       margin: EdgeInsetsDirectional.fromSTEB(8, 4, 8, 4),
                       hidesUnderline: true,
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -230,7 +229,7 @@ class _NouveauAnnonceWidgetState extends State<NouveauAnnonceWidget> {
                           keyboardType: TextInputType.streetAddress,
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -275,7 +274,7 @@ class _NouveauAnnonceWidgetState extends State<NouveauAnnonceWidget> {
                           currentTime: getCurrentTimestamp,
                         );
                       },
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -320,7 +319,7 @@ class _NouveauAnnonceWidgetState extends State<NouveauAnnonceWidget> {
                           currentTime: getCurrentTimestamp,
                         );
                       },
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -369,7 +368,7 @@ class _NouveauAnnonceWidgetState extends State<NouveauAnnonceWidget> {
                       borderRadius: 0,
                       margin: EdgeInsetsDirectional.fromSTEB(8, 4, 8, 4),
                       hidesUnderline: true,
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -425,35 +424,30 @@ class _NouveauAnnonceWidgetState extends State<NouveauAnnonceWidget> {
                   children: [
                     FFButtonWidget(
                       onPressed: () async {
-                        setState(() => _loadingButton = true);
-                        try {
-                          final annoncesCreateData = createAnnoncesRecordData(
-                            titre: titleController.text,
-                            description: descriptionController.text,
-                            typeSport: sportTypeValue,
-                            date: datePicked1,
-                            heure: datePicked2,
-                            duree: hoursValue,
-                            nbrParticipants: nbrParticipantsController.text,
-                            timeCreated: getCurrentTimestamp,
-                            user: currentUserReference,
-                            lieu: adresseController.text,
-                          );
-                          await AnnoncesRecord.collection
-                              .doc()
-                              .set(annoncesCreateData);
-                          await Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.fade,
-                              duration: Duration(milliseconds: 0),
-                              reverseDuration: Duration(milliseconds: 0),
-                              child: NavBarPage(initialPage: 'HomePage'),
-                            ),
-                          );
-                        } finally {
-                          setState(() => _loadingButton = false);
-                        }
+                        final annoncesCreateData = createAnnoncesRecordData(
+                          titre: titleController.text,
+                          description: descriptionController.text,
+                          typeSport: sportTypeValue,
+                          date: datePicked1,
+                          heure: datePicked2,
+                          duree: hoursValue,
+                          nbrParticipants: nbrParticipantsController.text,
+                          timeCreated: getCurrentTimestamp,
+                          user: currentUserReference,
+                          lieu: adresseController.text,
+                        );
+                        await AnnoncesRecord.collection
+                            .doc()
+                            .set(annoncesCreateData);
+                        await Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.fade,
+                            duration: Duration(milliseconds: 0),
+                            reverseDuration: Duration(milliseconds: 0),
+                            child: NavBarPage(initialPage: 'HomePage'),
+                          ),
+                        );
                       },
                       text: 'Créer',
                       options: FFButtonOptions(
@@ -471,11 +465,10 @@ class _NouveauAnnonceWidgetState extends State<NouveauAnnonceWidget> {
                         ),
                         borderRadius: 5,
                       ),
-                      loading: _loadingButton,
-                    )
+                    ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

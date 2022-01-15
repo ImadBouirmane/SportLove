@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class InputProfileWidget extends StatefulWidget {
-  InputProfileWidget({Key key}) : super(key: key);
+  const InputProfileWidget({Key key}) : super(key: key);
 
   @override
   _InputProfileWidgetState createState() => _InputProfileWidgetState();
@@ -25,9 +25,7 @@ class _InputProfileWidgetState extends State<InputProfileWidget>
   TextEditingController fullNameController;
   TextEditingController birthDateController;
   TextEditingController addressController;
-  bool _loadingButton2 = false;
   String uploadedFileUrl = '';
-  bool _loadingButton1 = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final animationsMap = {
     'containerOnPageLoadAnimation': AnimationInfo(
@@ -35,7 +33,14 @@ class _InputProfileWidgetState extends State<InputProfileWidget>
       trigger: AnimationTrigger.onPageLoad,
       duration: 600,
       fadeIn: true,
-      slideOffset: Offset(0, -48),
+      initialState: AnimationState(
+        offset: Offset(0, 48),
+        opacity: 0,
+      ),
+      finalState: AnimationState(
+        offset: Offset(0, 0),
+        opacity: 1,
+      ),
     ),
   };
 
@@ -100,7 +105,7 @@ class _InputProfileWidgetState extends State<InputProfileWidget>
                       child: Image.network(
                         uploadedFileUrl,
                       ),
-                    )
+                    ),
                   ],
                 ),
                 Padding(
@@ -111,35 +116,28 @@ class _InputProfileWidgetState extends State<InputProfileWidget>
                     children: [
                       FFButtonWidget(
                         onPressed: () async {
-                          setState(() => _loadingButton1 = true);
-                          try {
-                            final selectedMedia =
-                                await selectMediaWithSourceBottomSheet(
-                              context: context,
-                              allowPhoto: true,
-                              textColor: FlutterFlowTheme.primaryColor,
-                            );
-                            if (selectedMedia != null &&
-                                validateFileFormat(
-                                    selectedMedia.storagePath, context)) {
-                              showUploadMessage(context, 'Uploading file...',
-                                  showLoading: true);
-                              final downloadUrl = await uploadData(
-                                  selectedMedia.storagePath,
-                                  selectedMedia.bytes);
-                              ScaffoldMessenger.of(context)
-                                  .hideCurrentSnackBar();
-                              if (downloadUrl != null) {
-                                setState(() => uploadedFileUrl = downloadUrl);
-                                showUploadMessage(context, 'Success!');
-                              } else {
-                                showUploadMessage(
-                                    context, 'Failed to upload media');
-                                return;
-                              }
+                          final selectedMedia =
+                              await selectMediaWithSourceBottomSheet(
+                            context: context,
+                            allowPhoto: true,
+                            textColor: FlutterFlowTheme.primaryColor,
+                          );
+                          if (selectedMedia != null &&
+                              validateFileFormat(
+                                  selectedMedia.storagePath, context)) {
+                            showUploadMessage(context, 'Uploading file...',
+                                showLoading: true);
+                            final downloadUrl = await uploadData(
+                                selectedMedia.storagePath, selectedMedia.bytes);
+                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                            if (downloadUrl != null) {
+                              setState(() => uploadedFileUrl = downloadUrl);
+                              showUploadMessage(context, 'Success!');
+                            } else {
+                              showUploadMessage(
+                                  context, 'Failed to upload media');
+                              return;
                             }
-                          } finally {
-                            setState(() => _loadingButton1 = false);
                           }
                         },
                         text: 'Inserez votre photo',
@@ -158,8 +156,7 @@ class _InputProfileWidgetState extends State<InputProfileWidget>
                           ),
                           borderRadius: 12,
                         ),
-                        loading: _loadingButton1,
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -257,6 +254,7 @@ class _InputProfileWidgetState extends State<InputProfileWidget>
                                       color: FlutterFlowTheme.tertiaryColor,
                                       fontWeight: FontWeight.normal,
                                     ),
+                                    hintText: 'Sexe',
                                     fillColor: FlutterFlowTheme.primaryColor,
                                     elevation: 2,
                                     borderColor: Color(0x00FFFFFF),
@@ -265,7 +263,7 @@ class _InputProfileWidgetState extends State<InputProfileWidget>
                                     margin: EdgeInsetsDirectional.fromSTEB(
                                         8, 4, 8, 4),
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),
@@ -366,31 +364,26 @@ class _InputProfileWidgetState extends State<InputProfileWidget>
                               children: [
                                 FFButtonWidget(
                                   onPressed: () async {
-                                    setState(() => _loadingButton2 = true);
-                                    try {
-                                      final usersUpdateData =
-                                          createUsersRecordData(
-                                        displayName: fullNameController.text,
-                                        photoUrl: uploadedFileUrl,
-                                        gender: genderValue,
-                                        birthDate: birthDateController.text,
-                                        address: addressController.text,
-                                      );
-                                      await currentUserReference
-                                          .update(usersUpdateData);
-                                      await Navigator.push(
-                                        context,
-                                        PageTransition(
-                                          type: PageTransitionType.fade,
-                                          duration: Duration(milliseconds: 300),
-                                          reverseDuration:
-                                              Duration(milliseconds: 300),
-                                          child: FavoriteSportsWidget(),
-                                        ),
-                                      );
-                                    } finally {
-                                      setState(() => _loadingButton2 = false);
-                                    }
+                                    final usersUpdateData =
+                                        createUsersRecordData(
+                                      displayName: fullNameController.text,
+                                      photoUrl: uploadedFileUrl,
+                                      gender: genderValue,
+                                      birthDate: birthDateController.text,
+                                      address: addressController.text,
+                                    );
+                                    await currentUserReference
+                                        .update(usersUpdateData);
+                                    await Navigator.push(
+                                      context,
+                                      PageTransition(
+                                        type: PageTransitionType.fade,
+                                        duration: Duration(milliseconds: 300),
+                                        reverseDuration:
+                                            Duration(milliseconds: 300),
+                                        child: FavoriteSportsWidget(),
+                                      ),
+                                    );
                                   },
                                   text: 'Continuer',
                                   options: FFButtonOptions(
@@ -408,16 +401,15 @@ class _InputProfileWidgetState extends State<InputProfileWidget>
                                     ),
                                     borderRadius: 0,
                                   ),
-                                  loading: _loadingButton2,
-                                )
+                                ),
                               ],
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
                   ).animated([animationsMap['containerOnPageLoadAnimation']]),
-                )
+                ),
               ],
             ),
           ),

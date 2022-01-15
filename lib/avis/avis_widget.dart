@@ -8,7 +8,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AvisWidget extends StatefulWidget {
-  AvisWidget({Key key}) : super(key: key);
+  const AvisWidget({Key key}) : super(key: key);
 
   @override
   _AvisWidgetState createState() => _AvisWidgetState();
@@ -128,7 +128,7 @@ class _AvisWidgetState extends State<AvisWidget> {
                                               fontFamily: 'Poppins',
                                               fontWeight: FontWeight.w600,
                                             ),
-                                          )
+                                          ),
                                         ],
                                       ),
                                       Padding(
@@ -157,7 +157,7 @@ class _AvisWidgetState extends State<AvisWidget> {
                                               itemSize: 20,
                                               glowColor: FlutterFlowTheme
                                                   .secondaryColor,
-                                            )
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -180,13 +180,13 @@ class _AvisWidgetState extends State<AvisWidget> {
                                                   fontSize: 12,
                                                 ),
                                               ),
-                                            )
+                                            ),
                                           ],
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
-                                )
+                                ),
                               ],
                             );
                           },

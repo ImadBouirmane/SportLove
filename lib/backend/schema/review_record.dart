@@ -41,6 +41,10 @@ abstract class ReviewRecord
       .snapshots()
       .map((s) => serializers.deserializeWith(serializer, serializedData(s)));
 
+  static Future<ReviewRecord> getDocumentOnce(DocumentReference ref) => ref
+      .get()
+      .then((s) => serializers.deserializeWith(serializer, serializedData(s)));
+
   ReviewRecord._();
   factory ReviewRecord([void Function(ReviewRecordBuilder) updates]) =
       _$ReviewRecord;

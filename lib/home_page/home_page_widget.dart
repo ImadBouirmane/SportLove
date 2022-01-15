@@ -17,7 +17,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomePageWidget extends StatefulWidget {
-  HomePageWidget({Key key}) : super(key: key);
+  const HomePageWidget({Key key}) : super(key: key);
 
   @override
   _HomePageWidgetState createState() => _HomePageWidgetState();
@@ -95,10 +95,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   onPressed: () {
                     print('notifications pressed ...');
                   },
-                )
+                ),
               ],
             ),
-          )
+          ),
         ],
         centerTitle: false,
         elevation: 4,
@@ -126,9 +126,12 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               backgroundColor: Colors.transparent,
               context: context,
               builder: (context) {
-                return Container(
-                  height: MediaQuery.of(context).size.height * 0.3,
-                  child: PostTypeWidget(),
+                return Padding(
+                  padding: MediaQuery.of(context).viewInsets,
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    child: PostTypeWidget(),
+                  ),
                 );
               },
             );
@@ -154,7 +157,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         color: FlutterFlowTheme.black,
                         fontWeight: FontWeight.w600,
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -169,7 +172,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       color: FlutterFlowTheme.black,
                       fontWeight: FontWeight.bold,
                     ),
-                  )
+                  ),
                 ],
               ),
               Padding(
@@ -269,7 +272,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                           fontSize: 12,
                                         ),
                                       ),
-                                    )
+                                    ),
                                   ],
                                 );
                               },
@@ -311,7 +314,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         'Voir tout',
                         style: FlutterFlowTheme.bodyText1,
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -461,7 +464,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                             fontWeight:
                                                                 FontWeight.w600,
                                                           ),
-                                                        )
+                                                        ),
                                                       ],
                                                     ),
                                                     Row(
@@ -479,7 +482,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                                 'Poppins',
                                                             fontSize: 10,
                                                           ),
-                                                        )
+                                                        ),
                                                       ],
                                                     ),
                                                     Row(
@@ -497,12 +500,12 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                                 'Poppins',
                                                             fontSize: 10,
                                                           ),
-                                                        )
+                                                        ),
                                                       ],
-                                                    )
+                                                    ),
                                                   ],
                                                 ),
-                                              )
+                                              ),
                                             ],
                                           ),
                                           Padding(
@@ -583,7 +586,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                                 FontWeight.w500,
                                                           ),
                                                         ),
-                                                      )
+                                                      ),
                                                     ],
                                                   ),
                                                 ),
@@ -615,12 +618,12 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                               FontWeight.w500,
                                                         ),
                                                       ),
-                                                    )
+                                                    ),
                                                   ],
-                                                )
+                                                ),
                                               ],
                                             ),
-                                          )
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -665,7 +668,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         'Voir tout',
                         style: FlutterFlowTheme.bodyText1,
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -756,7 +759,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                 color: FlutterFlowTheme.black,
                                                 fontWeight: FontWeight.w600,
                                               ),
-                                            )
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -772,7 +775,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                   .maybeHandleOverflow(
                                                       maxChars: 30),
                                               style: FlutterFlowTheme.bodyText1,
-                                            )
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -815,13 +818,18 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                       Colors.transparent,
                                                   context: context,
                                                   builder: (context) {
-                                                    return Container(
-                                                      height:
+                                                    return Padding(
+                                                      padding:
                                                           MediaQuery.of(context)
-                                                                  .size
-                                                                  .height *
-                                                              0.35,
-                                                      child: CommentWidget(),
+                                                              .viewInsets,
+                                                      child: Container(
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.35,
+                                                        child: CommentWidget(),
+                                                      ),
                                                     );
                                                   },
                                                 );
@@ -838,12 +846,12 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                       .bodyText1,
                                                 ),
                                               ),
-                                            )
+                                            ),
                                           ],
                                         ),
-                                      )
+                                      ),
                                     ],
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
@@ -853,7 +861,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     ),
                   );
                 },
-              )
+              ),
             ],
           ),
         ),

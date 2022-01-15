@@ -15,20 +15,6 @@
       ]
     },
     {
-      "collectionGroup": "review",
-      "queryScope": "COLLECTION",
-      "fields": [
-        {
-          "fieldPath": "userReview",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "timeCreated",
-          "order": "DESCENDING"
-        }
-      ]
-    },
-    {
       "collectionGroup": "chats",
       "queryScope": "COLLECTION",
       "fields": [
@@ -52,20 +38,6 @@
         },
         {
           "fieldPath": "timeCreated",
-          "order": "DESCENDING"
-        }
-      ]
-    },
-    {
-      "collectionGroup": "chats",
-      "queryScope": "COLLECTION",
-      "fields": [
-        {
-          "fieldPath": "users",
-          "arrayConfig": "CONTAINS"
-        },
-        {
-          "fieldPath": "last_message_time",
           "order": "DESCENDING"
         }
       ]

@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AllChatsPageWidget extends StatefulWidget {
-  AllChatsPageWidget({Key key}) : super(key: key);
+  const AllChatsPageWidget({Key key}) : super(key: key);
 
   @override
   _AllChatsPageWidgetState createState() => _AllChatsPageWidgetState();
@@ -68,16 +68,14 @@ class _AllChatsPageWidgetState extends State<AllChatsPageWidget> {
                 itemBuilder: (context, listViewIndex) {
                   final listViewChatsRecord =
                       listViewChatsRecordList[listViewIndex];
-                  return FutureBuilder<UsersRecord>(
-                    future: () async {
-                      final chatUserRef = FFChatManager.instance.getChatUserRef(
-                          currentUserReference, listViewChatsRecord);
-                      return UsersRecord.getDocument(chatUserRef).first;
-                    }(),
+                  return StreamBuilder<FFChatInfo>(
+                    stream: FFChatManager.instance
+                        .getChatInfo(chatRecord: listViewChatsRecord),
                     builder: (context, snapshot) {
-                      final chatUser = snapshot.data;
+                      final chatInfo =
+                          snapshot.data ?? FFChatInfo(listViewChatsRecord);
                       return FFChatPreview(
-                        onTap: chatUser != null
+                        onTap: chatInfo != null
                             ? () => Navigator.push(
                                   context,
                                   PageTransition(
@@ -85,17 +83,20 @@ class _AllChatsPageWidgetState extends State<AllChatsPageWidget> {
                                     duration: Duration(milliseconds: 0),
                                     reverseDuration: Duration(milliseconds: 0),
                                     child: ChatPageWidget(
-                                      chatUser: chatUser,
+                                      chatUser: chatInfo.otherUsers.length == 1
+                                          ? chatInfo.otherUsersList.first
+                                          : null,
+                                      chatRef: chatInfo.chatRecord.reference,
                                     ),
                                   ),
                                 )
                             : null,
-                        lastChatText: listViewChatsRecord.lastMessage,
+                        lastChatText: chatInfo.chatPreviewMessage(),
                         lastChatTime: listViewChatsRecord.lastMessageTime,
                         seen: listViewChatsRecord.lastMessageSeenBy
                             .contains(currentUserReference),
-                        userName: chatUser?.displayName ?? '',
-                        userProfilePic: chatUser?.photoUrl ?? '',
+                        title: chatInfo.chatPreviewTitle(),
+                        userProfilePic: chatInfo.chatPreviewPic(),
                         color: Color(0xFFEEF0F5),
                         unreadColor: Colors.blue,
                         titleTextStyle: GoogleFonts.getFont(

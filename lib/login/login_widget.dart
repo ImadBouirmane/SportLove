@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LoginWidget extends StatefulWidget {
-  LoginWidget({Key key}) : super(key: key);
+  const LoginWidget({Key key}) : super(key: key);
 
   @override
   _LoginWidgetState createState() => _LoginWidgetState();
@@ -22,7 +22,6 @@ class _LoginWidgetState extends State<LoginWidget>
   TextEditingController emailAddressController;
   TextEditingController pwdController;
   bool pwdVisibility;
-  bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final animationsMap = {
     'containerOnPageLoadAnimation': AnimationInfo(
@@ -31,7 +30,14 @@ class _LoginWidgetState extends State<LoginWidget>
       duration: 600,
       delay: 160,
       fadeIn: true,
-      slideOffset: Offset(0, -48),
+      initialState: AnimationState(
+        offset: Offset(0, 48),
+        opacity: 0,
+      ),
+      finalState: AnimationState(
+        offset: Offset(0, 0),
+        opacity: 1,
+      ),
     ),
   };
 
@@ -75,7 +81,7 @@ class _LoginWidgetState extends State<LoginWidget>
                       width: 100,
                       height: 100,
                       fit: BoxFit.contain,
-                    )
+                    ),
                   ],
                 ),
                 Padding(
@@ -226,34 +232,27 @@ class _LoginWidgetState extends State<LoginWidget>
                                   children: [
                                     FFButtonWidget(
                                       onPressed: () async {
-                                        setState(() => _loadingButton = true);
-                                        try {
-                                          final user = await signInWithEmail(
-                                            context,
-                                            emailAddressController.text,
-                                            pwdController.text,
-                                          );
-                                          if (user == null) {
-                                            return;
-                                          }
-
-                                          await Navigator.pushAndRemoveUntil(
-                                            context,
-                                            PageTransition(
-                                              type: PageTransitionType.fade,
-                                              duration:
-                                                  Duration(milliseconds: 0),
-                                              reverseDuration:
-                                                  Duration(milliseconds: 0),
-                                              child: NavBarPage(
-                                                  initialPage: 'HomePage'),
-                                            ),
-                                            (r) => false,
-                                          );
-                                        } finally {
-                                          setState(
-                                              () => _loadingButton = false);
+                                        final user = await signInWithEmail(
+                                          context,
+                                          emailAddressController.text,
+                                          pwdController.text,
+                                        );
+                                        if (user == null) {
+                                          return;
                                         }
+
+                                        await Navigator.pushAndRemoveUntil(
+                                          context,
+                                          PageTransition(
+                                            type: PageTransitionType.fade,
+                                            duration: Duration(milliseconds: 0),
+                                            reverseDuration:
+                                                Duration(milliseconds: 0),
+                                            child: NavBarPage(
+                                                initialPage: 'HomePage'),
+                                          ),
+                                          (r) => false,
+                                        );
                                       },
                                       text: 'Connexion',
                                       options: FFButtonOptions(
@@ -272,8 +271,7 @@ class _LoginWidgetState extends State<LoginWidget>
                                         ),
                                         borderRadius: 5,
                                       ),
-                                      loading: _loadingButton,
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
@@ -323,7 +321,7 @@ class _LoginWidgetState extends State<LoginWidget>
                                           ),
                                         ),
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
@@ -410,17 +408,17 @@ class _LoginWidgetState extends State<LoginWidget>
                                           );
                                         },
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),
                       ),
                     ),
                   ).animated([animationsMap['containerOnPageLoadAnimation']]),
-                )
+                ),
               ],
             ),
           ),

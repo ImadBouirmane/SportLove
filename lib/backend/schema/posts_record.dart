@@ -52,6 +52,10 @@ abstract class PostsRecord implements Built<PostsRecord, PostsRecordBuilder> {
       .snapshots()
       .map((s) => serializers.deserializeWith(serializer, serializedData(s)));
 
+  static Future<PostsRecord> getDocumentOnce(DocumentReference ref) => ref
+      .get()
+      .then((s) => serializers.deserializeWith(serializer, serializedData(s)));
+
   PostsRecord._();
   factory PostsRecord([void Function(PostsRecordBuilder) updates]) =
       _$PostsRecord;

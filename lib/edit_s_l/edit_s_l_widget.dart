@@ -11,7 +11,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class EditSLWidget extends StatefulWidget {
-  EditSLWidget({Key key}) : super(key: key);
+  const EditSLWidget({Key key}) : super(key: key);
 
   @override
   _EditSLWidgetState createState() => _EditSLWidgetState();
@@ -21,7 +21,6 @@ class _EditSLWidgetState extends State<EditSLWidget> {
   String sportLevel1Value;
   String sportLevel2Value;
   String sportLevel3Value;
-  bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -66,7 +65,7 @@ class _EditSLWidgetState extends State<EditSLWidget> {
                     color: FlutterFlowTheme.black,
                     fontWeight: FontWeight.w600,
                   ),
-                )
+                ),
               ],
             ),
             actions: [],
@@ -89,7 +88,7 @@ class _EditSLWidgetState extends State<EditSLWidget> {
                         color: Color(0xFF2E2C2C),
                         fontWeight: FontWeight.bold,
                       ),
-                    )
+                    ),
                   ],
                 ),
                 Padding(
@@ -137,7 +136,7 @@ class _EditSLWidgetState extends State<EditSLWidget> {
                         color: Color(0xFF2E2C2C),
                         fontWeight: FontWeight.bold,
                       ),
-                    )
+                    ),
                   ],
                 ),
                 Padding(
@@ -185,7 +184,7 @@ class _EditSLWidgetState extends State<EditSLWidget> {
                         color: Color(0xFF2E2C2C),
                         fontWeight: FontWeight.bold,
                       ),
-                    )
+                    ),
                   ],
                 ),
                 Padding(
@@ -231,26 +230,21 @@ class _EditSLWidgetState extends State<EditSLWidget> {
                     children: [
                       FFButtonWidget(
                         onPressed: () async {
-                          setState(() => _loadingButton = true);
-                          try {
-                            final usersUpdateData = createUsersRecordData(
-                              sportLevel1: sportLevel1Value,
-                              sportLevel2: sportLevel2Value,
-                              sportLevel3: sportLevel3Value,
-                            );
-                            await currentUserReference.update(usersUpdateData);
-                            await Navigator.push(
-                              context,
-                              PageTransition(
-                                type: PageTransitionType.fade,
-                                duration: Duration(milliseconds: 0),
-                                reverseDuration: Duration(milliseconds: 0),
-                                child: ProfileWidget(),
-                              ),
-                            );
-                          } finally {
-                            setState(() => _loadingButton = false);
-                          }
+                          final usersUpdateData = createUsersRecordData(
+                            sportLevel1: sportLevel1Value,
+                            sportLevel2: sportLevel2Value,
+                            sportLevel3: sportLevel3Value,
+                          );
+                          await currentUserReference.update(usersUpdateData);
+                          await Navigator.push(
+                            context,
+                            PageTransition(
+                              type: PageTransitionType.fade,
+                              duration: Duration(milliseconds: 0),
+                              reverseDuration: Duration(milliseconds: 0),
+                              child: ProfileWidget(),
+                            ),
+                          );
                         },
                         text: 'Mettre à jour',
                         options: FFButtonOptions(
@@ -268,11 +262,10 @@ class _EditSLWidgetState extends State<EditSLWidget> {
                           ),
                           borderRadius: 12,
                         ),
-                        loading: _loadingButton,
-                      )
+                      ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),

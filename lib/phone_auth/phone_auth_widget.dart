@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PhoneAuthWidget extends StatefulWidget {
-  PhoneAuthWidget({Key key}) : super(key: key);
+  const PhoneAuthWidget({Key key}) : super(key: key);
 
   @override
   _PhoneAuthWidgetState createState() => _PhoneAuthWidgetState();
@@ -18,7 +18,6 @@ class PhoneAuthWidget extends StatefulWidget {
 class _PhoneAuthWidgetState extends State<PhoneAuthWidget>
     with TickerProviderStateMixin {
   TextEditingController phoneNumberAuthController;
-  bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final animationsMap = {
     'containerOnPageLoadAnimation': AnimationInfo(
@@ -26,7 +25,14 @@ class _PhoneAuthWidgetState extends State<PhoneAuthWidget>
       trigger: AnimationTrigger.onPageLoad,
       duration: 600,
       fadeIn: true,
-      slideOffset: Offset(0, -48),
+      initialState: AnimationState(
+        offset: Offset(0, 48),
+        opacity: 0,
+      ),
+      finalState: AnimationState(
+        offset: Offset(0, 0),
+        opacity: 1,
+      ),
     ),
   };
 
@@ -67,7 +73,7 @@ class _PhoneAuthWidgetState extends State<PhoneAuthWidget>
                     width: 100,
                     height: 100,
                     fit: BoxFit.contain,
-                  )
+                  ),
                 ],
               ),
               Padding(
@@ -146,42 +152,34 @@ class _PhoneAuthWidgetState extends State<PhoneAuthWidget>
                             children: [
                               FFButtonWidget(
                                 onPressed: () async {
-                                  setState(() => _loadingButton = true);
-                                  try {
-                                    if (phoneNumberAuthController
-                                            .text.isEmpty ||
-                                        !phoneNumberAuthController.text
-                                            .startsWith('+')) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                              'Phone Number is required and has to start with +.'),
-                                        ),
-                                      );
-                                      return;
-                                    }
-                                    await beginPhoneAuth(
-                                      context: context,
-                                      phoneNumber:
-                                          phoneNumberAuthController.text,
-                                      onCodeSent: () async {
-                                        await Navigator.pushAndRemoveUntil(
-                                          context,
-                                          PageTransition(
-                                            type: PageTransitionType.fade,
-                                            duration: Duration(milliseconds: 0),
-                                            reverseDuration:
-                                                Duration(milliseconds: 0),
-                                            child: PhoneOTPWidget(),
-                                          ),
-                                          (r) => false,
-                                        );
-                                      },
+                                  if (phoneNumberAuthController.text.isEmpty ||
+                                      !phoneNumberAuthController.text
+                                          .startsWith('+')) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                            'Phone Number is required and has to start with +.'),
+                                      ),
                                     );
-                                  } finally {
-                                    setState(() => _loadingButton = false);
+                                    return;
                                   }
+                                  await beginPhoneAuth(
+                                    context: context,
+                                    phoneNumber: phoneNumberAuthController.text,
+                                    onCodeSent: () async {
+                                      await Navigator.pushAndRemoveUntil(
+                                        context,
+                                        PageTransition(
+                                          type: PageTransitionType.fade,
+                                          duration: Duration(milliseconds: 0),
+                                          reverseDuration:
+                                              Duration(milliseconds: 0),
+                                          child: PhoneOTPWidget(),
+                                        ),
+                                        (r) => false,
+                                      );
+                                    },
+                                  );
                                 },
                                 text: 'Connexion',
                                 options: FFButtonOptions(
@@ -199,8 +197,7 @@ class _PhoneAuthWidgetState extends State<PhoneAuthWidget>
                                   ),
                                   borderRadius: 0,
                                 ),
-                                loading: _loadingButton,
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -244,15 +241,15 @@ class _PhoneAuthWidgetState extends State<PhoneAuthWidget>
                                     ),
                                   ),
                                 ),
-                              )
+                              ),
                             ],
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
                 ).animated([animationsMap['containerOnPageLoadAnimation']]),
-              )
+              ),
             ],
           ),
         ),

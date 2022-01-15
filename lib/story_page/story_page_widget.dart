@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class StoryPageWidget extends StatefulWidget {
-  StoryPageWidget({
+  const StoryPageWidget({
     Key key,
     this.storyReference,
     this.userStory,
@@ -109,7 +109,7 @@ class _StoryPageWidgetState extends State<StoryPageWidget> {
                               onPressed: () async {
                                 Navigator.pop(context);
                               },
-                            )
+                            ),
                           ],
                         ),
                         Padding(
@@ -187,15 +187,15 @@ class _StoryPageWidgetState extends State<StoryPageWidget> {
                                     );
                                   },
                                 ),
-                              )
+                              ),
                             ],
                           ),
-                        )
+                        ),
                       ],
                     );
                   },
                 ),
-              )
+              ),
             ],
           ),
         );

@@ -37,6 +37,10 @@ abstract class StoryCommentRecord
       .snapshots()
       .map((s) => serializers.deserializeWith(serializer, serializedData(s)));
 
+  static Future<StoryCommentRecord> getDocumentOnce(DocumentReference ref) =>
+      ref.get().then(
+          (s) => serializers.deserializeWith(serializer, serializedData(s)));
+
   StoryCommentRecord._();
   factory StoryCommentRecord(
           [void Function(StoryCommentRecordBuilder) updates]) =

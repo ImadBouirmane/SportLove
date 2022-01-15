@@ -9,7 +9,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PostPageWidget extends StatefulWidget {
-  PostPageWidget({
+  const PostPageWidget({
     Key key,
     this.postReference,
   }) : super(key: key);
@@ -23,8 +23,6 @@ class PostPageWidget extends StatefulWidget {
 class _PostPageWidgetState extends State<PostPageWidget> {
   TextEditingController commentController;
   double reviewValue;
-  bool _loadingButton1 = false;
-  bool _loadingButton2 = false;
   double ratingBarValue;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -138,7 +136,7 @@ class _PostPageWidgetState extends State<PostPageWidget> {
                                         fontFamily: 'Poppins',
                                         color: FlutterFlowTheme.primaryColor,
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
@@ -160,7 +158,7 @@ class _PostPageWidgetState extends State<PostPageWidget> {
                                     ),
                                   ),
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         );
@@ -289,7 +287,7 @@ class _PostPageWidgetState extends State<PostPageWidget> {
                                                               style:
                                                                   FlutterFlowTheme
                                                                       .bodyText1,
-                                                            )
+                                                            ),
                                                           ],
                                                         ),
                                                         Row(
@@ -344,13 +342,13 @@ class _PostPageWidgetState extends State<PostPageWidget> {
                                                                     FontWeight
                                                                         .w600,
                                                               ),
-                                                            )
+                                                            ),
                                                           ],
-                                                        )
+                                                        ),
                                                       ],
                                                     ),
                                                   ),
-                                                )
+                                                ),
                                               ],
                                             );
                                           },
@@ -365,7 +363,7 @@ class _PostPageWidgetState extends State<PostPageWidget> {
                         );
                       },
                     ),
-                  )
+                  ),
                 ],
               ),
               Column(
@@ -473,7 +471,7 @@ class _PostPageWidgetState extends State<PostPageWidget> {
                                         textAlign: TextAlign.start,
                                         maxLines: 3,
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
@@ -514,7 +512,7 @@ class _PostPageWidgetState extends State<PostPageWidget> {
                                               FlutterFlowTheme.secondaryColor,
                                         ),
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
@@ -528,15 +526,8 @@ class _PostPageWidgetState extends State<PostPageWidget> {
                                   children: [
                                     FFButtonWidget(
                                       onPressed: () async {
-                                        setState(() => _loadingButton1 = true);
-                                        try {
-                                          await avisSectionReviewRecord
-                                              .reference
-                                              .delete();
-                                        } finally {
-                                          setState(
-                                              () => _loadingButton1 = false);
-                                        }
+                                        await avisSectionReviewRecord.reference
+                                            .delete();
                                       },
                                       text: 'Annuler',
                                       options: FFButtonOptions(
@@ -555,44 +546,37 @@ class _PostPageWidgetState extends State<PostPageWidget> {
                                         ),
                                         borderRadius: 12,
                                       ),
-                                      loading: _loadingButton1,
                                     ),
                                     FFButtonWidget(
                                       onPressed: () async {
-                                        setState(() => _loadingButton2 = true);
-                                        try {
-                                          final reviewCreateData =
-                                              createReviewRecordData(
-                                            userReview: currentUserReference,
-                                            comment: commentController.text,
-                                            reviewRating: reviewValue,
-                                            timeCreated: getCurrentTimestamp,
-                                          );
-                                          await ReviewRecord.collection
-                                              .doc()
-                                              .set(reviewCreateData);
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                'Votre avis a été enregistré !',
-                                                style: GoogleFonts.getFont(
-                                                  'Poppins',
-                                                  color: FlutterFlowTheme
-                                                      .tertiaryColor,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
+                                        final reviewCreateData =
+                                            createReviewRecordData(
+                                          userReview: currentUserReference,
+                                          comment: commentController.text,
+                                          reviewRating: reviewValue,
+                                          timeCreated: getCurrentTimestamp,
+                                        );
+                                        await ReviewRecord.collection
+                                            .doc()
+                                            .set(reviewCreateData);
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'Votre avis a été enregistré !',
+                                              style: GoogleFonts.getFont(
+                                                'Poppins',
+                                                color: FlutterFlowTheme
+                                                    .tertiaryColor,
+                                                fontWeight: FontWeight.w500,
                                               ),
-                                              duration:
-                                                  Duration(milliseconds: 5350),
-                                              backgroundColor:
-                                                  FlutterFlowTheme.primaryColor,
                                             ),
-                                          );
-                                        } finally {
-                                          setState(
-                                              () => _loadingButton2 = false);
-                                        }
+                                            duration:
+                                                Duration(milliseconds: 5350),
+                                            backgroundColor:
+                                                FlutterFlowTheme.primaryColor,
+                                          ),
+                                        );
                                       },
                                       text: 'Envoyer',
                                       options: FFButtonOptions(
@@ -611,19 +595,18 @@ class _PostPageWidgetState extends State<PostPageWidget> {
                                         ),
                                         borderRadius: 12,
                                       ),
-                                      loading: _loadingButton2,
-                                    )
+                                    ),
                                   ],
                                 ),
-                              )
+                              ),
                             ],
                           );
                         },
                       ),
                     ),
-                  )
+                  ),
                 ],
-              )
+              ),
             ],
           ),
         );

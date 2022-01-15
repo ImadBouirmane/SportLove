@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class StoriesWidget extends StatefulWidget {
-  StoriesWidget({
+  const StoriesWidget({
     Key key,
     this.storyReference,
     this.userStory,

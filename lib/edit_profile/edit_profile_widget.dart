@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class EditProfileWidget extends StatefulWidget {
-  EditProfileWidget({Key key}) : super(key: key);
+  const EditProfileWidget({Key key}) : super(key: key);
 
   @override
   _EditProfileWidgetState createState() => _EditProfileWidgetState();
@@ -21,12 +21,10 @@ class EditProfileWidget extends StatefulWidget {
 class _EditProfileWidgetState extends State<EditProfileWidget> {
   String genderValue;
   String uploadedFileUrl = '';
-  bool _loadingButton1 = false;
   TextEditingController fullNameController;
   TextEditingController numberPhoneController;
   TextEditingController ageController;
   TextEditingController addressController;
-  bool _loadingButton2 = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -90,7 +88,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                       child: Image.network(
                         uploadedFileUrl,
                       ),
-                    )
+                    ),
                   ],
                 ),
                 Padding(
@@ -101,36 +99,29 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                     children: [
                       FFButtonWidget(
                         onPressed: () async {
-                          setState(() => _loadingButton1 = true);
-                          try {
-                            final selectedMedia =
-                                await selectMediaWithSourceBottomSheet(
-                              context: context,
-                              allowPhoto: true,
-                              textColor: FlutterFlowTheme.primaryColor,
-                              pickerFontFamily: 'Poppins',
-                            );
-                            if (selectedMedia != null &&
-                                validateFileFormat(
-                                    selectedMedia.storagePath, context)) {
-                              showUploadMessage(context, 'Uploading file...',
-                                  showLoading: true);
-                              final downloadUrl = await uploadData(
-                                  selectedMedia.storagePath,
-                                  selectedMedia.bytes);
-                              ScaffoldMessenger.of(context)
-                                  .hideCurrentSnackBar();
-                              if (downloadUrl != null) {
-                                setState(() => uploadedFileUrl = downloadUrl);
-                                showUploadMessage(context, 'Success!');
-                              } else {
-                                showUploadMessage(
-                                    context, 'Failed to upload media');
-                                return;
-                              }
+                          final selectedMedia =
+                              await selectMediaWithSourceBottomSheet(
+                            context: context,
+                            allowPhoto: true,
+                            textColor: FlutterFlowTheme.primaryColor,
+                            pickerFontFamily: 'Poppins',
+                          );
+                          if (selectedMedia != null &&
+                              validateFileFormat(
+                                  selectedMedia.storagePath, context)) {
+                            showUploadMessage(context, 'Uploading file...',
+                                showLoading: true);
+                            final downloadUrl = await uploadData(
+                                selectedMedia.storagePath, selectedMedia.bytes);
+                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                            if (downloadUrl != null) {
+                              setState(() => uploadedFileUrl = downloadUrl);
+                              showUploadMessage(context, 'Success!');
+                            } else {
+                              showUploadMessage(
+                                  context, 'Failed to upload media');
+                              return;
                             }
-                          } finally {
-                            setState(() => _loadingButton1 = false);
                           }
                         },
                         text: 'Inserez votre photo',
@@ -150,8 +141,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                           ),
                           borderRadius: 12,
                         ),
-                        loading: _loadingButton1,
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -266,7 +256,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                           horizontalAlignment: WrapAlignment.start,
                           verticalAlignment: WrapCrossAlignment.start,
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -351,30 +341,25 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                     children: [
                       FFButtonWidget(
                         onPressed: () async {
-                          setState(() => _loadingButton2 = true);
-                          try {
-                            final usersUpdateData = createUsersRecordData(
-                              photoUrl: uploadedFileUrl,
-                              phoneNumber: numberPhoneController?.text ?? '',
-                              birthDate: ageController.text,
-                              gender: genderValue,
-                              address: addressController?.text ?? '',
-                              userUpdate: getCurrentTimestamp,
-                            );
-                            await editProfileUsersRecord.reference
-                                .update(usersUpdateData);
-                            await Navigator.push(
-                              context,
-                              PageTransition(
-                                type: PageTransitionType.fade,
-                                duration: Duration(milliseconds: 0),
-                                reverseDuration: Duration(milliseconds: 0),
-                                child: ProfileWidget(),
-                              ),
-                            );
-                          } finally {
-                            setState(() => _loadingButton2 = false);
-                          }
+                          final usersUpdateData = createUsersRecordData(
+                            photoUrl: uploadedFileUrl,
+                            phoneNumber: numberPhoneController?.text ?? '',
+                            birthDate: ageController.text,
+                            gender: genderValue,
+                            address: addressController?.text ?? '',
+                            userUpdate: getCurrentTimestamp,
+                          );
+                          await editProfileUsersRecord.reference
+                              .update(usersUpdateData);
+                          await Navigator.push(
+                            context,
+                            PageTransition(
+                              type: PageTransitionType.fade,
+                              duration: Duration(milliseconds: 0),
+                              reverseDuration: Duration(milliseconds: 0),
+                              child: ProfileWidget(),
+                            ),
+                          );
                         },
                         text: 'Enregistrer',
                         options: FFButtonOptions(
@@ -392,11 +377,10 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                           ),
                           borderRadius: 5,
                         ),
-                        loading: _loadingButton2,
-                      )
+                      ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),

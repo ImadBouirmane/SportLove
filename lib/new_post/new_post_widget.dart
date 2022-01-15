@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class NewPostWidget extends StatefulWidget {
-  NewPostWidget({Key key}) : super(key: key);
+  const NewPostWidget({Key key}) : super(key: key);
 
   @override
   _NewPostWidgetState createState() => _NewPostWidgetState();
@@ -25,7 +25,6 @@ class _NewPostWidgetState extends State<NewPostWidget> {
   String uploadedFileUrl = '';
   TextEditingController textController1;
   TextEditingController textController2;
-  bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -58,7 +57,7 @@ class _NewPostWidgetState extends State<NewPostWidget> {
                 Navigator.pop(context);
               },
             ),
-          )
+          ),
         ],
         centerTitle: false,
         elevation: 0,
@@ -119,7 +118,7 @@ class _NewPostWidgetState extends State<NewPostWidget> {
                                     color: Color(0xFF090F13),
                                   ),
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -181,7 +180,7 @@ class _NewPostWidgetState extends State<NewPostWidget> {
                                     width: double.infinity,
                                     height: double.infinity,
                                     fit: BoxFit.cover,
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
@@ -232,7 +231,7 @@ class _NewPostWidgetState extends State<NewPostWidget> {
                                   textAlign: TextAlign.start,
                                   maxLines: 4,
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -278,14 +277,14 @@ class _NewPostWidgetState extends State<NewPostWidget> {
                                 margin:
                                     EdgeInsetsDirectional.fromSTEB(8, 4, 8, 4),
                                 hidesUnderline: true,
-                              )
+                              ),
                             ],
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
-                )
+                ),
               ],
             ),
             Padding(
@@ -298,30 +297,23 @@ class _NewPostWidgetState extends State<NewPostWidget> {
                     padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
                     child: FFButtonWidget(
                       onPressed: () async {
-                        setState(() => _loadingButton = true);
-                        try {
-                          final postsCreateData = createPostsRecordData(
-                            photo: uploadedFileUrl,
-                            description: textController2.text,
-                            timeCreated: getCurrentTimestamp,
-                            titre: textController1.text,
-                            typeSport: sportTypeValue,
-                          );
-                          await PostsRecord.collection
-                              .doc()
-                              .set(postsCreateData);
-                          await Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.fade,
-                              duration: Duration(milliseconds: 0),
-                              reverseDuration: Duration(milliseconds: 0),
-                              child: NavBarPage(initialPage: 'HomePage'),
-                            ),
-                          );
-                        } finally {
-                          setState(() => _loadingButton = false);
-                        }
+                        final postsCreateData = createPostsRecordData(
+                          photo: uploadedFileUrl,
+                          description: textController2.text,
+                          timeCreated: getCurrentTimestamp,
+                          titre: textController1.text,
+                          typeSport: sportTypeValue,
+                        );
+                        await PostsRecord.collection.doc().set(postsCreateData);
+                        await Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.fade,
+                            duration: Duration(milliseconds: 0),
+                            reverseDuration: Duration(milliseconds: 0),
+                            child: NavBarPage(initialPage: 'HomePage'),
+                          ),
+                        );
                       },
                       text: 'Créer une publication',
                       options: FFButtonOptions(
@@ -341,12 +333,11 @@ class _NewPostWidgetState extends State<NewPostWidget> {
                         ),
                         borderRadius: 8,
                       ),
-                      loading: _loadingButton,
                     ),
-                  )
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

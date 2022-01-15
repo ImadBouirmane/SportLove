@@ -11,7 +11,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class EditFSWidget extends StatefulWidget {
-  EditFSWidget({Key key}) : super(key: key);
+  const EditFSWidget({Key key}) : super(key: key);
 
   @override
   _EditFSWidgetState createState() => _EditFSWidgetState();
@@ -21,7 +21,6 @@ class _EditFSWidgetState extends State<EditFSWidget> {
   String section1Value;
   String section2Value;
   String section3Value;
-  bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -69,7 +68,7 @@ class _EditFSWidgetState extends State<EditFSWidget> {
                           FontAwesomeIcons.volleyballBall,
                           color: FlutterFlowTheme.primaryColor,
                           size: 90,
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -86,7 +85,7 @@ class _EditFSWidgetState extends State<EditFSWidget> {
                             color: FlutterFlowTheme.black,
                             fontWeight: FontWeight.w600,
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -200,27 +199,21 @@ class _EditFSWidgetState extends State<EditFSWidget> {
                       children: [
                         FFButtonWidget(
                           onPressed: () async {
-                            setState(() => _loadingButton = true);
-                            try {
-                              final usersUpdateData = createUsersRecordData(
-                                sportType1: section1Value,
-                                sportType2: section2Value,
-                                sportType3: section3Value,
-                              );
-                              await currentUserReference
-                                  .update(usersUpdateData);
-                              await Navigator.push(
-                                context,
-                                PageTransition(
-                                  type: PageTransitionType.fade,
-                                  duration: Duration(milliseconds: 0),
-                                  reverseDuration: Duration(milliseconds: 0),
-                                  child: ProfileWidget(),
-                                ),
-                              );
-                            } finally {
-                              setState(() => _loadingButton = false);
-                            }
+                            final usersUpdateData = createUsersRecordData(
+                              sportType1: section1Value,
+                              sportType2: section2Value,
+                              sportType3: section3Value,
+                            );
+                            await currentUserReference.update(usersUpdateData);
+                            await Navigator.push(
+                              context,
+                              PageTransition(
+                                type: PageTransitionType.fade,
+                                duration: Duration(milliseconds: 0),
+                                reverseDuration: Duration(milliseconds: 0),
+                                child: ProfileWidget(),
+                              ),
+                            );
                           },
                           text: 'Mettre à jour',
                           options: FFButtonOptions(
@@ -238,11 +231,10 @@ class _EditFSWidgetState extends State<EditFSWidget> {
                             ),
                             borderRadius: 12,
                           ),
-                          loading: _loadingButton,
-                        )
+                        ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FriendsWidget extends StatefulWidget {
-  FriendsWidget({Key key}) : super(key: key);
+  const FriendsWidget({Key key}) : super(key: key);
 
   @override
   _FriendsWidgetState createState() => _FriendsWidgetState();
@@ -157,7 +157,7 @@ class _FriendsWidgetState extends State<FriendsWidget> {
                                                   color: FlutterFlowTheme.black,
                                                   fontWeight: FontWeight.w600,
                                                 ),
-                                              )
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -175,9 +175,9 @@ class _FriendsWidgetState extends State<FriendsWidget> {
                                                 fontFamily: 'Poppins',
                                                 fontSize: 12,
                                               ),
-                                            )
+                                            ),
                                           ],
-                                        )
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -212,7 +212,7 @@ class _FriendsWidgetState extends State<FriendsWidget> {
                                         },
                                       ),
                                     ),
-                                  )
+                                  ),
                                 ],
                               );
                             },

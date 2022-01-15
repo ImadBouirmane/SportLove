@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AddFriendsWidget extends StatefulWidget {
-  AddFriendsWidget({Key key}) : super(key: key);
+  const AddFriendsWidget({Key key}) : super(key: key);
 
   @override
   _AddFriendsWidgetState createState() => _AddFriendsWidgetState();
@@ -130,7 +130,7 @@ class _AddFriendsWidgetState extends State<AddFriendsWidget> {
                                               color: FlutterFlowTheme.black,
                                               fontWeight: FontWeight.bold,
                                             ),
-                                          )
+                                          ),
                                         ],
                                       ),
                                       Row(
@@ -145,9 +145,9 @@ class _AddFriendsWidgetState extends State<AddFriendsWidget> {
                                                   FlutterFlowTheme.primaryColor,
                                               fontWeight: FontWeight.w600,
                                             ),
-                                          )
+                                          ),
                                         ],
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -169,7 +169,7 @@ class _AddFriendsWidgetState extends State<AddFriendsWidget> {
                                       },
                                     ),
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),

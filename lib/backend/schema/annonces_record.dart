@@ -77,6 +77,10 @@ abstract class AnnoncesRecord
       .snapshots()
       .map((s) => serializers.deserializeWith(serializer, serializedData(s)));
 
+  static Future<AnnoncesRecord> getDocumentOnce(DocumentReference ref) => ref
+      .get()
+      .then((s) => serializers.deserializeWith(serializer, serializedData(s)));
+
   static AnnoncesRecord fromAlgolia(AlgoliaObjectSnapshot snapshot) =>
       AnnoncesRecord(
         (c) => c

@@ -9,7 +9,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CommentWidget extends StatefulWidget {
-  CommentWidget({Key key}) : super(key: key);
+  const CommentWidget({Key key}) : super(key: key);
 
   @override
   _CommentWidgetState createState() => _CommentWidgetState();
@@ -18,8 +18,6 @@ class CommentWidget extends StatefulWidget {
 class _CommentWidgetState extends State<CommentWidget> {
   TextEditingController commentController;
   double reviewValue;
-  bool _loadingButton1 = false;
-  bool _loadingButton2 = false;
 
   @override
   void initState() {
@@ -122,7 +120,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                               textAlign: TextAlign.start,
                               maxLines: 3,
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -158,7 +156,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                                 glowColor: FlutterFlowTheme.secondaryColor,
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -170,12 +168,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                         children: [
                           FFButtonWidget(
                             onPressed: () async {
-                              setState(() => _loadingButton1 = true);
-                              try {
-                                Navigator.pop(context);
-                              } finally {
-                                setState(() => _loadingButton1 = false);
-                              }
+                              Navigator.pop(context);
                             },
                             text: 'Annuler',
                             options: FFButtonOptions(
@@ -193,39 +186,33 @@ class _CommentWidgetState extends State<CommentWidget> {
                               ),
                               borderRadius: 12,
                             ),
-                            loading: _loadingButton1,
                           ),
                           FFButtonWidget(
                             onPressed: () async {
-                              setState(() => _loadingButton2 = true);
-                              try {
-                                final reviewCreateData = createReviewRecordData(
-                                  userReview: currentUserReference,
-                                  comment: commentController.text,
-                                  reviewRating: reviewValue,
-                                  timeCreated: getCurrentTimestamp,
-                                );
-                                await ReviewRecord.collection
-                                    .doc()
-                                    .set(reviewCreateData);
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      'Votre avis a été enregistré !',
-                                      style: GoogleFonts.getFont(
-                                        'Poppins',
-                                        color: FlutterFlowTheme.tertiaryColor,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                              final reviewCreateData = createReviewRecordData(
+                                userReview: currentUserReference,
+                                comment: commentController.text,
+                                reviewRating: reviewValue,
+                                timeCreated: getCurrentTimestamp,
+                              );
+                              await ReviewRecord.collection
+                                  .doc()
+                                  .set(reviewCreateData);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Votre avis a été enregistré !',
+                                    style: GoogleFonts.getFont(
+                                      'Poppins',
+                                      color: FlutterFlowTheme.tertiaryColor,
+                                      fontWeight: FontWeight.w500,
                                     ),
-                                    duration: Duration(milliseconds: 5350),
-                                    backgroundColor:
-                                        FlutterFlowTheme.primaryColor,
                                   ),
-                                );
-                              } finally {
-                                setState(() => _loadingButton2 = false);
-                              }
+                                  duration: Duration(milliseconds: 5350),
+                                  backgroundColor:
+                                      FlutterFlowTheme.primaryColor,
+                                ),
+                              );
                             },
                             text: 'Envoyer',
                             options: FFButtonOptions(
@@ -243,11 +230,10 @@ class _CommentWidgetState extends State<CommentWidget> {
                               ),
                               borderRadius: 12,
                             ),
-                            loading: _loadingButton2,
-                          )
+                          ),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

@@ -8,7 +8,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class UserAvisWidget extends StatefulWidget {
-  UserAvisWidget({Key key}) : super(key: key);
+  const UserAvisWidget({Key key}) : super(key: key);
 
   @override
   _UserAvisWidgetState createState() => _UserAvisWidgetState();
@@ -139,7 +139,7 @@ class _UserAvisWidgetState extends State<UserAvisWidget> {
                                                   fontFamily: 'Poppins',
                                                   fontWeight: FontWeight.w600,
                                                 ),
-                                              )
+                                              ),
                                             ],
                                           ),
                                           Padding(
@@ -171,7 +171,7 @@ class _UserAvisWidgetState extends State<UserAvisWidget> {
                                                   itemSize: 20,
                                                   glowColor: FlutterFlowTheme
                                                       .secondaryColor,
-                                                )
+                                                ),
                                               ],
                                             ),
                                           ),
@@ -195,13 +195,13 @@ class _UserAvisWidgetState extends State<UserAvisWidget> {
                                                       fontSize: 12,
                                                     ),
                                                   ),
-                                                )
+                                                ),
                                               ],
                                             ),
-                                          )
+                                          ),
                                         ],
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),

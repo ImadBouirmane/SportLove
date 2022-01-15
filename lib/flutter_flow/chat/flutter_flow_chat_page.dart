@@ -14,9 +14,9 @@ class FFChatPage extends StatefulWidget {
     this.backgroundColor,
     this.timeDisplaySetting,
     this.currentUserBoxDecoration,
-    this.otherUserBoxDecoration,
+    this.otherUsersBoxDecoration,
     this.currentUserTextStyle,
-    this.otherUserTextStyle,
+    this.otherUsersTextStyle,
     this.inputHintTextStyle,
     this.inputTextStyle,
     this.emptyChatWidget,
@@ -28,9 +28,9 @@ class FFChatPage extends StatefulWidget {
   final Color backgroundColor;
   final TimeDisplaySetting timeDisplaySetting;
   final BoxDecoration currentUserBoxDecoration;
-  final BoxDecoration otherUserBoxDecoration;
+  final BoxDecoration otherUsersBoxDecoration;
   final TextStyle currentUserTextStyle;
-  final TextStyle otherUserTextStyle;
+  final TextStyle otherUsersTextStyle;
   final TextStyle inputHintTextStyle;
   final TextStyle inputTextStyle;
   final Widget emptyChatWidget;
@@ -43,10 +43,11 @@ class _FFChatPageState extends State<FFChatPage> {
   final scrollController = ScrollController();
   final focusNode = FocusNode();
 
-  DocumentReference get chatReference => widget.chatInfo.chatReference;
-  DocumentReference get currentUserRef => widget.chatInfo.currentUserReference;
-  ChatUser get currentUser => widget.chatInfo.currentUser;
-  ChatUser get otherUser => widget.chatInfo.otherUser;
+  DocumentReference get chatReference => widget.chatInfo.chatRecord.reference;
+  ChatUser get currentUser => widget.chatInfo.currentUser.toChatUser(true);
+  Map<String, ChatUser> get otherUsers => widget.chatInfo.otherUsers.map(
+        (k, u) => MapEntry(k, u.toChatUser(false)),
+      );
 
   Map<String, ChatMessagesRecord> allMessages = {};
   List<ChatMessagesRecord> messages = [];
@@ -57,7 +58,7 @@ class _FFChatPageState extends State<FFChatPage> {
       messages.isNotEmpty ? messages.last.timestamp : null;
 
   Future updateSeenBy() => chatReference.update({
-        'last_message_seen_by': FieldValue.arrayUnion([currentUserRef])
+        'last_message_seen_by': FieldValue.arrayUnion([currentUserReference])
       });
 
   void onNewMessage(DateTime lastBefore, DateTime lastAfter) {
@@ -95,9 +96,6 @@ class _FFChatPageState extends State<FFChatPage> {
   @override
   void initState() {
     super.initState();
-    if (otherUser.name.isEmpty) {
-      otherUser.name = 'Friend';
-    }
     updateMessages(FFChatManager.instance.getLatestMessages(chatReference));
     messagesStream = getMessagesStream(chatReference);
     SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -111,7 +109,7 @@ class _FFChatPageState extends State<FFChatPage> {
       return;
     }
     final chatMessagesRecordData = createChatMessagesRecordData(
-      user: currentUserRef,
+      user: currentUserReference,
       chat: chatReference,
       text: text,
       image: imageUrl,
@@ -129,7 +127,8 @@ class _FFChatPageState extends State<FFChatPage> {
       lastMessageTime: lastMessageTime,
     );
     await chatReference.update({
-      'last_message_seen_by': [currentUserRef],
+      'last_message_seen_by': [currentUserReference],
+      'last_message_sent_by': currentUserReference,
       ...chatsRecordData,
     });
   }
@@ -153,7 +152,7 @@ class _FFChatPageState extends State<FFChatPage> {
                     id: message.reference.id,
                     user: message.user.id == currentUser.uid
                         ? currentUser
-                        : otherUser,
+                        : otherUsers[message.user.id],
                     text: message.text,
                     image: message.image,
                     createdAt: message.timestamp,
@@ -180,13 +179,23 @@ class _FFChatPageState extends State<FFChatPage> {
             backgroundColor: widget.backgroundColor,
             timeDisplaySetting: widget.timeDisplaySetting,
             currentUserBoxDecoration: widget.currentUserBoxDecoration,
-            otherUserBoxDecoration: widget.otherUserBoxDecoration,
+            otherUsersBoxDecoration: widget.otherUsersBoxDecoration,
             currentUserTextStyle: widget.currentUserTextStyle,
-            otherUserTextStyle: widget.otherUserTextStyle,
+            otherUsersTextStyle: widget.otherUsersTextStyle,
             inputHintTextStyle: widget.inputHintTextStyle,
             inputTextStyle: widget.inputTextStyle,
             emptyChatWidget: widget.emptyChatWidget,
           ),
         ],
       );
+}
+
+extension _ChatUserExtensions on UsersRecord {
+  ChatUser toChatUser(bool currentUser) => currentUser
+      ? ChatUser(uid: reference.id)
+      : ChatUser(
+          uid: reference.id,
+          name: displayName.isNotEmpty ? displayName : 'Friend',
+          avatar: photoUrl,
+        );
 }

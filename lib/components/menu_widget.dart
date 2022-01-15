@@ -8,7 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:share_plus/share_plus.dart';
 
 class MenuWidget extends StatefulWidget {
-  MenuWidget({
+  const MenuWidget({
     Key key,
     this.annonceParameters,
   }) : super(key: key);
@@ -20,10 +20,6 @@ class MenuWidget extends StatefulWidget {
 }
 
 class _MenuWidgetState extends State<MenuWidget> {
-  bool _loadingButton1 = false;
-  bool _loadingButton2 = false;
-  bool _loadingButton3 = false;
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -78,12 +74,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                       children: [
                         FFButtonWidget(
                           onPressed: () async {
-                            setState(() => _loadingButton1 = true);
-                            try {
-                              Navigator.pop(context);
-                            } finally {
-                              setState(() => _loadingButton1 = false);
-                            }
+                            Navigator.pop(context);
                           },
                           text: 'Annuler',
                           options: FFButtonOptions(
@@ -102,8 +93,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                             ),
                             borderRadius: 12,
                           ),
-                          loading: _loadingButton1,
-                        )
+                        ),
                       ],
                     ),
                     Padding(
@@ -114,12 +104,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                         children: [
                           FFButtonWidget(
                             onPressed: () async {
-                              setState(() => _loadingButton2 = true);
-                              try {
-                                await Share.share('');
-                              } finally {
-                                setState(() => _loadingButton2 = false);
-                              }
+                              await Share.share('');
                             },
                             text: 'Partager',
                             options: FFButtonOptions(
@@ -138,8 +123,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                               ),
                               borderRadius: 12,
                             ),
-                            loading: _loadingButton2,
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -151,22 +135,16 @@ class _MenuWidgetState extends State<MenuWidget> {
                         children: [
                           FFButtonWidget(
                             onPressed: () async {
-                              setState(() => _loadingButton3 = true);
-                              try {
-                                await widget.annonceParameters.reference
-                                    .delete();
-                                await Navigator.push(
-                                  context,
-                                  PageTransition(
-                                    type: PageTransitionType.fade,
-                                    duration: Duration(milliseconds: 0),
-                                    reverseDuration: Duration(milliseconds: 0),
-                                    child: NavBarPage(initialPage: 'HomePage'),
-                                  ),
-                                );
-                              } finally {
-                                setState(() => _loadingButton3 = false);
-                              }
+                              await widget.annonceParameters.reference.delete();
+                              await Navigator.push(
+                                context,
+                                PageTransition(
+                                  type: PageTransitionType.fade,
+                                  duration: Duration(milliseconds: 0),
+                                  reverseDuration: Duration(milliseconds: 0),
+                                  child: NavBarPage(initialPage: 'HomePage'),
+                                ),
+                              );
                             },
                             text: 'Supprimer',
                             options: FFButtonOptions(
@@ -185,11 +163,10 @@ class _MenuWidgetState extends State<MenuWidget> {
                               ),
                               borderRadius: 12,
                             ),
-                            loading: _loadingButton3,
-                          )
+                          ),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
